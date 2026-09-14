@@ -1,4 +1,4 @@
-@startuml swipe_data
+@startuml cu08_swipe_data
 
 class Minigame {
     # department: Department

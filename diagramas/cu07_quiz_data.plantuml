@@ -1,4 +1,4 @@
-@startuml quiz_data
+@startuml cu07_quiz_data
 
 class Minigame {
     # department: Department
