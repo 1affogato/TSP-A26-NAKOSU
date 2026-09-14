@@ -1,4 +1,4 @@
-@startuml
+@startuml swipe_data
 
 class Minigame {
     # department: Department
@@ -30,7 +30,7 @@ class SwipeCategory {
 }
 
 
-Minigame <-- SwipeMinigame
+Minigame <|-- SwipeMinigame
 Minigame "1" -> "1" Department
 
 SwipeMinigame "1" o-- "1..*" SwipeCard
