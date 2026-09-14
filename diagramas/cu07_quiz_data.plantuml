@@ -29,6 +29,7 @@ class QuizQuestion {
 }
 
 class QuizCategory {
+    # id: int
     # department: Department
     # category: String
 }

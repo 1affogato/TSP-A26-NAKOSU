@@ -17,6 +17,7 @@ class SwipeMinigame {
 }
 
 class SwipeCard {
+    # id: int
     # category: SwipeCategory
     # example: String
     + get_example(): String
@@ -24,6 +25,7 @@ class SwipeCard {
 }
 
 class SwipeCategory {
+    # id: int
     # department: Department
     # category: String
     # opposing_categories: List<SwipeCategory>
