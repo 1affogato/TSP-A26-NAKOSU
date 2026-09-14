@@ -1,0 +1,44 @@
+@startuml
+
+class Minigame {
+    # department: Department
+}
+
+enum Department {
+    DATA_STRUCTURES
+    REQUIREMENTS
+    SOFTWARE_DEV
+    CODING
+}
+
+class QuizMinigame {
+    # questions: List<QuizQuestion>
+}
+
+class QuizQuestion {
+    # id: int
+    # title: String
+    # description: String
+    # responses: List<String>
+    # correct_response_index: int
+    # category: QuizCategory
+    + is_correct_response(response: String): bool
+    + get_possible_responses(): List<String>
+    + get_correct_response(): String
+    + get_department(): Department
+}
+
+class QuizCategory {
+    # department: Department
+    # category: String
+}
+
+Minigame <-- QuizMinigame
+Minigame "1" -> "1" Department
+
+QuizMinigame - QuizQuestion
+QuizQuestion "1" --> "1" QuizCategory
+QuizCategory "1" -> "1" Department
+
+@enduml
+

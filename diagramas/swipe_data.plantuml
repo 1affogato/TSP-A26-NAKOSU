@@ -1,0 +1,42 @@
+@startuml
+
+class Minigame {
+    # department: Department
+}
+
+enum Department {
+    DATA_STRUCTURES
+    REQUIREMENTS
+    SOFTWARE_DEV
+    CODING
+}
+
+class SwipeMinigame {
+    # categories: List<SwipeCategory>
+    # cards: List<SwipeCard>
+}
+
+class SwipeCard {
+    # category: SwipeCategory
+    # example: String
+    + get_example(): String
+    + is_same_category(category: SwipeCategory): bool
+}
+
+class SwipeCategory {
+    # department: Department
+    # category: String
+    # opposing_categories: List<SwipeCategory>
+}
+
+
+Minigame <-- SwipeMinigame
+Minigame "1" -> "1" Department
+
+SwipeMinigame "1" o-- "1..*" SwipeCard
+SwipeMinigame "1" -> "2..*" SwipeCategory
+SwipeCard "1" -> "1" SwipeCategory
+SwipeCategory "1" -> "1" Department
+
+@enduml
+
