@@ -1,0 +1,171 @@
+@startuml UC07_quiz_minigame
+title UC-07: Play Quiz Minigame - Diagrama de clases
+
+skinparam classAttributeIconSize 0
+skinparam packageStyle rectangle
+skinparam shadowing false
+skinparam nodesep 60
+skinparam ranksep 70
+
+' ============================================================
+package "Presentación" {
+
+  class QuizView {
+    -minigame: QuizMinigame
+    --
+    +show_question(question: QuizQuestion): void
+    +update_timer(time_left: float): void
+    +show_feedback(is_correct: bool): void
+    -on_response_selected(response: String): void
+  }
+
+  note right of QuizView
+    Se suscribe a las señales de QuizMinigame:
+    question_ready -> show_question  (UC-07.2)
+    time_updated   -> update_timer   (UC-07.3)
+    answered       -> show_feedback  (UC-07.4)
+    on_response_selected() llama a minigame.answer().
+    La lógica no conoce a la vista.
+  end note
+}
+
+' ============================================================
+package "Lógica" {
+
+  abstract class Minigame <<Contrato B3>> {
+    #department: Department
+    #elo: float
+    #paused: bool
+    --
+    +{abstract} start(department: Department, elo: float): void
+    +{abstract} pause(): void
+    +{abstract} resume(): void
+    +{abstract} abort(): void
+    +{abstract} get_result(): MinigameResult
+    .. señales ..
+    +finished(result: MinigameResult)
+  }
+
+  note left of Minigame
+    Contrato de minijuego (B3): el orquestador (B4)
+    solo conoce esta interfaz.
+    Entrada: department + elo.
+    Salida: MinigameResult, entregado con la señal finished.
+    abort() = terminar sin resultado (salida anticipada).
+    pause()/resume() preservan y restauran el estado.
+  end note
+
+  class QuizMinigame {
+    -question: QuizQuestion
+    -time_limit: float
+    -time_left: float
+    -selected_response: String
+    -is_correct: bool
+    --
+    +start(department: Department, elo: float): void
+    +pause(): void
+    +resume(): void
+    +abort(): void
+    +answer(response: String): void
+    +get_result(): MinigameResult
+    -on_timeout(): void
+    -finish(): void
+    .. señales ..
+    +question_ready(question: QuizQuestion)
+    +time_updated(time_left: float)
+    +answered(is_correct: bool)
+  }
+
+  note right of QuizMinigame
+    Un QuizMinigame maneja una sola QuizQuestion
+    a la vez (UC-07: "a single multiple-choice
+    question"). Ya no guarda una lista propia.
+    ----
+    start(): pide la pregunta a QuizPool (UC-07.1)
+    y arranca el temporizador.
+    answer(): registra y evalúa la respuesta (UC-07.3/07.4).
+    on_timeout(): la cuenta como incorrecta (UC-07.3.a1).
+    finish(): emite finished(result) (UC-07.5 -> UC-02.5).
+    pause()/resume(): detienen y reanudan el temporizador.
+  end note
+
+  class MinigameResult {
+    -type: String
+    -success: bool
+    -level: Difficulty
+    -department: Department
+  }
+}
+
+' ============================================================
+package "Datos (Resources)" {
+
+  class QuizPool <<Pool B2>> {
+    -questions: List<QuizQuestion>
+    --
+    +get_question(department: Department, elo: float): QuizQuestion
+    -select_difficulty(elo: float): Difficulty
+  }
+
+  note left of QuizPool
+    Selección ponderada (B2): a mayor ELO,
+    mayor probabilidad de elegir una
+    dificultad más alta.
+  end note
+
+  class QuizQuestion {
+    -id: int
+    -department: Department
+    -title: String
+    -description: String
+    -responses: List<String>
+    -correct_response_index: int
+    -difficulty: Difficulty
+    --
+    +is_correct_response(response: String): bool
+    +get_possible_responses(): List<String>
+    +get_correct_response(): String
+    +get_department(): Department
+    +get_title(): String
+    +get_description(): String
+    +get_difficulty(): Difficulty
+  }
+
+  note bottom of QuizQuestion
+    Las instancias de QuizQuestion viven en el
+    pool de contenido (QuizPool, B2 - Pools de contenido).
+    QuizMinigame recibe UNA desde ahí al iniciar
+    (UC-07.1), no las administra él mismo.
+    QuizCategory fue eliminada: department ahora
+    es un campo directo de QuizQuestion, tal como
+    lo pide la especificación del pool de Quiz.
+  end note
+
+  enum Department {
+    DATA_STRUCTURES
+    REQUIREMENTS
+    SOFTWARE_DEV
+    CODING
+  }
+
+  enum Difficulty {
+    FACIL
+    MEDIO
+    DIFICIL
+    MUY_DIFICIL
+  }
+}
+
+' ============================================================
+' Relaciones
+QuizView "1" --> "1" QuizMinigame : minigame
+Minigame <|-- QuizMinigame
+Minigame ..> MinigameResult : produce
+QuizMinigame "1" o-- "1" QuizQuestion : pregunta actual
+QuizMinigame ..> QuizPool : pide ítem\n(department + elo)
+QuizPool "1" *-right- "1..*" QuizQuestion : contiene
+QuizQuestion "*" --> "1" Department
+Minigame "*" --> "1" Department
+Department -[hidden]right- Difficulty
+
+@enduml

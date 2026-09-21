@@ -1,0 +1,266 @@
+@startuml UC02_play_minigame
+title UC-02: Play Minigame - Diagrama de clases
+
+skinparam classAttributeIconSize 0
+skinparam packageStyle rectangle
+skinparam shadowing false
+skinparam nodesep 60
+skinparam ranksep 70
+
+' ============================================================
+package "Presentación" {
+
+  class DepartmentView {
+    -department: Department
+    -stats: StatisticsTracker
+    --
+    +select_department(department: Department): void
+    +show_general_stats(stats: GeneralStats): void
+    +show_upgrade_option(): void
+    +show_detailed_stats(detail: DetailedStats): void
+    -on_stat_selected(type: StatType): void
+    -on_upgrade_pressed(): void
+    -on_play_pressed(): void
+  }
+
+  note left of DepartmentView
+    Pantalla del departamento (detalle en UC-11).
+    on_play_pressed() abre SessionView con el
+    departamento seleccionado (UC-02.1).
+    Al volver (UC-02.9), select_department()
+    muestra las estadísticas ya actualizadas.
+  end note
+
+  class SessionView {
+    -session: SessionOrchestrator
+    --
+    +open(department: Department): void
+    +show_minigame(minigame: Minigame): void
+    +show_pause_menu(): void
+    +hide_pause_menu(): void
+    +show_save_error(): void
+    +return_to_department(department: Department): void
+    -on_pause_pressed(): void
+    -on_resume_pressed(): void
+    -on_exit_pressed(): void
+  }
+
+  note right of SessionView
+    Se suscribe a las señales de SessionOrchestrator:
+    minigame_started -> show_minigame        (UC-02.4)
+    paused           -> show_pause_menu      (UC-02.4.a1.1)
+    resumed          -> hide_pause_menu      (UC-02.4.a1.4)
+    save_failed      -> show_save_error      (UC-02.8.e1)
+    session_ended    -> return_to_department (UC-02.9)
+    open() llama a start_session() (UC-02.1).
+    return_to_department() vuelve a DepartmentView.
+    Los botones llaman a pause(), resume() y exit().
+    La lógica no conoce a la vista.
+  end note
+}
+
+' ============================================================
+package "Lógica" {
+
+  class SessionOrchestrator <<B4>> {
+    -department: Department
+    -generic_minigames: List<String>
+    -sequence: List<String>
+    -current_index: int
+    -current_minigame: Minigame
+    -state: SessionState
+    -results: List<MinigameResult>
+    -pause_time_limit: float
+    -pause_time_left: float
+    --
+    +start_session(department: Department): void
+    +pause(): void
+    +resume(): void
+    +exit(): void
+    -build_sequence(): void
+    -create_minigame(type: String): Minigame
+    -launch_next(): void
+    -on_minigame_finished(result: MinigameResult): void
+    -on_pause_timeout(): void
+    -save_progress(): bool
+    -end_session(): void
+    .. señales ..
+    +minigame_started(minigame: Minigame)
+    +paused()
+    +resumed()
+    +save_failed()
+    +session_ended(department: Department)
+  }
+
+  note left of SessionOrchestrator
+    Orquestador de sesión (B4).
+    start_session() (UC-02.1) -> build_sequence():
+    específicos del departamento + genéricos (UC-02.2).
+    launch_next() crea el minijuego y lo inicia con
+    department + elo (UC-02.3 / UC-02.4).
+    on_minigame_finished(): actualiza el ELO (B1) y
+    registra la estadística (B6) (UC-02.5 / UC-02.6).
+    Se repite hasta terminar la secuencia (UC-02.7).
+    save_progress(): arma SaveData con el estado de
+    B1 y B6 y lo entrega a B7 (UC-02.8).
+    on_pause_timeout(): pausa demasiado larga
+    (UC-02.4.a1.3.a1). exit(): salida anticipada
+    (UC-02.4.a2). En ambos casos se aborta el
+    minijuego actual y se guarda lo ya completado.
+  end note
+
+  enum SessionState {
+    ACTIVE
+    PAUSED
+    ENDED
+  }
+
+  abstract class Minigame <<Contrato B3>> {
+    #department: Department
+    #elo: float
+    #paused: bool
+    --
+    +{abstract} start(department: Department, elo: float): void
+    +{abstract} pause(): void
+    +{abstract} resume(): void
+    +{abstract} abort(): void
+    +{abstract} get_result(): MinigameResult
+    .. señales ..
+    +finished(result: MinigameResult)
+  }
+
+  note right of Minigame
+    Contrato de minijuego (B3): el orquestador
+    solo conoce esta interfaz.
+    pause()/resume() preservan y restauran el
+    estado (UC-02.4.a1.1 / UC-02.4.a1.4).
+    abort() = terminar sin resultado.
+  end note
+
+  class QuizMinigame
+  class SwipeMinigame
+
+  note bottom of QuizMinigame
+    Motores (B5): cada uno ejecuta su propio
+    caso de uso (UC-03 a UC-10; Quiz: UC-07).
+  end note
+
+  class MinigameResult {
+    -type: String
+    -success: bool
+    -level: Difficulty
+    -department: Department
+  }
+
+  class DepartmentManager <<B1>> {
+    -states: Map<Department, DepartmentState>
+    -enabled_minigames: Map<Department, List<String>>
+    -level_up_thresholds: Map<Department, float>
+    --
+    +get_elo(department: Department): float
+    +get_enabled_minigames(department: Department): List<String>
+    +update_elo(result: MinigameResult): void
+    +can_level_up(department: Department): bool
+    +get_all_states(): List<DepartmentState>
+    -compute_elo_delta(result: MinigameResult): float
+  }
+
+  note bottom of DepartmentManager
+    compute_elo_delta(): ajuste ponderado por la
+    dificultad (acierto en dificultad alta suma más;
+    error en dificultad alta resta menos).
+    can_level_up() se usa en UC-11.
+    enabled_minigames y level_up_thresholds son
+    datos de autoría: no se persisten.
+  end note
+
+  class StatisticsTracker <<B6>> {
+    -history: List<ResultRecord>
+    --
+    +register_result(result: MinigameResult): void
+    +get_general_stats(department: Department): GeneralStats
+    +get_detailed_stats(department: Department, type: StatType): DetailedStats
+    +get_history(): List<ResultRecord>
+    -records_of(department: Department): List<ResultRecord>
+  }
+
+  note bottom of StatisticsTracker
+    register_result() crea un ResultRecord con el
+    momento actual (UC-02.6).
+    get_history() entrega el historial para
+    guardarlo (UC-02.8).
+    Las vistas general y detallada se usan en UC-11.
+  end note
+}
+
+' ============================================================
+package "Datos (Resources)" {
+
+  class PersistenceService <<B7>> {
+    +save_progress(data: SaveData): bool
+  }
+
+  note bottom of PersistenceService
+    En UC-02 solo interviene al cerrar la sesión
+    (UC-02.8). save_progress() retorna false si
+    falla el guardado (UC-02.8.e1).
+    El estado de la sesión en curso no se persiste.
+  end note
+
+  class SaveData {
+    -department_states: List<DepartmentState>
+    -history: List<ResultRecord>
+  }
+
+  class DepartmentState {
+    -department: Department
+    -level: int
+    -elo: float
+  }
+
+  class ResultRecord {
+    -department: Department
+    -type: String
+    -level: Difficulty
+    -success: bool
+    -timestamp: int
+  }
+
+  enum Department {
+    DATA_STRUCTURES
+    REQUIREMENTS
+    SOFTWARE_DEV
+    CODING
+  }
+
+  enum Difficulty {
+    FACIL
+    MEDIO
+    DIFICIL
+    MUY_DIFICIL
+  }
+}
+
+' ============================================================
+' Relaciones
+DepartmentView ..> SessionView : abre (UC-02.1)
+SessionView ..> DepartmentView : vuelve (UC-02.9)
+DepartmentView "1" --> "1" StatisticsTracker : stats
+SessionView "1" --> "1" SessionOrchestrator : session
+SessionOrchestrator --> SessionState : state
+SessionOrchestrator "1" --> "0..1" Minigame : current_minigame
+SessionOrchestrator "1" --> "*" MinigameResult : results
+SessionOrchestrator ..> DepartmentManager : ELO y minijuegos\nhabilitados
+SessionOrchestrator ..> StatisticsTracker : registra resultado\n/ obtiene historial
+SessionOrchestrator ..> SaveData : <<create>>
+SessionOrchestrator ..> PersistenceService : guarda progreso
+Minigame <|-- QuizMinigame
+Minigame <|-- SwipeMinigame
+Minigame ..> MinigameResult : produce
+DepartmentManager "1" *-- "4" DepartmentState
+StatisticsTracker "1" *-- "*" ResultRecord
+SaveData "1" o-- "4" DepartmentState
+SaveData "1" o-- "*" ResultRecord
+Department -[hidden]right- Difficulty
+
+@enduml
