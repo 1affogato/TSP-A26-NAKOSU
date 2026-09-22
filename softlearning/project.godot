@@ -14,6 +14,10 @@ config/name="softlearning"
 config/features=PackedStringArray("4.7", "GL Compatibility")
 config/icon="res://icon.svg"
 
+[autoload]
+
+DbService="*res://autoload/db_service.gd"
+
 [display]
 
 window/stretch/mode="canvas_items"
