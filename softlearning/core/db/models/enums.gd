@@ -5,11 +5,13 @@ extends RefCounted
 ## They live together in one script so the models can use `Enums.Department`
 ## and `Enums.Difficulty` as type hints without importing anything.
 ##
-## Save files store enums as their *name* ("SOFTWARE_DEV"), never as a
-## number: a number would silently point at the wrong department the day
-## somebody inserts a value in the middle of the enum, and names keep the JSON
-## readable. UC-11 spells the last department `CODING_PARADIG` while UC-02 and
-## UC-07 spell it `CODING`; both spellings are accepted when reading.
+## Save files store enums as their *name* ("SOFTWARE_DEV"), never as a number:
+## a number would silently point at the wrong department the day somebody
+## inserts a value in the middle of the enum, and names keep the log readable.
+## (`DepartmentState` is the exception: as a `.tres` resource it stores the raw
+## int, because that is what the resource format does on its own.)
+## UC-11 spells the last department `CODING_PARADIG` while UC-02 and UC-07
+## spell it `CODING`; both spellings are accepted when reading.
 
 enum Department {
 	DATA_STRUCTURES,

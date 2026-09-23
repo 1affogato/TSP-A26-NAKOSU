@@ -1,277 +1,213 @@
 extends Node
 ## DbService — autoload singleton, the "PersistenceService" (B7) of UC-02.
 ##
-## Every piece of persistent data goes through this node: gameplay code asks
-## it for the model it needs and calls `save_all()` when work is done. No
-## other script opens the JSON files.
+## Only two models are stored, and nothing else:
+##   [DepartmentState] -> one `.tres` per department under `user://save/`
+##   [ResultRecord]    -> one JSON object per line of `result_history.jsonl`
 ##
-## Files written under `user://save/`:
-##   player_profile.json    -> PlayerProfile           (single object)
-##   department_stats.json  -> Array[DepartmentStats]  (one entry per department)
-##   minigame_stats.json    -> Array[MinigameStats]
-##   result_history.json    -> Array[ResultRecord]     (append-only log)
-##
-## Usage from anywhere:
+## UC-02.8: writing happens only when a session ends, through
+## `save_progress(data)`. Reading happens when the game starts, so that
+## `DepartmentManager` (B1) and `StatisticsTracker` (B6) can begin from the
+## stored progress:
 ## [codeblock]
-## var stats := DbService.get_department_stats(Enums.Department.SOFTWARE_DEV)
-## print(stats.get_win_rate())
-## DbService.save_all()
+## var states := DbService.load_department_states()   # -> B1
+## var history := DbService.load_history()            # -> B6
+## # ... the session runs ...
+## var data := SaveData.create()
+## data.department_states = manager.get_all_states()
+## data.history = tracker.get_history()
+## if not DbService.save_progress(data):
+##     pass  # UC-02.8.e1: show the save error screen
 ## [/codeblock]
+##
+## The service keeps no copy of the progress in memory: while the game runs,
+## B1 owns the states and B6 owns the history.
 
-## Emitted after a load finished (the first one happens automatically).
-signal data_loaded()
-## Emitted when a write failed; `reason` is ready to show to the player
-## (UC-02.8.e1 "save_failed").
+## UC-02.8.e1 — emitted by `save_progress()` when something could not be
+## written. `reason` is ready to be shown to the player.
 signal save_failed(reason: String)
 
 const SAVE_DIR := "user://save"
-const PLAYER_PROFILE_FILE := "player_profile.json"
-const DEPARTMENT_STATS_FILE := "department_stats.json"
-const MINIGAME_STATS_FILE := "minigame_stats.json"
+const DEPARTMENT_STATE_PREFIX := "department_state_"
+const DEPARTMENT_STATE_EXTENSION := ".tres"
 const RESULT_HISTORY_FILE := "result_history.jsonl"
 
-var player_profile: PlayerProfile = null
-var department_stats: Array[DepartmentStats] = []
-var minigame_stats: Array[MinigameStats] = []
-var result_history: Array[ResultRecord] = []
-
+## How many history records are already in the log. `save_progress()` appends
+## only what comes after this index, so calling it twice in one session never
+## writes the same result twice.
+var _persisted_history_count: int = 0
 var _last_error: String = ""
 
 
 func _ready() -> void:
-	load_all()
+	_ensure_save_dir()
+	# Counts what a previous run already stored, so the first save of this
+	# session appends only the new results.
+	_persisted_history_count = load_history().size()
 
 
-# --------------------------------------------------------------------- load
+# --------------------------------------------------------------------- read
 
-## True when a previous run already left a profile file behind. Use it to
-## decide between "continue" and "new game" in the main menu.
+## The four department states, in enum order. This is the progress
+## `DepartmentManager` (B1) starts from.
+func load_department_states() -> Array[DepartmentState]:
+	var states: Array[DepartmentState] = []
+	for department in Enums.all_departments():
+		states.append(load_department_state(department))
+	return states
+
+
+## State of one department. Always returns a usable object: a department with
+## no `.tres` yet — or one whose file cannot be loaded — starts from a fresh
+## state, and the unreadable file is left on disk untouched.
+##
+## The load bypasses the resource cache on purpose: otherwise Godot would hand
+## back the instance that was saved earlier in the session, hiding both a
+## `.tres` edited from the inspector and a file that has become unreadable.
+func load_department_state(department: Enums.Department) -> DepartmentState:
+	var path := _state_path(department)
+	if not FileAccess.file_exists(path):
+		return DepartmentState.create(department)
+
+	var loaded: Resource = ResourceLoader.load(path, "", ResourceLoader.CACHE_MODE_IGNORE)
+	if loaded == null or not (loaded is DepartmentState):
+		_last_error = "%s no se pudo cargar; se usará un estado nuevo." % path
+		push_warning(_last_error)
+		return DepartmentState.create(department)
+
+	var state: DepartmentState = loaded
+	# The file name is the authority: moving a save between machines should not
+	# be able to change which department a file belongs to.
+	state.department = department
+	state.sanitize()
+	return state
+
+
+## Every result stored so far, oldest first (the order of the log). This is the
+## history `StatisticsTracker` (B6) starts from.
+func load_history() -> Array[ResultRecord]:
+	var history: Array[ResultRecord] = []
+	var path := _save_path(RESULT_HISTORY_FILE)
+	if not FileAccess.file_exists(path):
+		return history
+
+	var file := FileAccess.open(path, FileAccess.READ)
+	if file == null:
+		_last_error = "No se pudo leer %s (%s)." % [path, error_string(FileAccess.get_open_error())]
+		push_error(_last_error)
+		return history
+	while not file.eof_reached():
+		var record := ResultRecord.from_json_line(file.get_line())
+		if record != null:
+			history.append(record)
+	file.close()
+	return history
+
+
+## True when a previous run left something behind.
 func has_save_data() -> bool:
-	return FileAccess.file_exists(_save_path(PLAYER_PROFILE_FILE))
+	if FileAccess.file_exists(_save_path(RESULT_HISTORY_FILE)):
+		return true
+	for department in Enums.all_departments():
+		if FileAccess.file_exists(_state_path(department)):
+			return true
+	return false
 
 
-## Reads every file from disk into memory, filling in defaults for whatever is
-## missing (first run) or unreadable. Returns false only when the save folder
-## itself cannot be created.
-func load_all() -> bool:
+# -------------------------------------------------------------------- write
+
+## UC-02.8: stores everything a finished session produced and returns whether
+## it worked. On failure `save_failed` is emitted with a message ready to show
+## to the player (UC-02.8.e1); whatever could be written is kept.
+##
+## `data.history` has to be the complete history (`B6.get_history()`), because
+## only the records that are not in the log yet get appended. A new result must
+## go through B6 first: `StatisticsTracker.register_result()` is what creates
+## the record (UC-02.6).
+func save_progress(data: SaveData) -> bool:
 	_last_error = ""
+	if data == null:
+		return _fail("save_progress() recibió un SaveData nulo.")
 	if not _ensure_save_dir():
-		return false
-
-	var profile_data: Variant = _read_json(_save_path(PLAYER_PROFILE_FILE))
-	if profile_data is Dictionary:
-		player_profile = PlayerProfile.from_dict(profile_data as Dictionary)
-	else:
-		player_profile = PlayerProfile.create()
-	player_profile.touch_login()
-
-	department_stats = _load_department_stats()
-	minigame_stats = _load_minigame_stats()
-	result_history = _load_result_history()
-
-	data_loaded.emit()
-	return true
-
-
-## Writes every file. Returns false when something failed (UC-02.8.e1), but
-## the remaining files are still attempted, so one broken file does not hide
-## the part of the save that did work.
-func save_all() -> bool:
-	_last_error = ""
-	if not _ensure_save_dir():
-		_emit_save_failed()
-		return false
+		return _fail(_last_error)
 
 	var all_ok := true
-	all_ok = _write_json(_save_path(PLAYER_PROFILE_FILE), player_profile.to_dict()) and all_ok
-	all_ok = _write_json(_save_path(DEPARTMENT_STATS_FILE), _department_stats_to_array()) and all_ok
-	all_ok = _write_json(_save_path(MINIGAME_STATS_FILE), _minigame_stats_to_array()) and all_ok
-	all_ok = _write_json(_save_path(RESULT_HISTORY_FILE), _result_history_to_array()) and all_ok
+	for state in data.department_states:
+		if state != null:
+			all_ok = _save_department_state(state) and all_ok
+	all_ok = _append_new_history(data.history) and all_ok
 
 	if not all_ok:
-		_emit_save_failed()
+		save_failed.emit(_last_error)
 	return all_ok
 
 
-## Deletes the save files and rebuilds the in-memory state from scratch.
-## Nothing is written back to disk until the next `save_all()`, so a reset
-## that is never saved does not destroy anything.
+## Deletes every stored file. The game keeps running with whatever is already
+## in memory, so a reset that is never followed by `save_progress()` changes
+## nothing on disk.
 func reset_all() -> void:
-	for file_name in [PLAYER_PROFILE_FILE, DEPARTMENT_STATS_FILE, MINIGAME_STATS_FILE, RESULT_HISTORY_FILE]:
-		var path := _save_path(file_name)
+	for department in Enums.all_departments():
+		var path := _state_path(department)
 		if FileAccess.file_exists(path):
 			DirAccess.remove_absolute(path)
-	player_profile = PlayerProfile.create()
-	player_profile.touch_login()
-	department_stats = _default_department_stats()
-	minigame_stats.clear()
-	result_history.clear()
+	var history_path := _save_path(RESULT_HISTORY_FILE)
+	if FileAccess.file_exists(history_path):
+		DirAccess.remove_absolute(history_path)
+	_persisted_history_count = 0
+	_last_error = ""
 
 
 ## Last error produced by a read or a write ("" when everything went fine).
-## Feed it to the error screen of UC-02.8.e1 together with `save_failed`.
 func get_last_error() -> String:
 	return _last_error
 
 
-# -------------------------------------------------------------------- read
+# ---------------------------------------------------------------- internals
 
-## UC-11 `PlayerProfile.getDepartmentStats()`. Always returns a valid object:
-## if the entry is missing it is created and added to the list.
-func get_department_stats(department: Enums.Department) -> DepartmentStats:
-	for stats in department_stats:
-		if stats.department == department:
-			return stats
-	var created := DepartmentStats.create(department)
-	department_stats.append(created)
-	return created
-
-
-## UC-11 `DepartmentStats.getMinigameStats()`. Creates the entry on first use,
-## so the first game of a minigame already has somewhere to count itself.
-func get_minigame_stats(
-	department: Enums.Department,
-	minigame_id: String,
-	minigame_name: String = ""
-) -> MinigameStats:
-	var existing := find_minigame_stats(department, minigame_id)
-	if existing != null:
-		if not minigame_name.is_empty():
-			existing.minigame_name = minigame_name
-		return existing
-	var created := MinigameStats.create(department, minigame_id, minigame_name)
-	minigame_stats.append(created)
-	return created
+func _save_department_state(state: DepartmentState) -> bool:
+	state.sanitize()
+	var path := _state_path(state.department)
+	var error := ResourceSaver.save(state, path)
+	if error != OK:
+		_last_error = "No se pudo guardar %s (%s)." % [path, error_string(error)]
+		push_error(_last_error)
+		return false
+	return true
 
 
-## Same as `get_minigame_stats()`, but read-only: returns null instead of
-## creating an entry for a minigame that was never played.
-func find_minigame_stats(department: Enums.Department, minigame_id: String) -> MinigameStats:
-	for stats in minigame_stats:
-		if stats.department == department and stats.minigame_id == minigame_id:
-			return stats
-	return null
+## Appends the history records that are not in the log yet, one JSON line each,
+## so the file only ever grows.
+func _append_new_history(history: Array[ResultRecord]) -> bool:
+	if history.size() <= _persisted_history_count:
+		return true
+
+	var path := _save_path(RESULT_HISTORY_FILE)
+	var file := FileAccess.open(path, FileAccess.READ_WRITE)
+	if file == null:
+		# First save of the whole game: the log does not exist yet.
+		file = FileAccess.open(path, FileAccess.WRITE)
+	if file == null:
+		_last_error = "No se pudo abrir %s (%s)." % [path, error_string(FileAccess.get_open_error())]
+		push_error(_last_error)
+		return false
+
+	file.seek_end()
+	for index in range(_persisted_history_count, history.size()):
+		var record: ResultRecord = history[index]
+		if record != null:
+			file.store_line(record.to_json_line())
+	file.close()
+
+	_persisted_history_count = history.size()
+	return true
 
 
-## All minigame statistics of one department, for the detailed stats screen
-## of UC-11.
-func get_minigame_stats_for(department: Enums.Department) -> Array[MinigameStats]:
-	var found: Array[MinigameStats] = []
-	for stats in minigame_stats:
-		if stats.department == department:
-			found.append(stats)
-	return found
-
-
-## Result history, newest first. Pass a department to filter it; the default
-## (-1) returns everything.
-func get_history(department: int = -1) -> Array[ResultRecord]:
-	var found: Array[ResultRecord] = []
-	for index in range(result_history.size() - 1, -1, -1):
-		var record: ResultRecord = result_history[index]
-		if department < 0 or record.department == department:
-			found.append(record)
-	return found
-
-
-# ------------------------------------------------------------------- write
-
-## Applies one finished minigame to every aggregate and appends it to the
-## history (UC-02.5 / UC-02.6).
-##
-## The ELO rules stay in `DepartmentManager` (B1): it computes the delta and
-## passes it in. Persisting is still a separate decision — call `save_all()`
-## when the session ends (UC-02.8), not after every single game.
-func register_result(record: ResultRecord, department_elo_delta: float = 0.0) -> void:
-	var stats := get_department_stats(record.department)
-	stats.register_result(record.success, record.score, department_elo_delta)
-
-	var minigame := get_minigame_stats(record.department, record.minigame_type, record.minigame_name)
-	minigame.record_game_result(record.success, record.score, record.duration_seconds)
-	# Per-minigame ELO is not defined by the diagrams yet (UC-11 only lists the
-	# field), so it mirrors the department value until B1/B5 define a rule.
-	minigame.current_elo = stats.elo
-
-	result_history.append(record)
-
-
-## Adds play time to the profile (called when a session ends).
-func add_play_time(seconds: int) -> void:
-	player_profile.add_play_time(seconds)
-
-
-# --------------------------------------------------------------- internals
-
-func _load_department_stats() -> Array[DepartmentStats]:
-	var loaded: Array[DepartmentStats] = []
-	var data: Variant = _read_json(_save_path(DEPARTMENT_STATS_FILE))
-	if data is Array:
-		for entry in (data as Array):
-			if entry is Dictionary:
-				loaded.append(DepartmentStats.from_dict(entry as Dictionary))
-	return _complete_department_stats(loaded)
-
-
-func _load_minigame_stats() -> Array[MinigameStats]:
-	var loaded: Array[MinigameStats] = []
-	var data: Variant = _read_json(_save_path(MINIGAME_STATS_FILE))
-	if data is Array:
-		for entry in (data as Array):
-			if entry is Dictionary:
-				loaded.append(MinigameStats.from_dict(entry as Dictionary))
-	return loaded
-
-
-func _load_result_history() -> Array[ResultRecord]:
-	var loaded: Array[ResultRecord] = []
-	var data: Variant = _read_json(_save_path(RESULT_HISTORY_FILE))
-	if data is Array:
-		for entry in (data as Array):
-			if entry is Dictionary:
-				loaded.append(ResultRecord.from_dict(entry as Dictionary))
-	return loaded
-
-
-## Whatever the file contained, the result has exactly one entry per
-## department, in enum order, so gameplay code never has to check.
-func _complete_department_stats(loaded: Array[DepartmentStats]) -> Array[DepartmentStats]:
-	var complete: Array[DepartmentStats] = []
-	for department in Enums.all_departments():
-		var found: DepartmentStats = null
-		for stats in loaded:
-			if stats.department == department:
-				found = stats
-				break
-		complete.append(found if found != null else DepartmentStats.create(department))
-	return complete
-
-
-func _default_department_stats() -> Array[DepartmentStats]:
-	var created: Array[DepartmentStats] = []
-	for department in Enums.all_departments():
-		created.append(DepartmentStats.create(department))
-	return created
-
-
-func _department_stats_to_array() -> Array:
-	var data := []
-	for stats in department_stats:
-		data.append(stats.to_dict())
-	return data
-
-
-func _minigame_stats_to_array() -> Array:
-	var data := []
-	for stats in minigame_stats:
-		data.append(stats.to_dict())
-	return data
-
-
-func _result_history_to_array() -> Array:
-	var data := []
-	for record in result_history:
-		data.append(record.to_dict())
-	return data
+func _state_path(department: Enums.Department) -> String:
+	return _save_path("%s%s%s" % [
+		DEPARTMENT_STATE_PREFIX,
+		Enums.department_to_key(department),
+		DEPARTMENT_STATE_EXTENSION,
+	])
 
 
 func _save_path(file_name: String) -> String:
@@ -284,68 +220,12 @@ func _ensure_save_dir() -> bool:
 	var error := DirAccess.make_dir_recursive_absolute(SAVE_DIR)
 	if error != OK:
 		_last_error = "No se pudo crear la carpeta de guardado (%s)." % error_string(error)
-		push_error(_last_error)
 		return false
 	return true
 
 
-## Reads and parses one file. Returns null when the file does not exist or is
-## unusable; a corrupt file is renamed to `.corrupt_<timestamp>` instead of
-## being silently overwritten, so no save data disappears without a trace.
-func _read_json(path: String) -> Variant:
-	if not FileAccess.file_exists(path):
-		return null
-
-	var file := FileAccess.open(path, FileAccess.READ)
-	if file == null:
-		_last_error = "No se pudo abrir %s (%s)." % [path, error_string(FileAccess.get_open_error())]
-		push_error(_last_error)
-		return null
-	var text := file.get_as_text()
-	file.close()
-
-	var parser := JSON.new()
-	if parser.parse(text) != OK:
-		var quarantined := "%s.corrupt_%d" % [path, int(Time.get_unix_time_from_system())]
-		DirAccess.rename_absolute(path, quarantined)
-		_last_error = "Archivo de guardado dañado (%s). Se movió a %s." % [path, quarantined]
-		push_warning(_last_error)
-		return null
-	return parser.data
-
-
-## Writes one JSON file. The data goes to a temporary file first and only
-## replaces the old file once it is fully written, so a crash halfway through
-## never leaves a truncated save behind.
-func _write_json(path: String, data: Variant) -> bool:
-	var temp_path := "%s.tmp" % path
-	var file := FileAccess.open(temp_path, FileAccess.WRITE)
-	if file == null:
-		_last_error = "No se pudo escribir %s (%s)." % [
-			temp_path, error_string(FileAccess.get_open_error())
-		]
-		push_error(_last_error)
-		return false
-	file.store_string(JSON.stringify(data, "\t"))
-	file.close()
-
-	if FileAccess.file_exists(path):
-		var remove_error := DirAccess.remove_absolute(path)
-		if remove_error != OK:
-			DirAccess.remove_absolute(temp_path)
-			_last_error = "No se pudo reemplazar %s (%s)." % [path, error_string(remove_error)]
-			push_error(_last_error)
-			return false
-
-	var rename_error := DirAccess.rename_absolute(temp_path, path)
-	if rename_error != OK:
-		_last_error = "No se pudo mover %s a %s (%s)." % [
-			temp_path, path, error_string(rename_error)
-		]
-		push_error(_last_error)
-		return false
-	return true
-
-
-func _emit_save_failed() -> void:
-	save_failed.emit(_last_error if not _last_error.is_empty() else "No se pudo guardar la partida.")
+func _fail(message: String) -> bool:
+	_last_error = message
+	push_error(_last_error)
+	save_failed.emit(_last_error)
+	return false
