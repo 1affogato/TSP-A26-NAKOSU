@@ -857,8 +857,10 @@ text = "100%
 porcentaje de efectividad"
 horizontal_alignment = 1
 
-[connection signal="pressed" from="SelectScreen/Layout/Body/Floors/Floor4" to="." method="_show_detail" binds= [2]]
-[connection signal="pressed" from="SelectScreen/Layout/Body/Floors/Floor3" to="." method="_show_detail" binds= [3]]
-[connection signal="pressed" from="SelectScreen/Layout/Body/Floors/Floor2" to="." method="_show_detail" binds= [0]]
-[connection signal="pressed" from="SelectScreen/Layout/Body/Floors/Floor1" to="." method="_show_detail" binds= [1]]
+[connection signal="pressed" from="SelectScreen/Layout/Body/Floors/Floor4" to="." method="select_department" binds= [2]]
+[connection signal="pressed" from="SelectScreen/Layout/Body/Floors/Floor3" to="." method="select_department" binds= [3]]
+[connection signal="pressed" from="SelectScreen/Layout/Body/Floors/Floor2" to="." method="select_department" binds= [0]]
+[connection signal="pressed" from="SelectScreen/Layout/Body/Floors/Floor1" to="." method="select_department" binds= [1]]
 [connection signal="pressed" from="DetailScreen/Layout/TopRow/InfoPanel/Content/BackButton" to="." method="_show_select"]
+[connection signal="pressed" from="DetailScreen/Layout/TopRow/Actions/StartButton" to="." method="_on_play_pressed"]
+[connection signal="pressed" from="DetailScreen/Layout/TopRow/Actions/LevelUpButton" to="." method="_on_upgrade_pressed"]

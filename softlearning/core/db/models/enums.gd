@@ -27,6 +27,13 @@ enum Difficulty {
 	MUY_DIFICIL,
 }
 
+## Cómo se agrupa el desglose detallado de estadísticas (UC-11.4 / UC-11.5).
+enum StatType {
+	BY_MINIGAME,
+	BY_DIFFICULTY,
+	OVER_TIME,
+}
+
 static func difficulty_to_elo(difficulty: Enums.Difficulty) -> float:
 	match difficulty:
 		Difficulty.FACIL:

@@ -2,7 +2,7 @@ class_name DepartmentState
 extends Resource
 ## Progress of the player inside one department (UC-02, "DepartmentState").
 ##
-## This is a real resource: `DbService` writes one `.tres` per department under
+## This is a real resource: `PersistenceService` writes one `.tres` per department under
 ## `user://save/`, so the file can be inspected (or fixed by hand) from the
 ## Godot editor between runs.
 ##

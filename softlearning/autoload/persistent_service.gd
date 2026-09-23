@@ -1,5 +1,5 @@
 extends Node
-## DbService — autoload singleton, the "PersistenceService" (B7) of UC-02.
+## PersistenceService (B7) — autoload singleton.
 ##
 ## Only two models are stored, and nothing else:
 ##   [DepartmentState] -> one `.tres` per department under `user://save/`
@@ -10,13 +10,13 @@ extends Node
 ## `DepartmentManager` (B1) and `StatisticsTracker` (B6) can begin from the
 ## stored progress:
 ## [codeblock]
-## var states := DbService.load_department_states()   # -> B1
-## var history := DbService.load_history()            # -> B6
+## var states := PersistenceService.load_department_states()   # -> B1
+## var history := PersistenceService.load_history()            # -> B6
 ## # ... the session runs ...
 ## var data := SaveData.create()
 ## data.department_states = manager.get_all_states()
 ## data.history = tracker.get_history()
-## if not DbService.save_progress(data):
+## if not PersistenceService.save_progress(data):
 ##     pass  # UC-02.8.e1: show the save error screen
 ## [/codeblock]
 ##
