@@ -1,0 +1,87 @@
+@startuml UC11_department_stats_sequence
+title UC-11: Consult Department Stats - Diagrama de secuencia
+
+skinparam shadowing false
+skinparam responseMessageBelowArrow true
+skinparam sequenceGroupBodyBackGroundColor transparent
+hide footbox
+
+actor "Player" as P
+
+box "Presentación" #F4F4F4
+  participant ":DepartmentView" as DV
+end box
+
+box "Lógica" #EAF2FB
+  participant ":StatisticsTracker" as ST
+  participant ":DepartmentManager" as DM
+  participant ":GeneralStats" as GS
+  participant ":DetailedStats" as DS
+end box
+
+box "Datos (Resources)" #FBF6E6
+  participant "history\n:List<ResultRecord>" as H
+end box
+
+note over P, ST
+  Precondición: el jugador tiene una partida activa
+  (B7 ya cargó el historial en StatisticsTracker).
+end note
+
+== UC-11.1: Selección del departamento ==
+
+P -> DV : selecciona un departamento
+DV -> DV : select_department(department)
+
+== UC-11.2: Obtener las estadísticas ==
+
+DV -> ST ++ : get_general_stats(department)
+ST -> H ++ : records_of(department):\nfiltra por department
+H --> ST -- : records
+ST -> ST : cuenta jugados y aciertos
+ST -> DM ++ : can_level_up(department)
+DM -> DM : compara el ELO con\nlevel_up_thresholds
+DM --> ST -- : upgrade_available
+ST -> GS ** : «create»(department, total_played,\ntotal_correct, upgrade_available)
+ST --> DV -- : general_stats
+
+== UC-11.3: Estadísticas generales ==
+
+DV -> DV : show_general_stats(general_stats)
+DV -> P : muestra total de jugados y de aciertos
+
+opt UC-11.3.a1: el departamento puede subir de nivel (upgrade_available)
+  DV -> DV : show_upgrade_option()
+  DV -> P : muestra la opción de subir de nivel
+  opt UC-11.3.a1.1: el jugador elige subir de nivel
+    P -> DV : sube de nivel
+    DV -> DV : on_upgrade_pressed()
+    ref over DV, DM : UC-12: Upgrade Department
+  end
+end
+
+== UC-11.4: Selección de una estadística ==
+
+P -> DV : elige una estadística
+DV -> DV : on_stat_selected(type)
+DV -> ST ++ : get_detailed_stats(department, type)
+ST -> H ++ : records_of(department):\nfiltra por department
+H --> ST -- : records
+
+alt type = BY_MINIGAME
+  ST -> ST : agrupa por tipo de minijuego
+else type = BY_DIFFICULTY
+  ST -> ST : agrupa por dificultad
+else type = OVER_TIME
+  ST -> ST : agrupa por fecha (timestamp)
+end
+
+ST -> DS ** : «create»(department, type, entries)
+ST --> DV -- : detailed_stats
+
+== UC-11.5: Detalle de la estadística ==
+
+DV -> DV : show_detailed_stats(detailed_stats)
+DV -> P : muestra el detalle (jugados y aciertos por entrada)
+
+@enduml

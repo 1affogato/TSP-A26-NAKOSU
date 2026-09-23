@@ -1,0 +1,110 @@
+@startuml UC07_quiz_sequence
+title UC-07: Play Quiz Minigame - Diagrama de secuencia
+
+skinparam shadowing false
+skinparam responseMessageBelowArrow true
+skinparam sequenceGroupBodyBackGroundColor transparent
+hide footbox
+
+actor "Player" as P
+
+box "Presentación" #F4F4F4
+  participant ":QuizView" as QV
+end box
+
+box "Lógica" #EAF2FB
+  participant ":Orquestador de sesión\n(B4)" as ORQ
+  participant ":QuizMinigame" as QM
+  participant ":MinigameResult" as MR
+end box
+
+box "Datos (Resources)" #FBF6E6
+  participant ":QuizPool" as QP
+  participant ":QuizQuestion" as QQ
+end box
+
+note over ORQ, QM
+  Precondición: el Quiz fue seleccionado en la sesión (UC-02.4).
+  B4 solo conoce a QuizMinigame a través del contrato Minigame.
+end note
+
+ORQ -> QM ++ : start(department, elo)
+
+== UC-07.1: Selección de la pregunta ==
+
+QM -> QP ++ : get_question(department, elo)
+QP -> QP : select_difficulty(elo): Difficulty
+note right of QP
+  Selección ponderada:
+  a mayor ELO, más probable
+  una dificultad alta.
+end note
+QP -> QP : elige una QuizQuestion del\ndepartment con esa dificultad
+QP --> QM -- : question
+
+== UC-07.2: Presentación de la pregunta ==
+
+QM -> QM : time_left = time_limit\ninicia el temporizador
+QM ->> QV ++ : «signal» question_ready(question)
+QV -> QV : show_question(question)
+QV -> QQ ++ : get_title(), get_description(),\nget_possible_responses()
+QQ --> QV -- : enunciado y 4 opciones
+QV -> P : muestra la pregunta y las 4 opciones
+deactivate QV
+
+== UC-07.3: Espera de la respuesta ==
+
+loop cada tick, mientras no haya respuesta y time_left > 0
+  QM ->> QV : «signal» time_updated(time_left)
+  QV -> QV : update_timer(time_left)
+end
+
+opt el jugador pausa la sesión (UC-02.4.a1)
+  ORQ -> QM : pause()
+  QM -> QM : detiene el temporizador\n(conserva time_left)
+  ...
+  ORQ -> QM : resume()
+  QM -> QM : reanuda el temporizador\ndesde time_left
+end
+
+break el jugador sale (UC-02.4.a2) o vence el timeout de pausa (UC-02.4.a1.3.a1)
+  ORQ -> QM : abort()
+  QM -> QM : detiene el temporizador;\ntermina sin resultado
+end
+
+alt responde dentro del tiempo límite (UC-07.3 / UC-07.4)
+  P -> QV ++ : selecciona una opción
+  QV -> QV : on_response_selected(response)
+  QV -> QM : answer(response)
+  deactivate QV
+  QM -> QM : detiene el temporizador\nselected_response = response
+  QM -> QQ ++ : is_correct_response(response)
+  QQ --> QM -- : is_correct
+else se acaba el tiempo (UC-07.3.a1)
+  QM -> QM : on_timeout()
+  note right of QM : is_correct = false
+end
+
+== UC-07.4: Retroalimentación inmediata ==
+
+QM ->> QV ++ : «signal» answered(is_correct)
+QV -> QV : show_feedback(is_correct)
+QV -> P : indica si acertó o falló
+deactivate QV
+
+== UC-07.5: Fin del minijuego ==
+
+QM -> QM : finish()
+QM -> QQ ++ : get_difficulty()
+QQ --> QM -- : difficulty
+QM -> MR ** : «create»("QUIZ", is_correct,\ndifficulty, department)
+QM ->> ORQ : «signal» finished(result)
+deactivate QM
+
+note over ORQ
+  Continúa en UC-02.5:
+  actualiza el ELO y registra
+  la estadística con el resultado.
+end note
+
+@enduml

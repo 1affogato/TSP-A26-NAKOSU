@@ -1,0 +1,164 @@
+@startuml UC11_department_stats
+title UC-11: Consult Department Stats - Diagrama de clases
+
+skinparam classAttributeIconSize 0
+skinparam packageStyle rectangle
+skinparam shadowing false
+skinparam nodesep 60
+skinparam ranksep 70
+
+' ============================================================
+package "Presentación" {
+
+  class DepartmentView {
+    -department: Department
+    -stats: StatisticsTracker
+    --
+    +select_department(department: Department): void
+    +show_general_stats(stats: GeneralStats): void
+    +show_upgrade_option(): void
+    +show_detailed_stats(detail: DetailedStats): void
+    -on_stat_selected(type: StatType): void
+    -on_upgrade_pressed(): void
+    -on_play_pressed(): void
+  }
+
+  note right of DepartmentView
+    Pantalla del departamento.
+    select_department() (UC-11.1) pide la vista general
+    a StatisticsTracker (UC-11.2) y la muestra (UC-11.3).
+    Si upgrade_available: show_upgrade_option() (UC-11.3.a1);
+    on_upgrade_pressed() inicia UC-12 (UC-11.3.a1.1).
+    on_stat_selected() pide el detalle (UC-11.4) y
+    show_detailed_stats() lo muestra (UC-11.5).
+    on_play_pressed() abre SessionView (inicia UC-02).
+  end note
+}
+
+' ============================================================
+package "Lógica" {
+
+  class StatisticsTracker <<B6>> {
+    -history: List<ResultRecord>
+    --
+    +register_result(result: MinigameResult): void
+    +get_general_stats(department: Department): GeneralStats
+    +get_detailed_stats(department: Department, type: StatType): DetailedStats
+    +get_history(): List<ResultRecord>
+    -records_of(department: Department): List<ResultRecord>
+  }
+
+  note left of StatisticsTracker
+    Estadísticas y progreso (B6).
+    Las vistas general y detallada se calculan
+    desde el historial, sin contadores duplicados.
+    get_general_stats() consulta a B1 si el
+    departamento puede subir de nivel (UC-11.3.a1).
+    register_result() y get_history() se usan en UC-02.
+  end note
+
+  class GeneralStats {
+    -department: Department
+    -total_played: int
+    -total_correct: int
+    -upgrade_available: bool
+  }
+
+  class DetailedStats {
+    -department: Department
+    -type: StatType
+    -entries: List<StatEntry>
+  }
+
+  class StatEntry {
+    -label: String
+    -played: int
+    -correct: int
+  }
+
+  note bottom of StatEntry
+    label según el type elegido:
+    tipo de minijuego (BY_MINIGAME),
+    dificultad (BY_DIFFICULTY) o
+    fecha (OVER_TIME).
+  end note
+
+  enum StatType {
+    BY_MINIGAME
+    BY_DIFFICULTY
+    OVER_TIME
+  }
+
+  class DepartmentManager <<B1>> {
+    -states: Map<Department, DepartmentState>
+    -enabled_minigames: Map<Department, List<String>>
+    -level_up_thresholds: Map<Department, float>
+    --
+    +get_elo(department: Department): float
+    +get_enabled_minigames(department: Department): List<String>
+    +update_elo(result: MinigameResult): void
+    +can_level_up(department: Department): bool
+    +get_all_states(): List<DepartmentState>
+    -compute_elo_delta(result: MinigameResult): float
+  }
+
+  note bottom of DepartmentManager
+    can_level_up(): compara el ELO del departamento
+    con su umbral (UC-11.3.a1). El cambio de nivel
+    en sí pertenece a UC-12.
+    enabled_minigames y level_up_thresholds son
+    datos de autoría: no se persisten.
+  end note
+}
+
+' ============================================================
+package "Datos (Resources)" {
+
+  class ResultRecord {
+    -department: Department
+    -type: String
+    -level: Difficulty
+    -success: bool
+    -timestamp: int
+  }
+
+  note bottom of ResultRecord
+    Registro histórico por resultado (B6).
+    B7 lo carga al iniciar el juego.
+    timestamp permite la evolución en el tiempo.
+  end note
+
+  class DepartmentState {
+    -department: Department
+    -level: int
+    -elo: float
+  }
+
+  enum Department {
+    DATA_STRUCTURES
+    REQUIREMENTS
+    SOFTWARE_DEV
+    CODING
+  }
+
+  enum Difficulty {
+    FACIL
+    MEDIO
+    DIFICIL
+    MUY_DIFICIL
+  }
+}
+
+' ============================================================
+' Relaciones
+DepartmentView "1" --> "1" StatisticsTracker : stats
+StatisticsTracker ..> GeneralStats : <<create>>
+StatisticsTracker ..> DetailedStats : <<create>>
+StatisticsTracker ..> DepartmentManager : consulta condición\nde subir de nivel
+DetailedStats "1" *-- "*" StatEntry : entries
+DetailedStats --> StatType : type
+StatisticsTracker "1" *-- "*" ResultRecord : history
+DepartmentManager "1" *-- "4" DepartmentState
+Department -[hidden]right- Difficulty
+
+@enduml

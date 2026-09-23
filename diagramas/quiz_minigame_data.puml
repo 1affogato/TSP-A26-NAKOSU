@@ -1,0 +1,67 @@
+@startuml quiz_minigame_data
+title Quiz Minigame - Estructura de datos de las preguntas
+
+skinparam classAttributeIconSize 0
+skinparam shadowing false
+skinparam nodesep 60
+skinparam ranksep 70
+
+class QuizPool <<Pool B2>> {
+  -questions: List<QuizQuestion>
+  --
+  +get_question(department: Department, elo: float): QuizQuestion
+  -select_difficulty(elo: float): Difficulty
+}
+
+note left of QuizPool
+  Pool de Quiz (B2 - Pools de contenido).
+  Selección ponderada: a mayor ELO, mayor
+  probabilidad de elegir una dificultad más alta.
+end note
+
+class QuizQuestion {
+  -id: int
+  -department: Department
+  -title: String
+  -description: String
+  -responses: List<String>
+  -correct_response_index: int
+  -difficulty: Difficulty
+  --
+  +is_correct_response(response: String): bool
+  +get_possible_responses(): List<String>
+  +get_correct_response(): String
+  +get_department(): Department
+  +get_title(): String
+  +get_description(): String
+  +get_difficulty(): Difficulty
+}
+
+note right of QuizQuestion
+  Las instancias de QuizQuestion viven en QuizPool;
+  el minijuego recibe UNA al iniciar (UC-07.1).
+  responses: exactamente 4 opciones, una correcta,
+  indicada por correct_response_index.
+  department es un campo directo (sin QuizCategory),
+  como lo pide la especificación del pool de Quiz.
+end note
+
+enum Department {
+  DATA_STRUCTURES
+  REQUIREMENTS
+  SOFTWARE_DEV
+  CODING
+}
+
+enum Difficulty {
+  FACIL
+  MEDIO
+  DIFICIL
+  MUY_DIFICIL
+}
+
+QuizPool "1" *-- "1..*" QuizQuestion : contiene
+QuizQuestion "*" --> "1" Department
+QuizQuestion "*" --> "1" Difficulty
+
+@enduml

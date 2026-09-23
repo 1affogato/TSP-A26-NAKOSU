@@ -1,3 +1,5 @@
 [gd_scene format=3 uid="uid://rfh4u5qcb7a7"]
 
-[node name="SessionView" type="Node2D" unique_id=2044797566]
+[node name="SessionView" type="Control" unique_id=1506321855]
+layout_mode = 3
+anchors_preset = 0
