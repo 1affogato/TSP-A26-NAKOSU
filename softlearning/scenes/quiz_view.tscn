@@ -1,0 +1,12 @@
+[gd_scene format=3 uid="uid://besce3rt1g7ew"]
+
+[ext_resource type="Script" uid="uid://bxs03eilogy2i" path="res://scenes/quiz_view.gd" id="1_hfgs6"]
+
+[node name="QuizView" type="Control" unique_id=1467361519]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_hfgs6")

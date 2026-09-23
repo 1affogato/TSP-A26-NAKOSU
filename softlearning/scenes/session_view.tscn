@@ -1,5 +1,10 @@
 [gd_scene format=3 uid="uid://rfh4u5qcb7a7"]
 
+[ext_resource type="PackedScene" uid="uid://besce3rt1g7ew" path="res://scenes/quiz_view.tscn" id="1_l4x0j"]
+
 [node name="SessionView" type="Control" unique_id=1506321855]
 layout_mode = 3
 anchors_preset = 0
+
+[node name="QuizView" parent="." unique_id=1467361519 instance=ExtResource("1_l4x0j")]
+layout_mode = 1
