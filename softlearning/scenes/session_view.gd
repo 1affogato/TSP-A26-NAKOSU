@@ -4,14 +4,26 @@ extends Control
 ## the exit (UC-02.4.a2) and the save error (UC-02.8.e1). Minigame views never
 ## pause or leave the session themselves.
 ##
-## ponytail: SessionOrchestrator (B4) doesn't exist yet, so the buttons drive
-## these screens directly and _ready() shows one fixed question. When B4
-## exists, the buttons call session.pause() / resume() / exit() and B4's
-## signals (paused, resumed, save_failed, session_ended) call the methods below.
+## The logic is SessionOrchestrator (B4), a child of this scene. The scene
+## wires them: B4's signals call the methods below, and the buttons (plus
+## QuizView's exit_requested / next_requested) call B4's public methods.
+
+@onready var session: SessionOrchestrator = $SessionOrchestrator
 
 
-func _ready() -> void:
-	$QuizView.show_question(load("res://resources/quiz_questions/quiz_question_004.tres"))
+## UC-02.1: DepartmentView calls it once this scene is in the tree.
+func open(department: Enums.Department) -> void:
+	session.start_session(department)
+
+
+## UC-02.4: binds the view of the minigame that is about to start.
+func show_minigame(minigame: Minigame) -> void:
+	var number := session.current_index + 1
+	var total := session.sequence.size()
+	$SessionProgress.max_value = total
+	$SessionProgress.value = number
+	# Quiz is the only minigame with a view so far.
+	$QuizView.set_minigame(minigame, "Pregunta %d de %d" % [number, total])
 
 
 func show_pause_menu() -> void:
@@ -26,5 +38,11 @@ func show_save_error() -> void:
 	$SaveError.show()
 
 
-func return_to_department() -> void:
-	get_tree().change_scene_to_file("res://scenes/department_view.tscn")
+## UC-02.9. After a save error (UC-02.8.e1) it first waits for the player to
+## press "Volver a departamentos".
+func return_to_department(department: Enums.Department) -> void:
+	if $SaveError.visible:
+		await $SaveError/Center/Layout/BackButton.pressed
+	var view: Node = load("res://scenes/department_view.tscn").instantiate()
+	view.ready.connect(view.select_department.bind(department))
+	get_tree().change_scene_to_node(view)

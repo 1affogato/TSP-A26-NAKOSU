@@ -331,6 +331,7 @@ layout_mode = 2
 theme_override_constants/separation = 12
 
 [node name="QuestionNumber" type="Label" parent="FeedbackScreen/Layout/Card/Content"]
+unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"Muted"
 theme_override_font_sizes/font_size = 13
@@ -402,6 +403,7 @@ text = "Volver al Inicio"
 underline = 1
 
 [node name="NextButton" type="LinkButton" parent="FeedbackScreen/Layout/Actions"]
+unique_name_in_owner = true
 layout_mode = 2
 theme_override_font_sizes/font_size = 18
 text = "Siguiente Pregunta →"

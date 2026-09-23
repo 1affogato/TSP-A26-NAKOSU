@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://bsmkaoutx07a" path="res://scenes/session_view.gd" id="1_session"]
 [ext_resource type="PackedScene" uid="uid://besce3rt1g7ew" path="res://scenes/quiz_view.tscn" id="1_l4x0j"]
+[ext_resource type="Script" uid="uid://c43nhh3n2pg5e" path="res://core/session_orchestrator.gd" id="3_orchestrator"]
 
 [node name="SessionView" type="Control" unique_id=1506321855]
 layout_mode = 3
@@ -11,6 +12,9 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_session")
+
+[node name="SessionOrchestrator" type="Node" parent="."]
+script = ExtResource("3_orchestrator")
 
 [node name="Background" type="ColorRect" parent="."]
 layout_mode = 1
@@ -124,8 +128,13 @@ theme_type_variation = &"PrimaryButton"
 theme_override_font_sizes/font_size = 18
 text = "Volver a departamentos"
 
-[connection signal="exit_requested" from="QuizView" to="." method="return_to_department"]
-[connection signal="pressed" from="PauseButton" to="." method="show_pause_menu"]
-[connection signal="pressed" from="PauseMenu/Center/Buttons/ResumeButton" to="." method="hide_pause_menu"]
-[connection signal="pressed" from="PauseMenu/Center/Buttons/ExitButton" to="." method="return_to_department"]
-[connection signal="pressed" from="SaveError/Center/Layout/BackButton" to="." method="return_to_department"]
+[connection signal="minigame_started" from="SessionOrchestrator" to="." method="show_minigame"]
+[connection signal="paused" from="SessionOrchestrator" to="." method="show_pause_menu"]
+[connection signal="resumed" from="SessionOrchestrator" to="." method="hide_pause_menu"]
+[connection signal="save_failed" from="SessionOrchestrator" to="." method="show_save_error"]
+[connection signal="session_ended" from="SessionOrchestrator" to="." method="return_to_department"]
+[connection signal="exit_requested" from="QuizView" to="SessionOrchestrator" method="exit"]
+[connection signal="next_requested" from="QuizView" to="SessionOrchestrator" method="next"]
+[connection signal="pressed" from="PauseButton" to="SessionOrchestrator" method="pause"]
+[connection signal="pressed" from="PauseMenu/Center/Buttons/ResumeButton" to="SessionOrchestrator" method="resume"]
+[connection signal="pressed" from="PauseMenu/Center/Buttons/ExitButton" to="SessionOrchestrator" method="exit"]

@@ -2,16 +2,15 @@ extends Control
 ## UC-07 view: the question with its timer (QuestionScreen) and, once it is
 ## answered or the time runs out, the feedback (FeedbackScreen).
 ##
-## Pause and exit belong to SessionView: this view has no pause button and only
-## asks to leave through `exit_requested`.
-##
-## ponytail: QuizMinigame (B5) doesn't exist yet. When it does, connect its
-## question_ready -> show_question, time_updated -> update_timer and
-## answered -> show_feedback, and make _on_confirm_pressed() call
-## minigame.answer(_response) instead of evaluating the answer here.
+## It follows the QuizMinigame it is given (question_ready, time_updated,
+## answered) and forwards the player's choice with minigame.answer(). Pause
+## and exit belong to SessionView: this view only asks for them through
+## exit_requested and next_requested.
 
-## "Volver al Inicio" was pressed; SessionView decides how the session ends.
+## "Volver al Inicio": SessionView ends the session (UC-02.4.a2).
 signal exit_requested
+## "Siguiente Pregunta": SessionView moves the session on (UC-02.7).
+signal next_requested
 
 const DEPARTMENT_NAMES := {
 	Enums.Department.DATA_STRUCTURES: "Estructuras de datos",
@@ -20,6 +19,7 @@ const DEPARTMENT_NAMES := {
 	Enums.Department.CODING: "Programación",
 }
 
+var minigame: QuizMinigame
 var _question: QuizQuestion
 ## Text of the selected option ("" while nothing is selected).
 var _response := ""
@@ -30,6 +30,16 @@ var _confirmed := false
 func _ready() -> void:
 	%OptionA.button_group.pressed.connect(_highlight)
 	%HomeButton.pressed.connect(exit_requested.emit)
+	%NextButton.pressed.connect(next_requested.emit)
+
+
+## Follows `quiz` from now on. `progress` is the "Pregunta X de Y" text.
+func set_minigame(quiz: QuizMinigame, progress: String) -> void:
+	minigame = quiz
+	%QuestionNumber.text = progress
+	quiz.question_ready.connect(show_question)
+	quiz.time_updated.connect(update_timer)
+	quiz.answered.connect(show_feedback)
 
 
 ## UC-07.2
@@ -80,6 +90,7 @@ func _highlight(selected: BaseButton) -> void:
 		option.get_node("Check").visible = option == selected
 
 
+## UC-07.3: the verdict comes back through `answered` -> show_feedback().
 func _on_confirm_pressed() -> void:
 	_confirmed = true
-	show_feedback(_question.is_correct_response(_response))
+	minigame.answer(_response)

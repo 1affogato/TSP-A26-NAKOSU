@@ -11,9 +11,9 @@ func get_question(department: Enums.Department, elo: float) -> QuizQuestion:
 		if q.difficulty == difficulty and q.department == department:
 			possible.append(q)
 	
-	var index := RandomNumberGenerator.new().randi_range(0, len(possible))
-	
-	return possible[index]
+	# ponytail: null when no question matches; today every department has all
+	# four difficulties, add a fallback if one ever lacks a level.
+	return possible.pick_random()
 
 
 func _select_difficulty(elo: float) -> Enums.Difficulty:
