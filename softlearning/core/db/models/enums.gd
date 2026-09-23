@@ -27,6 +27,16 @@ enum Difficulty {
 	MUY_DIFICIL,
 }
 
+static func difficulty_to_elo(difficulty: Enums.Difficulty) -> float:
+	match difficulty:
+		Difficulty.FACIL:
+			return 1000
+		Difficulty.MEDIO:
+			return 1500
+		Difficulty.DIFICIL:
+			return 2000
+		_:
+			return 2500
 
 ## Every department, in enum order. Used to guarantee that a save file always
 ## holds exactly one entry per department.
