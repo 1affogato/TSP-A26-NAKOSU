@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="DepartmentState" format=3 uid="uid://cad1ifg6rpmrx"]
+
+[ext_resource type="Script" uid="uid://bgseww32vnsej" path="res://core/db/models/department_state.gd" id="1_cgu54"]
+
+[resource]
+script = ExtResource("1_cgu54")
+department = 1
+level = 3
+metadata/_custom_type_script = "uid://bgseww32vnsej"
