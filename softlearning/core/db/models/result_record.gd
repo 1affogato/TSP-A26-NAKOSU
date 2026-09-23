@@ -2,8 +2,9 @@ class_name ResultRecord
 extends Resource
 ## One finished minigame (UC-02, "ResultRecord").
 ##
-## `StatisticsTracker` (B6) creates one per game with `create()`, and `DbService`
-## stores it as a single line of `user://save/result_history.jsonl`. The file is
+## `StatisticsTracker` (B6) creates one per game with `create()`, and
+## `PersistenceService` stores it as a single line of
+## `user://save/result_history.jsonl`. The file is
 ## an append-only log — one JSON object per line — so the history grows forever
 ## without ever rewriting what is already saved.
 ##

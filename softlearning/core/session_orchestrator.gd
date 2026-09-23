@@ -3,7 +3,8 @@ extends Node
 ## Session orchestrator (B4) of UC-02: builds the sequence of one session,
 ## launches each minigame through the Minigame contract (B3), feeds every
 ## result to DepartmentManager (B1) and StatisticsTracker (B6), handles pause
-## and exit, and hands the progress to DbService (B7) when the session ends.
+## and exit, and hands the progress to PersistenceService (B7) when the session
+## ends.
 ##
 ## It is a node of the SessionView scene, never an autoload, so every session
 ## starts from a fresh orchestrator. It never calls the view: SessionView
@@ -150,12 +151,12 @@ func _on_pause_timeout() -> void:
 	exit()
 
 
-## UC-02.8, and UC-02.8.e1 when DbService cannot write.
+## UC-02.8, and UC-02.8.e1 when PersistenceService cannot write.
 func _save_progress() -> void:
 	var data := SaveData.create()
 	data.department_states = DepartmentManager.get_all_states()
 	data.history = StatisticsTracker.get_history()
-	if not DbService.save_progress(data):
+	if not PersistenceService.save_progress(data):
 		save_failed.emit()
 
 

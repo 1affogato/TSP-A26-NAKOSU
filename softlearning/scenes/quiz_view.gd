@@ -12,13 +12,6 @@ signal exit_requested
 ## "Siguiente Pregunta": SessionView moves the session on (UC-02.7).
 signal next_requested
 
-const DEPARTMENT_NAMES := {
-	Enums.Department.DATA_STRUCTURES: "Estructuras de datos",
-	Enums.Department.REQUIREMENTS: "Requerimientos",
-	Enums.Department.SOFTWARE_DEV: "Desarrollo de Software",
-	Enums.Department.CODING: "Programación",
-}
-
 var minigame: QuizMinigame
 var _question: QuizQuestion
 ## Text of the selected option ("" while nothing is selected).
@@ -46,7 +39,7 @@ func set_minigame(quiz: QuizMinigame, progress: String) -> void:
 func show_question(question: QuizQuestion) -> void:
 	_question = question
 	_confirmed = false
-	%DepartmentTag.text = DEPARTMENT_NAMES[question.department]
+	%DepartmentTag.text = DepartmentManager.get_department_name(question.department)
 	%TopicTag.text = question.title
 	%Question.text = question.description
 	var responses := question.get_possible_responses()

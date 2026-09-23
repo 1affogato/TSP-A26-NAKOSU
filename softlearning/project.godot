@@ -11,13 +11,13 @@ config_version=5
 [application]
 
 config/name="softlearning"
-run/main_scene="uid://rfh4u5qcb7a7"
+run/main_scene="uid://78e4wubj2606"
 config/features=PackedStringArray("4.7", "GL Compatibility")
 config/icon="res://icon.svg"
 
 [autoload]
 
-DbService="*res://autoload/persistent_service.gd"
+PersistenceService="*res://autoload/persistent_service.gd"
 DepartmentManager="*res://autoload/department_manager.gd"
 StatisticsTracker="*res://autoload/statistics_tracker.gd"
 

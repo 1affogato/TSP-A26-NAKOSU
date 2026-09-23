@@ -4,8 +4,8 @@ extends Resource
 ##
 ## These are authored content, not save data: the instances live in the content
 ## pool (`QuizPool`, B2) and `QuizMinigame` receives exactly one of them when it
-## starts (UC-07.1). `DbService` never stores them — it is a `Resource` so the
-## questions ship with the game and can be edited from the inspector.
+## starts (UC-07.1). `PersistenceService` never stores them — it is a `Resource`
+## so the questions ship with the game and can be edited from the inspector.
 ##
 ## The diagram's plain accessors (`get_department()`, `get_title()`,
 ## `get_description()`, `get_difficulty()`) are the exported properties

@@ -4,15 +4,19 @@ extends Resource
 @export var questions: Array[QuizQuestion]
 
 func get_question(department: Enums.Department, elo: float) -> QuizQuestion:
+	# Returns a minigame instance. If it could not find any mathchingminigame returns null.
 	var difficulty := _select_difficulty(elo)
 	var possible := Array()
 	
 	for q in questions:
 		if q.difficulty == difficulty and q.department == department:
 			possible.append(q)
+
+	if len(possible) == 0:
+		return null
 	
-	# ponytail: null when no question matches; today every department has all
-	# four difficulties, add a fallback if one ever lacks a level.
+	# ponytail: no fallback to another difficulty; every department has all four
+	# today, add one if a department ever lacks a level.
 	return possible.pick_random()
 
 
