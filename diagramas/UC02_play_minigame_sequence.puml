@@ -1,0 +1,131 @@
+@startuml UC02_play_minigame_sequence
+title UC-02: Play Minigame - Diagrama de secuencia
+
+skinparam shadowing false
+skinparam responseMessageBelowArrow true
+skinparam sequenceGroupBodyBackGroundColor transparent
+hide footbox
+
+actor "Player" as P
+
+box "Presentación" #F4F4F4
+  participant ":DepartmentView" as DV
+  participant ":SessionView" as SV
+end box
+
+box "Lógica" #EAF2FB
+  participant ":SessionOrchestrator" as SO
+  participant "current_minigame\n:Minigame" as MG
+  participant ":DepartmentManager" as DM
+  participant ":StatisticsTracker" as ST
+end box
+
+box "Datos (Resources)" #FBF6E6
+  participant ":ResultRecord" as RR
+  participant ":SaveData" as SD
+  participant ":PersistenceService" as PS
+end box
+
+note over P, SO
+  Precondición: el jugador ya seleccionó un departamento
+  en DepartmentView (UC-11.1), que determina los
+  minijuegos disponibles.
+end note
+
+== UC-02.1: Inicio de la sesión ==
+
+P -> DV : jugar
+DV -> DV : on_play_pressed()
+DV -> SV : open(department)
+SV -> SO ++ : start_session(department)
+
+== UC-02.2: Preparar la secuencia ==
+
+SO -> DM ++ : get_enabled_minigames(department)
+DM --> SO -- : minijuegos específicos
+SO -> SO : build_sequence()\n(específicos + generic_minigames)
+SO -> SO : state = ACTIVE\ncurrent_index = 0
+
+loop UC-02.7: mientras queden minijuegos en la secuencia
+
+  SO -> SO : launch_next()
+  SO -> DM ++ : get_elo(department)
+  DM --> SO -- : elo
+  SO -> MG ** : create_minigame(sequence[current_index])
+  SO ->> SV : «signal» minigame_started(minigame)
+  SV -> SV : show_minigame(minigame)
+  SO -> MG ++ : start(department, elo)
+
+  note right of MG
+    UC-02.3: el minijuego carga los conceptos
+    del departamento desde su pool
+    (p. ej. QuizPool en UC-07.1).
+  end note
+
+  ref over MG
+    UC-02.4: flujo propio del minijuego
+    (UC-03 a UC-10; Quiz: UC-07)
+  end ref
+
+  ref over SV, SO, MG
+    UC-02.4.a1: Pause Minigame (flujo alternativo)
+    pausa, reanudación y timeout de pausa.
+    Ver diagrama UC02_4a1_pause_minigame_sequence.
+  end ref
+
+  break UC-02.4.a2: el jugador sale de la sesión
+    P -> SV : salir
+    SV -> SV : on_exit_pressed()
+    SV -> SO : exit()
+    SO -> MG : abort()
+    note right of SO
+      Sin resultado para el resto de la
+      secuencia; continúa en UC-02.8 y solo
+      se guardan los minijuegos completados.
+    end note
+  end
+
+  MG ->> SO : «signal» finished(result)  (UC-02.5)
+  deactivate MG
+
+  SO -> SO : on_minigame_finished(result)\nresults.append(result)
+  SO -> DM ++ : update_elo(result)  (UC-02.6)
+  DM -> DM : compute_elo_delta(result)
+  DM --> SO --
+  SO -> ST ++ : register_result(result)
+  ST -> RR ** : «create»(result, timestamp)
+  ST --> SO --
+  SO -> SO : current_index += 1
+end
+
+== UC-02.8: Guardar el progreso ==
+
+SO -> SO : save_progress()
+SO -> DM ++ : get_all_states()
+DM --> SO -- : department_states
+SO -> ST ++ : get_history()
+ST --> SO -- : history
+SO -> SD ** : «create»(department_states, history)
+SO -> PS ++ : save_progress(data)
+PS --> SO -- : ok: bool
+
+alt UC-02.8.e1: fallo al guardar (ok = false)
+  SO ->> SV : «signal» save_failed()
+  SV -> SV : show_save_error()
+  SV -> P : informa el fallo al guardar
+end
+
+== UC-02.9: Fin de la sesión ==
+
+SO -> SO : end_session()\nstate = ENDED
+SO ->> SV : «signal» session_ended(department)
+deactivate SO
+SV -> SV : return_to_department(department)
+SV -> DV : select_department(department)
+ref over DV, ST
+  UC-11.2 / UC-11.3: vista general
+  del departamento, ya actualizada
+end ref
+DV -> P : muestra el departamento
+
+@enduml

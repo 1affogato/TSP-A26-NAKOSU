@@ -1,0 +1,70 @@
+@startuml UC02_4a1_pause_minigame_sequence
+title UC-02.4.a1: Pause Minigame - Diagrama de secuencia (flujo alternativo)
+
+skinparam shadowing false
+skinparam responseMessageBelowArrow true
+skinparam sequenceGroupBodyBackGroundColor transparent
+hide footbox
+
+actor "Player" as P
+
+box "Presentación" #F4F4F4
+  participant ":SessionView" as SV
+end box
+
+box "Lógica" #EAF2FB
+  participant ":SessionOrchestrator" as SO
+  participant "current_minigame\n:Minigame" as MG
+end box
+
+note over P, MG
+  Contexto: este flujo se desprende del loop principal
+  UC-02.7, justo después de UC-02.4 (el minijuego actual
+  ya fue lanzado por SessionOrchestrator y está en
+  ejecución). Ver el diagrama de secuencia general de
+  UC-02 para el flujo completo; ahí este bloque se
+  referencia con un «ref».
+end note
+
+== UC-02.4.a1: El jugador pausa ==
+
+P -> SV : pausa
+SV -> SV : on_pause_pressed()
+SV -> SO : pause()
+SO -> MG : pause()
+note right of MG : preserva su estado y queda\nen pausa (UC-02.4.a1.1 / a1.2)
+SO -> SO : state = PAUSED\ninicia pause_time_left
+SO ->> SV : «signal» paused()
+SV -> SV : show_pause_menu()
+
+...el minijuego queda en pausa esperando al jugador...
+
+alt UC-02.4.a1.3: el jugador reanuda a tiempo
+
+  P -> SV : reanuda
+  SV -> SV : on_resume_pressed()
+  SV -> SO : resume()
+  SO -> MG : resume()
+  note right of MG : restaura su estado\n(UC-02.4.a1.4)
+  SO -> SO : state = ACTIVE
+  SO ->> SV : «signal» resumed()
+  SV -> SV : hide_pause_menu()
+
+  note over SO
+    El flujo vuelve a UC-02.5, dentro del loop
+    principal de UC-02.7 (UC-02.4.a1.5).
+  end note
+
+else UC-02.4.a1.3.a1: la pausa supera pause_time_limit sin reanudar
+
+  SO -> SO : on_pause_timeout()
+  SO -> MG : abort()
+  note right of SO
+    Sin resultado para el resto de la
+    secuencia; la sesión termina y continúa
+    en UC-02.8 (guardado) y UC-02.9 (fin de sesión).
+  end note
+
+end
+
+@enduml
