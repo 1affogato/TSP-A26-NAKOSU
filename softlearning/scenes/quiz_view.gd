@@ -1,11 +1,85 @@
 extends Control
+## UC-07 view: the question with its timer (QuestionScreen) and, once it is
+## answered or the time runs out, the feedback (FeedbackScreen).
+##
+## Pause and exit belong to SessionView: this view has no pause button and only
+## asks to leave through `exit_requested`.
+##
+## ponytail: QuizMinigame (B5) doesn't exist yet. When it does, connect its
+## question_ready -> show_question, time_updated -> update_timer and
+## answered -> show_feedback, and make _on_confirm_pressed() call
+## minigame.answer(_response) instead of evaluating the answer here.
+
+## "Volver al Inicio" was pressed; SessionView decides how the session ends.
+signal exit_requested
+
+const DEPARTMENT_NAMES := {
+	Enums.Department.DATA_STRUCTURES: "Estructuras de datos",
+	Enums.Department.REQUIREMENTS: "Requerimientos",
+	Enums.Department.SOFTWARE_DEV: "Desarrollo de Software",
+	Enums.Department.CODING: "Programación",
+}
+
+var _question: QuizQuestion
+## Text of the selected option ("" while nothing is selected).
+var _response := ""
+## False when the feedback arrives before "Confirmar Respuesta": the time ran out.
+var _confirmed := false
 
 
-# Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	pass # Replace with function body.
+	%OptionA.button_group.pressed.connect(_highlight)
+	%HomeButton.pressed.connect(exit_requested.emit)
 
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass
+## UC-07.2
+func show_question(question: QuizQuestion) -> void:
+	_question = question
+	_confirmed = false
+	%DepartmentTag.text = DEPARTMENT_NAMES[question.department]
+	%TopicTag.text = question.title
+	%Question.text = question.description
+	var responses := question.get_possible_responses()
+	for i in %Options.get_child_count():
+		var option: Button = %Options.get_child(i)
+		option.text = responses[i]
+		option.button_pressed = false
+	_highlight(null)
+	$FeedbackScreen.hide()
+	$QuestionScreen.show()
+
+
+## UC-07.3
+func update_timer(time_left: float) -> void:
+	%TimeLeft.text = str(ceili(time_left))
+
+
+## UC-07.4, and UC-07.3.a1 when it arrives before the player confirmed.
+func show_feedback(is_correct: bool) -> void:
+	var tone := "Right" if is_correct else "Wrong"
+	%ResultBadge.theme_type_variation = tone + "Badge"
+	%ResultTitle.theme_type_variation = tone + "Title"
+	%ResultTitle.text = "Respuesta Correcta" if is_correct else "Respuesta Incorrecta"
+	%TimeoutBanner.visible = not _confirmed
+	%FeedbackQuestion.text = _question.description
+	%YourAnswer.theme_type_variation = tone + "Answer"
+	%YourAnswer.text = _response if _response else "Sin respuesta"
+	%CorrectRow.visible = not is_correct
+	%CorrectAnswer.text = _question.get_correct_response()
+	$QuestionScreen.hide()
+	$FeedbackScreen.show()
+
+
+## Selecting only highlights the option; nothing is answered until the player
+## presses "Confirmar Respuesta".
+func _highlight(selected: BaseButton) -> void:
+	_response = selected.text if selected else ""
+	%ConfirmButton.disabled = selected == null
+	for option in %Options.get_children():
+		option.get_node("Badge").theme_type_variation = &"BadgeOn" if option == selected else &"Badge"
+		option.get_node("Check").visible = option == selected
+
+
+func _on_confirm_pressed() -> void:
+	_confirmed = true
+	show_feedback(_question.is_correct_response(_response))

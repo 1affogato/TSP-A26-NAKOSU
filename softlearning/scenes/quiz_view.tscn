@@ -2,6 +2,8 @@
 
 [ext_resource type="Script" uid="uid://bxs03eilogy2i" path="res://scenes/quiz_view.gd" id="1_hfgs6"]
 
+[sub_resource type="ButtonGroup" id="ButtonGroup_options"]
+
 [node name="QuizView" type="Control" unique_id=1467361519]
 layout_mode = 3
 anchors_preset = 15
@@ -10,3 +12,399 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_hfgs6")
+
+[node name="QuestionScreen" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 160
+theme_override_constants/margin_top = 64
+theme_override_constants/margin_right = 160
+theme_override_constants/margin_bottom = 24
+
+[node name="Card" type="PanelContainer" parent="QuestionScreen"]
+layout_mode = 2
+theme_type_variation = &"Frame"
+
+[node name="Content" type="VBoxContainer" parent="QuestionScreen/Card"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Header" type="HBoxContainer" parent="QuestionScreen/Card/Content"]
+layout_mode = 2
+theme_override_constants/separation = 24
+
+[node name="DepartmentTag" type="Label" parent="QuestionScreen/Card/Content/Header"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"Tag"
+text = "Estructuras de datos"
+vertical_alignment = 1
+
+[node name="TopicTag" type="Label" parent="QuestionScreen/Card/Content/Header"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"Tag"
+text = "Búsqueda"
+vertical_alignment = 1
+
+[node name="Spacer" type="Control" parent="QuestionScreen/Card/Content/Header"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="TimeLeft" type="Label" parent="QuestionScreen/Card/Content/Header"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"TimerValue"
+text = "30"
+vertical_alignment = 1
+
+[node name="TimeUnit" type="Label" parent="QuestionScreen/Card/Content/Header"]
+layout_mode = 2
+theme_type_variation = &"Muted"
+theme_override_font_sizes/font_size = 13
+text = "seg"
+vertical_alignment = 1
+
+[node name="Question" type="Label" parent="QuestionScreen/Card/Content"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"QuestionText"
+text = "¿Cuál es la complejidad temporal de la búsqueda binaria en un arreglo ordenado?"
+autowrap_mode = 3
+
+[node name="TopSpacer" type="Control" parent="QuestionScreen/Card/Content"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Options" type="GridContainer" parent="QuestionScreen/Card/Content"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/h_separation = 16
+theme_override_constants/v_separation = 16
+columns = 2
+
+[node name="OptionA" type="Button" parent="QuestionScreen/Card/Content/Options"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"Option"
+toggle_mode = true
+button_group = SubResource("ButtonGroup_options")
+text = "O(log n) — Logarítmica"
+alignment = 0
+autowrap_mode = 3
+
+[node name="Badge" type="Label" parent="QuestionScreen/Card/Content/Options/OptionA"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 16.0
+offset_top = -18.0
+offset_right = 52.0
+offset_bottom = 18.0
+grow_vertical = 2
+theme_type_variation = &"Badge"
+text = "A"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Check" type="TextureRect" parent="QuestionScreen/Card/Content/Options/OptionA"]
+visible = false
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -36.0
+offset_top = -12.0
+offset_right = -12.0
+offset_bottom = 12.0
+grow_horizontal = 0
+grow_vertical = 2
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="OptionB" type="Button" parent="QuestionScreen/Card/Content/Options"]
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"Option"
+toggle_mode = true
+button_group = SubResource("ButtonGroup_options")
+text = "O(n) — Lineal"
+alignment = 0
+autowrap_mode = 3
+
+[node name="Badge" type="Label" parent="QuestionScreen/Card/Content/Options/OptionB"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 16.0
+offset_top = -18.0
+offset_right = 52.0
+offset_bottom = 18.0
+grow_vertical = 2
+theme_type_variation = &"Badge"
+text = "B"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Check" type="TextureRect" parent="QuestionScreen/Card/Content/Options/OptionB"]
+visible = false
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -36.0
+offset_top = -12.0
+offset_right = -12.0
+offset_bottom = 12.0
+grow_horizontal = 0
+grow_vertical = 2
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="OptionC" type="Button" parent="QuestionScreen/Card/Content/Options"]
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"Option"
+toggle_mode = true
+button_group = SubResource("ButtonGroup_options")
+text = "O(n²) — Cuadrática"
+alignment = 0
+autowrap_mode = 3
+
+[node name="Badge" type="Label" parent="QuestionScreen/Card/Content/Options/OptionC"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 16.0
+offset_top = -18.0
+offset_right = 52.0
+offset_bottom = 18.0
+grow_vertical = 2
+theme_type_variation = &"Badge"
+text = "C"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Check" type="TextureRect" parent="QuestionScreen/Card/Content/Options/OptionC"]
+visible = false
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -36.0
+offset_top = -12.0
+offset_right = -12.0
+offset_bottom = 12.0
+grow_horizontal = 0
+grow_vertical = 2
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="OptionD" type="Button" parent="QuestionScreen/Card/Content/Options"]
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"Option"
+toggle_mode = true
+button_group = SubResource("ButtonGroup_options")
+text = "O(1) — Constante"
+alignment = 0
+autowrap_mode = 3
+
+[node name="Badge" type="Label" parent="QuestionScreen/Card/Content/Options/OptionD"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 16.0
+offset_top = -18.0
+offset_right = 52.0
+offset_bottom = 18.0
+grow_vertical = 2
+theme_type_variation = &"Badge"
+text = "D"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Check" type="TextureRect" parent="QuestionScreen/Card/Content/Options/OptionD"]
+visible = false
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -36.0
+offset_top = -12.0
+offset_right = -12.0
+offset_bottom = 12.0
+grow_horizontal = 0
+grow_vertical = 2
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="ConfirmButton" type="Button" parent="QuestionScreen/Card/Content"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 8
+theme_type_variation = &"PrimaryButton"
+theme_override_font_sizes/font_size = 18
+disabled = true
+text = "Confirmar Respuesta"
+
+[node name="BottomSpacer" type="Control" parent="QuestionScreen/Card/Content"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 1.5
+
+[node name="FeedbackScreen" type="MarginContainer" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 200
+theme_override_constants/margin_top = 24
+theme_override_constants/margin_right = 200
+theme_override_constants/margin_bottom = 24
+
+[node name="Layout" type="VBoxContainer" parent="FeedbackScreen"]
+layout_mode = 2
+theme_override_constants/separation = 12
+alignment = 1
+
+[node name="ResultBadge" type="PanelContainer" parent="FeedbackScreen/Layout"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_type_variation = &"WrongBadge"
+
+[node name="Icon" type="TextureRect" parent="FeedbackScreen/Layout/ResultBadge"]
+layout_mode = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="ResultTitle" type="Label" parent="FeedbackScreen/Layout"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"WrongTitle"
+text = "Respuesta Incorrecta"
+horizontal_alignment = 1
+
+[node name="TimeoutBanner" type="Label" parent="FeedbackScreen/Layout"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+theme_type_variation = &"Banner"
+text = "¡El tiempo se agotó! La respuesta fue registrada como incorrecta."
+
+[node name="Card" type="PanelContainer" parent="FeedbackScreen/Layout"]
+layout_mode = 2
+theme_type_variation = &"Frame"
+
+[node name="Content" type="VBoxContainer" parent="FeedbackScreen/Layout/Card"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="QuestionNumber" type="Label" parent="FeedbackScreen/Layout/Card/Content"]
+layout_mode = 2
+theme_type_variation = &"Muted"
+theme_override_font_sizes/font_size = 13
+text = "Pregunta 4 de 10"
+
+[node name="FeedbackQuestion" type="Label" parent="FeedbackScreen/Layout/Card/Content"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"QuestionText"
+theme_override_font_sizes/font_size = 18
+text = "¿Cuál es la complejidad temporal de la búsqueda binaria en un arreglo ordenado?"
+autowrap_mode = 3
+
+[node name="TopSeparator" type="HSeparator" parent="FeedbackScreen/Layout/Card/Content"]
+layout_mode = 2
+
+[node name="YourRow" type="HBoxContainer" parent="FeedbackScreen/Layout/Card/Content"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Caption" type="Label" parent="FeedbackScreen/Layout/Card/Content/YourRow"]
+custom_minimum_size = Vector2(170, 0)
+layout_mode = 2
+theme_type_variation = &"Muted"
+text = "Tu respuesta:"
+vertical_alignment = 1
+
+[node name="YourAnswer" type="Label" parent="FeedbackScreen/Layout/Card/Content/YourRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"WrongAnswer"
+text = "O(n) — Lineal"
+autowrap_mode = 3
+
+[node name="CorrectRow" type="HBoxContainer" parent="FeedbackScreen/Layout/Card/Content"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Caption" type="Label" parent="FeedbackScreen/Layout/Card/Content/CorrectRow"]
+custom_minimum_size = Vector2(170, 0)
+layout_mode = 2
+theme_type_variation = &"Muted"
+text = "Respuesta correcta:"
+vertical_alignment = 1
+
+[node name="CorrectAnswer" type="Label" parent="FeedbackScreen/Layout/Card/Content/CorrectRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"RightAnswer"
+text = "O(log n) — Logarítmica"
+autowrap_mode = 3
+
+[node name="BottomSeparator" type="HSeparator" parent="FeedbackScreen/Layout/Card/Content"]
+layout_mode = 2
+
+[node name="Actions" type="HBoxContainer" parent="FeedbackScreen/Layout"]
+layout_mode = 2
+theme_override_constants/separation = 96
+alignment = 1
+
+[node name="HomeButton" type="LinkButton" parent="FeedbackScreen/Layout/Actions"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "Volver al Inicio"
+underline = 1
+
+[node name="NextButton" type="LinkButton" parent="FeedbackScreen/Layout/Actions"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "Siguiente Pregunta →"
+underline = 1
+
+[connection signal="pressed" from="QuestionScreen/Card/Content/ConfirmButton" to="." method="_on_confirm_pressed"]

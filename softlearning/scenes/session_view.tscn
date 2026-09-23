@@ -1,10 +1,131 @@
 [gd_scene format=3 uid="uid://rfh4u5qcb7a7"]
 
+[ext_resource type="Script" uid="uid://bsmkaoutx07a" path="res://scenes/session_view.gd" id="1_session"]
 [ext_resource type="PackedScene" uid="uid://besce3rt1g7ew" path="res://scenes/quiz_view.tscn" id="1_l4x0j"]
 
 [node name="SessionView" type="Control" unique_id=1506321855]
 layout_mode = 3
-anchors_preset = 0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_session")
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.937, 0.957, 0.996, 1)
 
 [node name="QuizView" parent="." unique_id=1467361519 instance=ExtResource("1_l4x0j")]
 layout_mode = 1
+
+[node name="SessionProgress" type="ProgressBar" parent="."]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_left = 160.0
+offset_top = 28.0
+offset_right = -160.0
+offset_bottom = 36.0
+grow_horizontal = 2
+value = 35.0
+show_percentage = false
+
+[node name="PauseButton" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -72.0
+offset_top = 12.0
+offset_right = -24.0
+offset_bottom = 60.0
+grow_horizontal = 0
+theme_type_variation = &"RoundButton"
+text = "II"
+
+[node name="PauseMenu" type="ColorRect" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.937, 0.957, 0.996, 1)
+
+[node name="Center" type="CenterContainer" parent="PauseMenu"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Buttons" type="VBoxContainer" parent="PauseMenu/Center"]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="ResumeButton" type="Button" parent="PauseMenu/Center/Buttons"]
+custom_minimum_size = Vector2(300, 60)
+layout_mode = 2
+theme_type_variation = &"PrimaryButton"
+text = "Reanudar"
+
+[node name="ExitButton" type="Button" parent="PauseMenu/Center/Buttons"]
+custom_minimum_size = Vector2(300, 60)
+layout_mode = 2
+theme_type_variation = &"PrimaryButton"
+text = "Salir"
+
+[node name="SaveError" type="ColorRect" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.937, 0.957, 0.996, 1)
+
+[node name="Center" type="CenterContainer" parent="SaveError"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Layout" type="VBoxContainer" parent="SaveError/Center"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="MessagePanel" type="PanelContainer" parent="SaveError/Center/Layout"]
+custom_minimum_size = Vector2(380, 100)
+layout_mode = 2
+theme_type_variation = &"Frame"
+
+[node name="Message" type="Label" parent="SaveError/Center/Layout/MessagePanel"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "Ha ocurrido un error al guardar tu progreso :("
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="BackButton" type="Button" parent="SaveError/Center/Layout"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_type_variation = &"PrimaryButton"
+theme_override_font_sizes/font_size = 18
+text = "Volver a departamentos"
+
+[connection signal="exit_requested" from="QuizView" to="." method="return_to_department"]
+[connection signal="pressed" from="PauseButton" to="." method="show_pause_menu"]
+[connection signal="pressed" from="PauseMenu/Center/Buttons/ResumeButton" to="." method="hide_pause_menu"]
+[connection signal="pressed" from="PauseMenu/Center/Buttons/ExitButton" to="." method="return_to_department"]
+[connection signal="pressed" from="SaveError/Center/Layout/BackButton" to="." method="return_to_department"]
