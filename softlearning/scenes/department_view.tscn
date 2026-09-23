@@ -1,6 +1,8 @@
 [gd_scene format=3 uid="uid://78e4wubj2606"]
 
 [ext_resource type="Script" uid="uid://upduy6d8dwwb" path="res://scenes/department_view.gd" id="1_view"]
+[ext_resource type="Texture2D" uid="uid://7bo76d4ubny8" path="res://assets/Edificio.png" id="2_1q1em"]
+[ext_resource type="Texture2D" uid="uid://bw2h16yj7xt3q" path="res://assets/requirements view.png" id="3_0vi2h"]
 
 [node name="DepartmentView" type="Control" unique_id=1199039438]
 layout_mode = 3
@@ -11,7 +13,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_view")
 
-[node name="Background" type="ColorRect" parent="."]
+[node name="Background" type="ColorRect" parent="." unique_id=1004052053]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -20,7 +22,7 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.973, 0.98, 0.988, 1)
 
-[node name="SelectScreen" type="MarginContainer" parent="."]
+[node name="SelectScreen" type="MarginContainer" parent="." unique_id=2064923785]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -32,48 +34,49 @@ theme_override_constants/margin_top = 32
 theme_override_constants/margin_right = 32
 theme_override_constants/margin_bottom = 32
 
-[node name="Layout" type="VBoxContainer" parent="SelectScreen"]
+[node name="Layout" type="VBoxContainer" parent="SelectScreen" unique_id=265778423]
 layout_mode = 2
 theme_override_constants/separation = 8
 
-[node name="Title" type="Label" parent="SelectScreen/Layout"]
+[node name="Title" type="Label" parent="SelectScreen/Layout" unique_id=1370845772]
 layout_mode = 2
 theme_type_variation = &"Title"
 text = "Seleccionar departamento"
 horizontal_alignment = 1
 
-[node name="Subtitle" type="Label" parent="SelectScreen/Layout"]
+[node name="Subtitle" type="Label" parent="SelectScreen/Layout" unique_id=159075312]
 layout_mode = 2
 theme_type_variation = &"Muted"
 text = "Elige un departamento para consultar sus estadísticas detalladas."
 horizontal_alignment = 1
 
-[node name="Body" type="HBoxContainer" parent="SelectScreen/Layout"]
+[node name="Body" type="HBoxContainer" parent="SelectScreen/Layout" unique_id=1184303589]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_constants/separation = 32
 alignment = 1
 
-[node name="BuildingImage" type="TextureRect" parent="SelectScreen/Layout/Body"]
+[node name="BuildingImage" type="TextureRect" parent="SelectScreen/Layout/Body" unique_id=1728476427]
 custom_minimum_size = Vector2(520, 0)
 layout_mode = 2
+texture = ExtResource("2_1q1em")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="Floors" type="VBoxContainer" parent="SelectScreen/Layout/Body"]
+[node name="Floors" type="VBoxContainer" parent="SelectScreen/Layout/Body" unique_id=767504387]
 custom_minimum_size = Vector2(320, 0)
 layout_mode = 2
 size_flags_vertical = 4
 theme_override_constants/separation = 20
 
-[node name="Floor4" type="Button" parent="SelectScreen/Layout/Body/Floors"]
+[node name="Floor4" type="Button" parent="SelectScreen/Layout/Body/Floors" unique_id=1892738509]
 custom_minimum_size = Vector2(0, 72)
 layout_mode = 2
 theme_type_variation = &"FloorButton"
 text = "Piso 4 - Desarrollo de Software"
 alignment = 0
 
-[node name="Progress" type="ProgressBar" parent="SelectScreen/Layout/Body/Floors/Floor4"]
+[node name="Progress" type="ProgressBar" parent="SelectScreen/Layout/Body/Floors/Floor4" unique_id=1098600026]
 layout_mode = 1
 anchors_preset = 12
 anchor_top = 1.0
@@ -89,14 +92,14 @@ mouse_filter = 2
 value = 70.0
 show_percentage = false
 
-[node name="Floor3" type="Button" parent="SelectScreen/Layout/Body/Floors"]
+[node name="Floor3" type="Button" parent="SelectScreen/Layout/Body/Floors" unique_id=758295633]
 custom_minimum_size = Vector2(0, 72)
 layout_mode = 2
 theme_type_variation = &"FloorButton"
 text = "Piso 3 - Programación"
 alignment = 0
 
-[node name="Progress" type="ProgressBar" parent="SelectScreen/Layout/Body/Floors/Floor3"]
+[node name="Progress" type="ProgressBar" parent="SelectScreen/Layout/Body/Floors/Floor3" unique_id=360519212]
 layout_mode = 1
 anchors_preset = 12
 anchor_top = 1.0
@@ -112,14 +115,14 @@ mouse_filter = 2
 value = 70.0
 show_percentage = false
 
-[node name="Floor2" type="Button" parent="SelectScreen/Layout/Body/Floors"]
+[node name="Floor2" type="Button" parent="SelectScreen/Layout/Body/Floors" unique_id=441022060]
 custom_minimum_size = Vector2(0, 72)
 layout_mode = 2
 theme_type_variation = &"FloorButton"
 text = "Piso 2 - Estructuras de datos"
 alignment = 0
 
-[node name="Progress" type="ProgressBar" parent="SelectScreen/Layout/Body/Floors/Floor2"]
+[node name="Progress" type="ProgressBar" parent="SelectScreen/Layout/Body/Floors/Floor2" unique_id=1394685444]
 layout_mode = 1
 anchors_preset = 12
 anchor_top = 1.0
@@ -135,14 +138,14 @@ mouse_filter = 2
 value = 70.0
 show_percentage = false
 
-[node name="Floor1" type="Button" parent="SelectScreen/Layout/Body/Floors"]
+[node name="Floor1" type="Button" parent="SelectScreen/Layout/Body/Floors" unique_id=1309298391]
 custom_minimum_size = Vector2(0, 72)
 layout_mode = 2
 theme_type_variation = &"FloorButton"
 text = "Piso 1 - Requerimientos"
 alignment = 0
 
-[node name="Progress" type="ProgressBar" parent="SelectScreen/Layout/Body/Floors/Floor1"]
+[node name="Progress" type="ProgressBar" parent="SelectScreen/Layout/Body/Floors/Floor1" unique_id=620453615]
 layout_mode = 1
 anchors_preset = 12
 anchor_top = 1.0
@@ -158,7 +161,7 @@ mouse_filter = 2
 value = 70.0
 show_percentage = false
 
-[node name="DetailScreen" type="MarginContainer" parent="."]
+[node name="DetailScreen" type="MarginContainer" parent="." unique_id=1245826137]
 visible = false
 layout_mode = 1
 anchors_preset = 15
@@ -171,196 +174,197 @@ theme_override_constants/margin_top = 32
 theme_override_constants/margin_right = 32
 theme_override_constants/margin_bottom = 32
 
-[node name="Layout" type="VBoxContainer" parent="DetailScreen"]
+[node name="Layout" type="VBoxContainer" parent="DetailScreen" unique_id=432589298]
 layout_mode = 2
 theme_override_constants/separation = 20
 
-[node name="TopRow" type="HBoxContainer" parent="DetailScreen/Layout"]
+[node name="TopRow" type="HBoxContainer" parent="DetailScreen/Layout" unique_id=533626187]
 layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 1.2
 theme_override_constants/separation = 20
 
-[node name="InfoPanel" type="PanelContainer" parent="DetailScreen/Layout/TopRow"]
+[node name="InfoPanel" type="PanelContainer" parent="DetailScreen/Layout/TopRow" unique_id=826796537]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 3.0
 theme_type_variation = &"Frame"
 
-[node name="Content" type="VBoxContainer" parent="DetailScreen/Layout/TopRow/InfoPanel"]
+[node name="Content" type="VBoxContainer" parent="DetailScreen/Layout/TopRow/InfoPanel" unique_id=4289295]
 layout_mode = 2
 theme_override_constants/separation = 12
 
-[node name="BackButton" type="LinkButton" parent="DetailScreen/Layout/TopRow/InfoPanel/Content"]
+[node name="BackButton" type="LinkButton" parent="DetailScreen/Layout/TopRow/InfoPanel/Content" unique_id=366178560]
 layout_mode = 2
 size_flags_horizontal = 0
 text = "← Cambiar departamento"
 underline = 1
 
-[node name="Header" type="HBoxContainer" parent="DetailScreen/Layout/TopRow/InfoPanel/Content"]
+[node name="Header" type="HBoxContainer" parent="DetailScreen/Layout/TopRow/InfoPanel/Content" unique_id=386650975]
 layout_mode = 2
 theme_override_constants/separation = 16
 
-[node name="DeptIcon" type="TextureRect" parent="DetailScreen/Layout/TopRow/InfoPanel/Content/Header"]
+[node name="DeptIcon" type="TextureRect" parent="DetailScreen/Layout/TopRow/InfoPanel/Content/Header" unique_id=1972820130]
 custom_minimum_size = Vector2(56, 56)
 layout_mode = 2
 size_flags_vertical = 4
 expand_mode = 1
 stretch_mode = 5
 
-[node name="Texts" type="VBoxContainer" parent="DetailScreen/Layout/TopRow/InfoPanel/Content/Header"]
+[node name="Texts" type="VBoxContainer" parent="DetailScreen/Layout/TopRow/InfoPanel/Content/Header" unique_id=857631349]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 0
 
-[node name="DeptName" type="Label" parent="DetailScreen/Layout/TopRow/InfoPanel/Content/Header/Texts"]
+[node name="DeptName" type="Label" parent="DetailScreen/Layout/TopRow/InfoPanel/Content/Header/Texts" unique_id=146703998]
 layout_mode = 2
 theme_type_variation = &"Title"
 text = "Requerimientos"
 
-[node name="DeptDescription" type="Label" parent="DetailScreen/Layout/TopRow/InfoPanel/Content/Header/Texts"]
+[node name="DeptDescription" type="Label" parent="DetailScreen/Layout/TopRow/InfoPanel/Content/Header/Texts" unique_id=41238730]
 layout_mode = 2
 theme_type_variation = &"Muted"
 text = "¿El cliente pidió una app rápida y bonita? Tranquilo, aquí hablamos ese idioma y lo traducimos a criterios de aceptación."
 autowrap_mode = 3
 
-[node name="Separator" type="HSeparator" parent="DetailScreen/Layout/TopRow/InfoPanel/Content"]
+[node name="Separator" type="HSeparator" parent="DetailScreen/Layout/TopRow/InfoPanel/Content" unique_id=415564371]
 layout_mode = 2
 
-[node name="StatCards" type="HBoxContainer" parent="DetailScreen/Layout/TopRow/InfoPanel/Content"]
+[node name="StatCards" type="HBoxContainer" parent="DetailScreen/Layout/TopRow/InfoPanel/Content" unique_id=776356376]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_constants/separation = 16
 
-[node name="PlayedCard" type="PanelContainer" parent="DetailScreen/Layout/TopRow/InfoPanel/Content/StatCards"]
+[node name="PlayedCard" type="PanelContainer" parent="DetailScreen/Layout/TopRow/InfoPanel/Content/StatCards" unique_id=826527872]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_type_variation = &"Card"
 
-[node name="Content" type="VBoxContainer" parent="DetailScreen/Layout/TopRow/InfoPanel/Content/StatCards/PlayedCard"]
+[node name="Content" type="VBoxContainer" parent="DetailScreen/Layout/TopRow/InfoPanel/Content/StatCards/PlayedCard" unique_id=430280283]
 layout_mode = 2
 theme_override_constants/separation = 4
 alignment = 1
 
-[node name="Icon" type="TextureRect" parent="DetailScreen/Layout/TopRow/InfoPanel/Content/StatCards/PlayedCard/Content"]
+[node name="Icon" type="TextureRect" parent="DetailScreen/Layout/TopRow/InfoPanel/Content/StatCards/PlayedCard/Content" unique_id=418702239]
 custom_minimum_size = Vector2(0, 36)
 layout_mode = 2
 expand_mode = 1
 stretch_mode = 5
 
-[node name="Value" type="Label" parent="DetailScreen/Layout/TopRow/InfoPanel/Content/StatCards/PlayedCard/Content"]
+[node name="Value" type="Label" parent="DetailScreen/Layout/TopRow/InfoPanel/Content/StatCards/PlayedCard/Content" unique_id=259682722]
 layout_mode = 2
 theme_type_variation = &"Value"
 text = "100"
 horizontal_alignment = 1
 
-[node name="Caption" type="Label" parent="DetailScreen/Layout/TopRow/InfoPanel/Content/StatCards/PlayedCard/Content"]
+[node name="Caption" type="Label" parent="DetailScreen/Layout/TopRow/InfoPanel/Content/StatCards/PlayedCard/Content" unique_id=1221662313]
 layout_mode = 2
 theme_type_variation = &"Muted"
 text = "Total de jugados"
 horizontal_alignment = 1
 
-[node name="WinsCard" type="PanelContainer" parent="DetailScreen/Layout/TopRow/InfoPanel/Content/StatCards"]
+[node name="WinsCard" type="PanelContainer" parent="DetailScreen/Layout/TopRow/InfoPanel/Content/StatCards" unique_id=406309686]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_type_variation = &"Card"
 
-[node name="Content" type="VBoxContainer" parent="DetailScreen/Layout/TopRow/InfoPanel/Content/StatCards/WinsCard"]
+[node name="Content" type="VBoxContainer" parent="DetailScreen/Layout/TopRow/InfoPanel/Content/StatCards/WinsCard" unique_id=1325760731]
 layout_mode = 2
 theme_override_constants/separation = 4
 alignment = 1
 
-[node name="Icon" type="TextureRect" parent="DetailScreen/Layout/TopRow/InfoPanel/Content/StatCards/WinsCard/Content"]
+[node name="Icon" type="TextureRect" parent="DetailScreen/Layout/TopRow/InfoPanel/Content/StatCards/WinsCard/Content" unique_id=645949425]
 custom_minimum_size = Vector2(0, 36)
 layout_mode = 2
 expand_mode = 1
 stretch_mode = 5
 
-[node name="Value" type="Label" parent="DetailScreen/Layout/TopRow/InfoPanel/Content/StatCards/WinsCard/Content"]
+[node name="Value" type="Label" parent="DetailScreen/Layout/TopRow/InfoPanel/Content/StatCards/WinsCard/Content" unique_id=1115645432]
 layout_mode = 2
 theme_type_variation = &"Value"
 text = "50"
 horizontal_alignment = 1
 
-[node name="Caption" type="Label" parent="DetailScreen/Layout/TopRow/InfoPanel/Content/StatCards/WinsCard/Content"]
+[node name="Caption" type="Label" parent="DetailScreen/Layout/TopRow/InfoPanel/Content/StatCards/WinsCard/Content" unique_id=260449585]
 layout_mode = 2
 theme_type_variation = &"Muted"
 text = "Total de aciertos"
 horizontal_alignment = 1
 
-[node name="EloCard" type="PanelContainer" parent="DetailScreen/Layout/TopRow/InfoPanel/Content/StatCards"]
+[node name="EloCard" type="PanelContainer" parent="DetailScreen/Layout/TopRow/InfoPanel/Content/StatCards" unique_id=2135989250]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_type_variation = &"Card"
 
-[node name="Content" type="VBoxContainer" parent="DetailScreen/Layout/TopRow/InfoPanel/Content/StatCards/EloCard"]
+[node name="Content" type="VBoxContainer" parent="DetailScreen/Layout/TopRow/InfoPanel/Content/StatCards/EloCard" unique_id=273769172]
 layout_mode = 2
 theme_override_constants/separation = 4
 alignment = 1
 
-[node name="Icon" type="TextureRect" parent="DetailScreen/Layout/TopRow/InfoPanel/Content/StatCards/EloCard/Content"]
+[node name="Icon" type="TextureRect" parent="DetailScreen/Layout/TopRow/InfoPanel/Content/StatCards/EloCard/Content" unique_id=538287301]
 custom_minimum_size = Vector2(0, 36)
 layout_mode = 2
 expand_mode = 1
 stretch_mode = 5
 
-[node name="Value" type="Label" parent="DetailScreen/Layout/TopRow/InfoPanel/Content/StatCards/EloCard/Content"]
+[node name="Value" type="Label" parent="DetailScreen/Layout/TopRow/InfoPanel/Content/StatCards/EloCard/Content" unique_id=1662355009]
 layout_mode = 2
 theme_type_variation = &"Value"
 text = "900"
 horizontal_alignment = 1
 
-[node name="Caption" type="Label" parent="DetailScreen/Layout/TopRow/InfoPanel/Content/StatCards/EloCard/Content"]
+[node name="Caption" type="Label" parent="DetailScreen/Layout/TopRow/InfoPanel/Content/StatCards/EloCard/Content" unique_id=2077631982]
 layout_mode = 2
 theme_type_variation = &"Muted"
 text = "ELO"
 horizontal_alignment = 1
 
-[node name="Actions" type="VBoxContainer" parent="DetailScreen/Layout/TopRow"]
+[node name="Actions" type="VBoxContainer" parent="DetailScreen/Layout/TopRow" unique_id=963788805]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 24
 
-[node name="StartButton" type="Button" parent="DetailScreen/Layout/TopRow/Actions"]
+[node name="StartButton" type="Button" parent="DetailScreen/Layout/TopRow/Actions" unique_id=1756261379]
 layout_mode = 2
 size_flags_vertical = 3
 theme_type_variation = &"PrimaryButton"
 text = "Comenzar Partida"
 icon_alignment = 2
 
-[node name="LevelUpButton" type="Button" parent="DetailScreen/Layout/TopRow/Actions"]
+[node name="LevelUpButton" type="Button" parent="DetailScreen/Layout/TopRow/Actions" unique_id=1241245536]
 custom_minimum_size = Vector2(0, 56)
 layout_mode = 2
 theme_type_variation = &"PrimaryButton"
 disabled = true
 text = "Subir nivel"
 
-[node name="BottomRow" type="HBoxContainer" parent="DetailScreen/Layout"]
+[node name="BottomRow" type="HBoxContainer" parent="DetailScreen/Layout" unique_id=1811442281]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_constants/separation = 20
 
-[node name="OfficeImage" type="TextureRect" parent="DetailScreen/Layout/BottomRow"]
+[node name="OfficeImage" type="TextureRect" parent="DetailScreen/Layout/BottomRow" unique_id=600605949]
 layout_mode = 2
 size_flags_horizontal = 3
+texture = ExtResource("3_0vi2h")
 expand_mode = 1
 stretch_mode = 6
 
-[node name="StatsPanel" type="PanelContainer" parent="DetailScreen/Layout/BottomRow"]
+[node name="StatsPanel" type="PanelContainer" parent="DetailScreen/Layout/BottomRow" unique_id=2051019048]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 1.5
 theme_type_variation = &"StatsPanel"
 
-[node name="Content" type="VBoxContainer" parent="DetailScreen/Layout/BottomRow/StatsPanel"]
+[node name="Content" type="VBoxContainer" parent="DetailScreen/Layout/BottomRow/StatsPanel" unique_id=2084424937]
 layout_mode = 2
 theme_override_constants/separation = 12
 
-[node name="Tabs" type="HBoxContainer" parent="DetailScreen/Layout/BottomRow/StatsPanel/Content"]
+[node name="Tabs" type="HBoxContainer" parent="DetailScreen/Layout/BottomRow/StatsPanel/Content" unique_id=1727383857]
 layout_mode = 2
 theme_override_constants/separation = 16
 
-[node name="ByMinigameTab" type="Label" parent="DetailScreen/Layout/BottomRow/StatsPanel/Content/Tabs"]
+[node name="ByMinigameTab" type="Label" parent="DetailScreen/Layout/BottomRow/StatsPanel/Content/Tabs" unique_id=1731631072]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_type_variation = &"Tab"
@@ -368,7 +372,7 @@ text = "Estadísticas por minijuego"
 horizontal_alignment = 1
 autowrap_mode = 3
 
-[node name="ByDifficultyTab" type="Label" parent="DetailScreen/Layout/BottomRow/StatsPanel/Content/Tabs"]
+[node name="ByDifficultyTab" type="Label" parent="DetailScreen/Layout/BottomRow/StatsPanel/Content/Tabs" unique_id=1650632620]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_type_variation = &"Tab"
@@ -376,7 +380,7 @@ text = "Estadísticas por dificultad"
 horizontal_alignment = 1
 autowrap_mode = 3
 
-[node name="HistoryTab" type="Label" parent="DetailScreen/Layout/BottomRow/StatsPanel/Content/Tabs"]
+[node name="HistoryTab" type="Label" parent="DetailScreen/Layout/BottomRow/StatsPanel/Content/Tabs" unique_id=512788328]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_type_variation = &"Tab"
@@ -384,35 +388,35 @@ text = "Tu histórico"
 horizontal_alignment = 1
 autowrap_mode = 3
 
-[node name="Scroll" type="ScrollContainer" parent="DetailScreen/Layout/BottomRow/StatsPanel/Content"]
+[node name="Scroll" type="ScrollContainer" parent="DetailScreen/Layout/BottomRow/StatsPanel/Content" unique_id=404315680]
 layout_mode = 2
 size_flags_vertical = 3
 horizontal_scroll_mode = 0
 
-[node name="Columns" type="HBoxContainer" parent="DetailScreen/Layout/BottomRow/StatsPanel/Content/Scroll"]
+[node name="Columns" type="HBoxContainer" parent="DetailScreen/Layout/BottomRow/StatsPanel/Content/Scroll" unique_id=1308377214]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 16
 
-[node name="ByMinigame" type="VBoxContainer" parent="DetailScreen/Layout/BottomRow/StatsPanel/Content/Scroll/Columns"]
+[node name="ByMinigame" type="VBoxContainer" parent="DetailScreen/Layout/BottomRow/StatsPanel/Content/Scroll/Columns" unique_id=454064261]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 8
 
-[node name="Quiz" type="PanelContainer" parent="DetailScreen/Layout/BottomRow/StatsPanel/Content/Scroll/Columns/ByMinigame"]
+[node name="Quiz" type="PanelContainer" parent="DetailScreen/Layout/BottomRow/StatsPanel/Content/Scroll/Columns/ByMinigame" unique_id=1965102355]
 layout_mode = 2
 theme_type_variation = &"StatRow"
 
-[node name="Row" type="HBoxContainer" parent="DetailScreen/Layout/BottomRow/StatsPanel/Content/Scroll/Columns/ByMinigame/Quiz"]
+[node name="Row" type="HBoxContainer" parent="DetailScreen/Layout/BottomRow/StatsPanel/Content/Scroll/Columns/ByMinigame/Quiz" unique_id=748613959]
 layout_mode = 2
 
-[node name="Icon" type="TextureRect" parent="DetailScreen/Layout/BottomRow/StatsPanel/Content/Scroll/Columns/ByMinigame/Quiz/Row"]
+[node name="Icon" type="TextureRect" parent="DetailScreen/Layout/BottomRow/StatsPanel/Content/Scroll/Columns/ByMinigame/Quiz/Row" unique_id=948109038]
 custom_minimum_size = Vector2(32, 24)
 layout_mode = 2
 expand_mode = 1
 stretch_mode = 5
 
-[node name="Text" type="Label" parent="DetailScreen/Layout/BottomRow/StatsPanel/Content/Scroll/Columns/ByMinigame/Quiz/Row"]
+[node name="Text" type="Label" parent="DetailScreen/Layout/BottomRow/StatsPanel/Content/Scroll/Columns/ByMinigame/Quiz/Row" unique_id=1461402975]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_type_variation = &"RowLabel"
@@ -420,20 +424,20 @@ text = "100
 quizes jugados"
 horizontal_alignment = 1
 
-[node name="Swipe" type="PanelContainer" parent="DetailScreen/Layout/BottomRow/StatsPanel/Content/Scroll/Columns/ByMinigame"]
+[node name="Swipe" type="PanelContainer" parent="DetailScreen/Layout/BottomRow/StatsPanel/Content/Scroll/Columns/ByMinigame" unique_id=615151408]
 layout_mode = 2
 theme_type_variation = &"StatRow"
 
-[node name="Row" type="HBoxContainer" parent="DetailScreen/Layout/BottomRow/StatsPanel/Content/Scroll/Columns/ByMinigame/Swipe"]
+[node name="Row" type="HBoxContainer" parent="DetailScreen/Layout/BottomRow/StatsPanel/Content/Scroll/Columns/ByMinigame/Swipe" unique_id=1069023374]
 layout_mode = 2
 
-[node name="Icon" type="TextureRect" parent="DetailScreen/Layout/BottomRow/StatsPanel/Content/Scroll/Columns/ByMinigame/Swipe/Row"]
+[node name="Icon" type="TextureRect" parent="DetailScreen/Layout/BottomRow/StatsPanel/Content/Scroll/Columns/ByMinigame/Swipe/Row" unique_id=243384831]
 custom_minimum_size = Vector2(32, 24)
 layout_mode = 2
 expand_mode = 1
 stretch_mode = 5
 
-[node name="Text" type="Label" parent="DetailScreen/Layout/BottomRow/StatsPanel/Content/Scroll/Columns/ByMinigame/Swipe/Row"]
+[node name="Text" type="Label" parent="DetailScreen/Layout/BottomRow/StatsPanel/Content/Scroll/Columns/ByMinigame/Swipe/Row" unique_id=1068589417]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_type_variation = &"RowLabel"
@@ -441,20 +445,20 @@ text = "100
 swipe jugados"
 horizontal_alignment = 1
 
-[node name="General3" type="PanelContainer" parent="DetailScreen/Layout/BottomRow/StatsPanel/Content/Scroll/Columns/ByMinigame"]
+[node name="General3" type="PanelContainer" parent="DetailScreen/Layout/BottomRow/StatsPanel/Content/Scroll/Columns/ByMinigame" unique_id=319070763]
 layout_mode = 2
 theme_type_variation = &"StatRow"
 
-[node name="Row" type="HBoxContainer" parent="DetailScreen/Layout/BottomRow/StatsPanel/Content/Scroll/Columns/ByMinigame/General3"]
+[node name="Row" type="HBoxContainer" parent="DetailScreen/Layout/BottomRow/StatsPanel/Content/Scroll/Columns/ByMinigame/General3" unique_id=806347088]
 layout_mode = 2
 
-[node name="Icon" type="TextureRect" parent="DetailScreen/Layout/BottomRow/StatsPanel/Content/Scroll/Columns/ByMinigame/General3/Row"]
+[node name="Icon" type="TextureRect" parent="DetailScreen/Layout/BottomRow/StatsPanel/Content/Scroll/Columns/ByMinigame/General3/Row" unique_id=1427458018]
 custom_minimum_size = Vector2(32, 24)
 layout_mode = 2
 expand_mode = 1
 stretch_mode = 5
 
-[node name="Text" type="Label" parent="DetailScreen/Layout/BottomRow/StatsPanel/Content/Scroll/Columns/ByMinigame/General3/Row"]
+[node name="Text" type="Label" parent="DetailScreen/Layout/BottomRow/StatsPanel/Content/Scroll/Columns/ByMinigame/General3/Row" unique_id=316819348]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_type_variation = &"RowLabel"
@@ -462,20 +466,20 @@ text = "100
 General #3 jugados"
 horizontal_alignment = 1
 
-[node name="General4" type="PanelContainer" parent="DetailScreen/Layout/BottomRow/StatsPanel/Content/Scroll/Columns/ByMinigame"]
+[node name="General4" type="PanelContainer" parent="DetailScreen/Layout/BottomRow/StatsPanel/Content/Scroll/Columns/ByMinigame" unique_id=1381558721]
 layout_mode = 2
 theme_type_variation = &"StatRow"
 
-[node name="Row" type="HBoxContainer" parent="DetailScreen/Layout/BottomRow/StatsPanel/Content/Scroll/Columns/ByMinigame/General4"]
+[node name="Row" type="HBoxContainer" parent="DetailScreen/Layout/BottomRow/StatsPanel/Content/Scroll/Columns/ByMinigame/General4" unique_id=1470251262]
 layout_mode = 2
 
-[node name="Icon" type="TextureRect" parent="DetailScreen/Layout/BottomRow/StatsPanel/Content/Scroll/Columns/ByMinigame/General4/Row"]
+[node name="Icon" type="TextureRect" parent="DetailScreen/Layout/BottomRow/StatsPanel/Content/Scroll/Columns/ByMinigame/General4/Row" unique_id=1584790171]
 custom_minimum_size = Vector2(32, 24)
 layout_mode = 2
 expand_mode = 1
 stretch_mode = 5
 
-[node name="Text" type="Label" parent="DetailScreen/Layout/BottomRow/StatsPanel/Content/Scroll/Columns/ByMinigame/General4/Row"]
+[node name="Text" type="Label" parent="DetailScreen/Layout/BottomRow/StatsPanel/Content/Scroll/Columns/ByMinigame/General4/Row" unique_id=1464083392]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_type_variation = &"RowLabel"
@@ -483,25 +487,25 @@ text = "100
 General #4 jugados"
 horizontal_alignment = 1
 
-[node name="ByDifficulty" type="VBoxContainer" parent="DetailScreen/Layout/BottomRow/StatsPanel/Content/Scroll/Columns"]
+[node name="ByDifficulty" type="VBoxContainer" parent="DetailScreen/Layout/BottomRow/StatsPanel/Content/Scroll/Columns" unique_id=2122825982]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 8
 
-[node name="Facil" type="PanelContainer" parent="DetailScreen/Layout/BottomRow/StatsPanel/Content/Scroll/Columns/ByDifficulty"]
+[node name="Facil" type="PanelContainer" parent="DetailScreen/Layout/BottomRow/StatsPanel/Content/Scroll/Columns/ByDifficulty" unique_id=617318416]
 layout_mode = 2
 theme_type_variation = &"StatRow"
 
-[node name="Row" type="HBoxContainer" parent="DetailScreen/Layout/BottomRow/StatsPanel/Content/Scroll/Columns/ByDifficulty/Facil"]
+[node name="Row" type="HBoxContainer" parent="DetailScreen/Layout/BottomRow/StatsPanel/Content/Scroll/Columns/ByDifficulty/Facil" unique_id=492426740]
 layout_mode = 2
 
-[node name="Icon" type="TextureRect" parent="DetailScreen/Layout/BottomRow/StatsPanel/Content/Scroll/Columns/ByDifficulty/Facil/Row"]
+[node name="Icon" type="TextureRect" parent="DetailScreen/Layout/BottomRow/StatsPanel/Content/Scroll/Columns/ByDifficulty/Facil/Row" unique_id=2130578238]
 custom_minimum_size = Vector2(32, 24)
 layout_mode = 2
 expand_mode = 1
 stretch_mode = 5
 
-[node name="Text" type="Label" parent="DetailScreen/Layout/BottomRow/StatsPanel/Content/Scroll/Columns/ByDifficulty/Facil/Row"]
+[node name="Text" type="Label" parent="DetailScreen/Layout/BottomRow/StatsPanel/Content/Scroll/Columns/ByDifficulty/Facil/Row" unique_id=1896277090]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_type_variation = &"RowLabel"
@@ -509,20 +513,20 @@ text = "100
 aciertos en fácil"
 horizontal_alignment = 1
 
-[node name="Medio" type="PanelContainer" parent="DetailScreen/Layout/BottomRow/StatsPanel/Content/Scroll/Columns/ByDifficulty"]
+[node name="Medio" type="PanelContainer" parent="DetailScreen/Layout/BottomRow/StatsPanel/Content/Scroll/Columns/ByDifficulty" unique_id=472180427]
 layout_mode = 2
 theme_type_variation = &"StatRow"
 
-[node name="Row" type="HBoxContainer" parent="DetailScreen/Layout/BottomRow/StatsPanel/Content/Scroll/Columns/ByDifficulty/Medio"]
+[node name="Row" type="HBoxContainer" parent="DetailScreen/Layout/BottomRow/StatsPanel/Content/Scroll/Columns/ByDifficulty/Medio" unique_id=1830804855]
 layout_mode = 2
 
-[node name="Icon" type="TextureRect" parent="DetailScreen/Layout/BottomRow/StatsPanel/Content/Scroll/Columns/ByDifficulty/Medio/Row"]
+[node name="Icon" type="TextureRect" parent="DetailScreen/Layout/BottomRow/StatsPanel/Content/Scroll/Columns/ByDifficulty/Medio/Row" unique_id=1310627207]
 custom_minimum_size = Vector2(32, 24)
 layout_mode = 2
 expand_mode = 1
 stretch_mode = 5
 
-[node name="Text" type="Label" parent="DetailScreen/Layout/BottomRow/StatsPanel/Content/Scroll/Columns/ByDifficulty/Medio/Row"]
+[node name="Text" type="Label" parent="DetailScreen/Layout/BottomRow/StatsPanel/Content/Scroll/Columns/ByDifficulty/Medio/Row" unique_id=234298698]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_type_variation = &"RowLabel"
@@ -530,20 +534,20 @@ text = "100
 aciertos en medio"
 horizontal_alignment = 1
 
-[node name="Dificil" type="PanelContainer" parent="DetailScreen/Layout/BottomRow/StatsPanel/Content/Scroll/Columns/ByDifficulty"]
+[node name="Dificil" type="PanelContainer" parent="DetailScreen/Layout/BottomRow/StatsPanel/Content/Scroll/Columns/ByDifficulty" unique_id=632754267]
 layout_mode = 2
 theme_type_variation = &"StatRow"
 
-[node name="Row" type="HBoxContainer" parent="DetailScreen/Layout/BottomRow/StatsPanel/Content/Scroll/Columns/ByDifficulty/Dificil"]
+[node name="Row" type="HBoxContainer" parent="DetailScreen/Layout/BottomRow/StatsPanel/Content/Scroll/Columns/ByDifficulty/Dificil" unique_id=1830331441]
 layout_mode = 2
 
-[node name="Icon" type="TextureRect" parent="DetailScreen/Layout/BottomRow/StatsPanel/Content/Scroll/Columns/ByDifficulty/Dificil/Row"]
+[node name="Icon" type="TextureRect" parent="DetailScreen/Layout/BottomRow/StatsPanel/Content/Scroll/Columns/ByDifficulty/Dificil/Row" unique_id=358289243]
 custom_minimum_size = Vector2(32, 24)
 layout_mode = 2
 expand_mode = 1
 stretch_mode = 5
 
-[node name="Text" type="Label" parent="DetailScreen/Layout/BottomRow/StatsPanel/Content/Scroll/Columns/ByDifficulty/Dificil/Row"]
+[node name="Text" type="Label" parent="DetailScreen/Layout/BottomRow/StatsPanel/Content/Scroll/Columns/ByDifficulty/Dificil/Row" unique_id=1303792484]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_type_variation = &"RowLabel"
@@ -551,20 +555,20 @@ text = "100
 aciertos en difícil"
 horizontal_alignment = 1
 
-[node name="MuyDificil" type="PanelContainer" parent="DetailScreen/Layout/BottomRow/StatsPanel/Content/Scroll/Columns/ByDifficulty"]
+[node name="MuyDificil" type="PanelContainer" parent="DetailScreen/Layout/BottomRow/StatsPanel/Content/Scroll/Columns/ByDifficulty" unique_id=1138761558]
 layout_mode = 2
 theme_type_variation = &"StatRow"
 
-[node name="Row" type="HBoxContainer" parent="DetailScreen/Layout/BottomRow/StatsPanel/Content/Scroll/Columns/ByDifficulty/MuyDificil"]
+[node name="Row" type="HBoxContainer" parent="DetailScreen/Layout/BottomRow/StatsPanel/Content/Scroll/Columns/ByDifficulty/MuyDificil" unique_id=420611652]
 layout_mode = 2
 
-[node name="Icon" type="TextureRect" parent="DetailScreen/Layout/BottomRow/StatsPanel/Content/Scroll/Columns/ByDifficulty/MuyDificil/Row"]
+[node name="Icon" type="TextureRect" parent="DetailScreen/Layout/BottomRow/StatsPanel/Content/Scroll/Columns/ByDifficulty/MuyDificil/Row" unique_id=608210382]
 custom_minimum_size = Vector2(32, 24)
 layout_mode = 2
 expand_mode = 1
 stretch_mode = 5
 
-[node name="Text" type="Label" parent="DetailScreen/Layout/BottomRow/StatsPanel/Content/Scroll/Columns/ByDifficulty/MuyDificil/Row"]
+[node name="Text" type="Label" parent="DetailScreen/Layout/BottomRow/StatsPanel/Content/Scroll/Columns/ByDifficulty/MuyDificil/Row" unique_id=1932800236]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_type_variation = &"RowLabel"
@@ -572,25 +576,25 @@ text = "100
 aciertos en muy difícil"
 horizontal_alignment = 1
 
-[node name="History" type="VBoxContainer" parent="DetailScreen/Layout/BottomRow/StatsPanel/Content/Scroll/Columns"]
+[node name="History" type="VBoxContainer" parent="DetailScreen/Layout/BottomRow/StatsPanel/Content/Scroll/Columns" unique_id=1369325200]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 8
 
-[node name="Entry1" type="PanelContainer" parent="DetailScreen/Layout/BottomRow/StatsPanel/Content/Scroll/Columns/History"]
+[node name="Entry1" type="PanelContainer" parent="DetailScreen/Layout/BottomRow/StatsPanel/Content/Scroll/Columns/History" unique_id=1570911805]
 layout_mode = 2
 theme_type_variation = &"StatRow"
 
-[node name="Row" type="HBoxContainer" parent="DetailScreen/Layout/BottomRow/StatsPanel/Content/Scroll/Columns/History/Entry1"]
+[node name="Row" type="HBoxContainer" parent="DetailScreen/Layout/BottomRow/StatsPanel/Content/Scroll/Columns/History/Entry1" unique_id=1461153658]
 layout_mode = 2
 
-[node name="Icon" type="TextureRect" parent="DetailScreen/Layout/BottomRow/StatsPanel/Content/Scroll/Columns/History/Entry1/Row"]
+[node name="Icon" type="TextureRect" parent="DetailScreen/Layout/BottomRow/StatsPanel/Content/Scroll/Columns/History/Entry1/Row" unique_id=783009164]
 custom_minimum_size = Vector2(32, 24)
 layout_mode = 2
 expand_mode = 1
 stretch_mode = 5
 
-[node name="Text" type="Label" parent="DetailScreen/Layout/BottomRow/StatsPanel/Content/Scroll/Columns/History/Entry1/Row"]
+[node name="Text" type="Label" parent="DetailScreen/Layout/BottomRow/StatsPanel/Content/Scroll/Columns/History/Entry1/Row" unique_id=1869988571]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_type_variation = &"RowLabel"
@@ -598,20 +602,20 @@ text = "100%
 porcentaje de efectividad"
 horizontal_alignment = 1
 
-[node name="Entry2" type="PanelContainer" parent="DetailScreen/Layout/BottomRow/StatsPanel/Content/Scroll/Columns/History"]
+[node name="Entry2" type="PanelContainer" parent="DetailScreen/Layout/BottomRow/StatsPanel/Content/Scroll/Columns/History" unique_id=842851197]
 layout_mode = 2
 theme_type_variation = &"StatRow"
 
-[node name="Row" type="HBoxContainer" parent="DetailScreen/Layout/BottomRow/StatsPanel/Content/Scroll/Columns/History/Entry2"]
+[node name="Row" type="HBoxContainer" parent="DetailScreen/Layout/BottomRow/StatsPanel/Content/Scroll/Columns/History/Entry2" unique_id=1365993742]
 layout_mode = 2
 
-[node name="Icon" type="TextureRect" parent="DetailScreen/Layout/BottomRow/StatsPanel/Content/Scroll/Columns/History/Entry2/Row"]
+[node name="Icon" type="TextureRect" parent="DetailScreen/Layout/BottomRow/StatsPanel/Content/Scroll/Columns/History/Entry2/Row" unique_id=1550335744]
 custom_minimum_size = Vector2(32, 24)
 layout_mode = 2
 expand_mode = 1
 stretch_mode = 5
 
-[node name="Text" type="Label" parent="DetailScreen/Layout/BottomRow/StatsPanel/Content/Scroll/Columns/History/Entry2/Row"]
+[node name="Text" type="Label" parent="DetailScreen/Layout/BottomRow/StatsPanel/Content/Scroll/Columns/History/Entry2/Row" unique_id=20986811]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_type_variation = &"RowLabel"
@@ -619,20 +623,20 @@ text = "100%
 porcentaje de efectividad"
 horizontal_alignment = 1
 
-[node name="Entry3" type="PanelContainer" parent="DetailScreen/Layout/BottomRow/StatsPanel/Content/Scroll/Columns/History"]
+[node name="Entry3" type="PanelContainer" parent="DetailScreen/Layout/BottomRow/StatsPanel/Content/Scroll/Columns/History" unique_id=1786706685]
 layout_mode = 2
 theme_type_variation = &"StatRow"
 
-[node name="Row" type="HBoxContainer" parent="DetailScreen/Layout/BottomRow/StatsPanel/Content/Scroll/Columns/History/Entry3"]
+[node name="Row" type="HBoxContainer" parent="DetailScreen/Layout/BottomRow/StatsPanel/Content/Scroll/Columns/History/Entry3" unique_id=1110298931]
 layout_mode = 2
 
-[node name="Icon" type="TextureRect" parent="DetailScreen/Layout/BottomRow/StatsPanel/Content/Scroll/Columns/History/Entry3/Row"]
+[node name="Icon" type="TextureRect" parent="DetailScreen/Layout/BottomRow/StatsPanel/Content/Scroll/Columns/History/Entry3/Row" unique_id=1053211427]
 custom_minimum_size = Vector2(32, 24)
 layout_mode = 2
 expand_mode = 1
 stretch_mode = 5
 
-[node name="Text" type="Label" parent="DetailScreen/Layout/BottomRow/StatsPanel/Content/Scroll/Columns/History/Entry3/Row"]
+[node name="Text" type="Label" parent="DetailScreen/Layout/BottomRow/StatsPanel/Content/Scroll/Columns/History/Entry3/Row" unique_id=8920901]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_type_variation = &"RowLabel"
@@ -640,20 +644,20 @@ text = "100%
 porcentaje de efectividad"
 horizontal_alignment = 1
 
-[node name="Entry4" type="PanelContainer" parent="DetailScreen/Layout/BottomRow/StatsPanel/Content/Scroll/Columns/History"]
+[node name="Entry4" type="PanelContainer" parent="DetailScreen/Layout/BottomRow/StatsPanel/Content/Scroll/Columns/History" unique_id=1660686803]
 layout_mode = 2
 theme_type_variation = &"StatRow"
 
-[node name="Row" type="HBoxContainer" parent="DetailScreen/Layout/BottomRow/StatsPanel/Content/Scroll/Columns/History/Entry4"]
+[node name="Row" type="HBoxContainer" parent="DetailScreen/Layout/BottomRow/StatsPanel/Content/Scroll/Columns/History/Entry4" unique_id=1504290882]
 layout_mode = 2
 
-[node name="Icon" type="TextureRect" parent="DetailScreen/Layout/BottomRow/StatsPanel/Content/Scroll/Columns/History/Entry4/Row"]
+[node name="Icon" type="TextureRect" parent="DetailScreen/Layout/BottomRow/StatsPanel/Content/Scroll/Columns/History/Entry4/Row" unique_id=298790379]
 custom_minimum_size = Vector2(32, 24)
 layout_mode = 2
 expand_mode = 1
 stretch_mode = 5
 
-[node name="Text" type="Label" parent="DetailScreen/Layout/BottomRow/StatsPanel/Content/Scroll/Columns/History/Entry4/Row"]
+[node name="Text" type="Label" parent="DetailScreen/Layout/BottomRow/StatsPanel/Content/Scroll/Columns/History/Entry4/Row" unique_id=1692840381]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_type_variation = &"RowLabel"
