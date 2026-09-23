@@ -1,0 +1,7 @@
+[gd_resource type="Resource" script_class="ResultRecord" format=3 uid="uid://cmyjppfhrw1g8"]
+
+[ext_resource type="Script" uid="uid://dfaq5rcybaid4" path="res://core/db/models/result_record.gd" id="1_1qwot"]
+
+[resource]
+script = ExtResource("1_1qwot")
+metadata/_custom_type_script = "uid://dfaq5rcybaid4"

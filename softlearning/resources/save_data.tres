@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="SaveData" format=3 uid="uid://g88n3chimaga"]
+
+[ext_resource type="Script" uid="uid://bgseww32vnsej" path="res://core/db/models/department_state.gd" id="1_j72tc"]
+[ext_resource type="Script" uid="uid://dfaq5rcybaid4" path="res://core/db/models/result_record.gd" id="2_hq08c"]
+[ext_resource type="Script" uid="uid://p1ltj44inkso" path="res://core/db/models/save_data.gd" id="3_6muru"]
+
+[resource]
+script = ExtResource("3_6muru")
+metadata/_custom_type_script = "uid://p1ltj44inkso"

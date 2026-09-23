@@ -16,7 +16,7 @@ config/icon="res://icon.svg"
 
 [autoload]
 
-DbService="*res://autoload/db_service.gd"
+DbService="*res://autoload/persistent_service.gd"
 
 [display]
 
