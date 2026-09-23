@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="QuizQuestion" format=3]
+
+[ext_resource type="Script" path="res://core/db/models/quiz_question.gd" id="1_i2bgh"]
+
+[resource]
+script = ExtResource("1_i2bgh")
+id = 62
+department = 2
+title = "Metodologías de desarrollo"
+description = "¿Qué metodología organiza el trabajo en iteraciones cortas llamadas sprints?"
+responses = Array[String](["Cascada", "Modelo en V", "Modelo en espiral", "Scrum"])
+correct_response_index = 3

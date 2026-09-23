@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="QuizQuestion" format=3]
+
+[ext_resource type="Script" path="res://core/db/models/quiz_question.gd" id="1_jnimo"]
+
+[resource]
+script = ExtResource("1_jnimo")
+id = 40
+department = 1
+title = "Historias de usuario"
+description = "Para la historia 'Como jugador, quiero pausar el minijuego', ¿qué criterio de aceptación está mejor escrito?"
+responses = Array[String](["La pausa debe funcionar bien, ser rápida y resultar intuitiva", "El botón de pausa debe ser azul y estar arriba a la derecha", "El equipo debe implementar pause() en la clase Minigame", "Dado un minijuego en curso, cuando pulso pausa, entonces el temporizador se detiene"])
+correct_response_index = 3
+difficulty = 3

@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="QuizQuestion" format=3]
+
+[ext_resource type="Script" path="res://core/db/models/quiz_question.gd" id="1_jsled"]
+
+[resource]
+script = ExtResource("1_jsled")
+id = 67
+department = 2
+title = "Diseño de software"
+description = "¿Qué se busca con alta cohesión y bajo acoplamiento en un diseño?"
+responses = Array[String](["Módulos grandes que concentren toda la lógica del sistema", "Módulos enfocados en una sola tarea y con pocas dependencias entre sí", "Módulos que compartan la mayor cantidad de variables globales", "Módulos que dependan directamente de todas las demás clases"])
+correct_response_index = 1
+difficulty = 1

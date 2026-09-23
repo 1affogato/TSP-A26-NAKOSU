@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="QuizQuestion" format=3]
+
+[ext_resource type="Script" path="res://core/db/models/quiz_question.gd" id="1_x8ooj"]
+
+[resource]
+script = ExtResource("1_x8ooj")
+id = 13
+title = "Árboles"
+description = "Si insertas los valores 1, 2, 3, 4 y 5, en ese orden, en un árbol binario de búsqueda sin balanceo, ¿qué ocurre?"
+responses = Array[String](["Queda balanceado y buscar cuesta O(log n)", "Se degenera en una lista y buscar pasa a costar O(n)", "Se reorganiza solo para mantener su altura mínima", "Da error porque los datos llegan ya ordenados"])
+correct_response_index = 1
+difficulty = 2

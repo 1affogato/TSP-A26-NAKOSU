@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="QuizQuestion" format=3]
+
+[ext_resource type="Script" path="res://core/db/models/quiz_question.gd" id="1_ptw2y"]
+
+[resource]
+script = ExtResource("1_ptw2y")
+id = 11
+title = "Búsqueda"
+description = "La búsqueda binaria descarta la mitad de los elementos en cada paso. ¿Cuántos pasos necesita, aproximadamente, en el peor caso sobre un arreglo ordenado de 1 000 000 de elementos?"
+responses = Array[String](["Unos 20", "Unos 100", "Unos 1000", "Unos 500 000"])
+difficulty = 2

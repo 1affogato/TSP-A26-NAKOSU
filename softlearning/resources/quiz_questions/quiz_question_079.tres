@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="QuizQuestion" format=3]
+
+[ext_resource type="Script" path="res://core/db/models/quiz_question.gd" id="1_oessq"]
+
+[resource]
+script = ExtResource("1_oessq")
+id = 79
+department = 2
+title = "Análisis"
+description = "¿Qué es la trazabilidad de requisitos y para qué sirve?"
+responses = Array[String](["Registrar la hora exacta en que se escribió cada requisito", "Relacionar cada requisito con su diseño, código y pruebas para evaluar el impacto de un cambio", "Numerar los requisitos según su orden de llegada", "Guardar un respaldo de los requisitos en otro servidor"])
+correct_response_index = 1
+difficulty = 3

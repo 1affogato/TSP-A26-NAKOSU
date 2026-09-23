@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="QuizQuestion" format=3]
+
+[ext_resource type="Script" path="res://core/db/models/quiz_question.gd" id="1_0ud1h"]
+
+[resource]
+script = ExtResource("1_0ud1h")
+id = 75
+department = 2
+title = "Diseño de software"
+description = "¿Qué propone una arquitectura en capas (presentación, lógica y datos)?"
+responses = Array[String](["Que todas las capas accedan libremente a la base de datos", "Que la capa de datos controle la interfaz de usuario", "Separar responsabilidades para que cada capa dependa solo de la capa inferior", "Que cada capa se programe en un lenguaje distinto"])
+correct_response_index = 2
+difficulty = 2

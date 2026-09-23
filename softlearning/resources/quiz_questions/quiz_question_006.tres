@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="QuizQuestion" format=3]
+
+[ext_resource type="Script" path="res://core/db/models/quiz_question.gd" id="1_3wo8u"]
+
+[resource]
+script = ExtResource("1_3wo8u")
+id = 6
+title = "Listas enlazadas"
+description = "En una lista simplemente enlazada que solo guarda la referencia a la cabeza (head), ¿cuánto cuesta insertar un elemento al inicio?"
+responses = Array[String](["O(1)", "O(n)", "O(log n)", "O(n log n)"])
+difficulty = 1

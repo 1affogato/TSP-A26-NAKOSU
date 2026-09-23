@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="QuizQuestion" format=3]
+
+[ext_resource type="Script" path="res://core/db/models/quiz_question.gd" id="1_cc8lm"]
+
+[resource]
+script = ExtResource("1_cc8lm")
+id = 51
+department = 3
+title = "Principios SOLID"
+description = "La clase Ave tiene el método volar(). Pingüino hereda de Ave, pero su volar() lanza un error. ¿Qué principio SOLID se viola?"
+responses = Array[String](["Responsabilidad única (SRP)", "Segregación de interfaces (ISP)", "Inversión de dependencias (DIP)", "Sustitución de Liskov (LSP)"])
+correct_response_index = 3
+difficulty = 2

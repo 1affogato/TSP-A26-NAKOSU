@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="QuizQuestion" format=3]
+
+[ext_resource type="Script" path="res://core/db/models/quiz_question.gd" id="1_ck3hm"]
+
+[resource]
+script = ExtResource("1_ck3hm")
+id = 45
+department = 3
+title = "Programación funcional"
+description = "¿Qué es una función pura?"
+responses = Array[String](["Una función que no recibe ningún parámetro de entrada", "Una función que está escrita en una sola línea de código", "Una función que con la misma entrada siempre da la misma salida y no tiene efectos secundarios", "Una función que solo puede llamarse una vez por programa"])
+correct_response_index = 2

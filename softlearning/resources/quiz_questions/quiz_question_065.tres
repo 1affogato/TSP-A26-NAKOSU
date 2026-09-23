@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="QuizQuestion" format=3]
+
+[ext_resource type="Script" path="res://core/db/models/quiz_question.gd" id="1_af5mu"]
+
+[resource]
+script = ExtResource("1_af5mu")
+id = 65
+department = 2
+title = "Metodologías de desarrollo"
+description = "En el modelo en cascada, ¿cómo avanzan las etapas?"
+responses = Array[String](["En paralelo: todas las etapas ocurren al mismo tiempo", "En secuencia: cada etapa empieza cuando termina la anterior", "En ciclos cortos que repiten todas las etapas cada dos semanas", "Sin orden fijo: el equipo elige la etapa cada día"])
+correct_response_index = 1

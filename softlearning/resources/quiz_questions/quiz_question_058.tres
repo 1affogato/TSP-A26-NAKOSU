@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="QuizQuestion" format=3]
+
+[ext_resource type="Script" path="res://core/db/models/quiz_question.gd" id="1_mnrjf"]
+
+[resource]
+script = ExtResource("1_mnrjf")
+id = 58
+department = 3
+title = "POO"
+description = "¿Qué diferencia hay entre sobrecarga (overloading) y sobrescritura (overriding) de métodos?"
+responses = Array[String](["Sobrecarga: la subclase redefine un método heredado; sobrescritura: mismo nombre con distintos parámetros", "Son lo mismo, pero la sobrecarga solo se aplica a los constructores", "Sobrecarga: mismo nombre con distintos parámetros; sobrescritura: la subclase redefine un método heredado", "La sobrecarga ocurre en ejecución y la sobrescritura nunca usa herencia"])
+correct_response_index = 2
+difficulty = 3

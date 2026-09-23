@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="QuizQuestion" format=3]
+
+[ext_resource type="Script" path="res://core/db/models/quiz_question.gd" id="1_8brda"]
+
+[resource]
+script = ExtResource("1_8brda")
+id = 27
+department = 1
+title = "Historias de usuario"
+description = "¿Para qué sirven los criterios de aceptación de una historia de usuario?"
+responses = Array[String](["Para estimar cuántas horas tomará programarla", "Para asignar qué desarrollador la implementará", "Para definir las condiciones que debe cumplir para que se acepte", "Para describir la arquitectura interna de la solución"])
+correct_response_index = 2
+difficulty = 1

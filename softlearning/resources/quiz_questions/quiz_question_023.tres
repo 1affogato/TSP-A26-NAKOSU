@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="QuizQuestion" format=3]
+
+[ext_resource type="Script" path="res://core/db/models/quiz_question.gd" id="1_puayt"]
+
+[resource]
+script = ExtResource("1_puayt")
+id = 23
+department = 1
+title = "Casos de uso"
+description = "En un diagrama de casos de uso, ¿qué representa un actor?"
+responses = Array[String](["Una clase interna del sistema", "La base de datos del sistema", "Un paso dentro del flujo principal", "Un rol externo (persona o sistema) que interactúa con el sistema"])
+correct_response_index = 3

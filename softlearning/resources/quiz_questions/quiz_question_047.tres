@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="QuizQuestion" format=3]
+
+[ext_resource type="Script" path="res://core/db/models/quiz_question.gd" id="1_lqr2j"]
+
+[resource]
+script = ExtResource("1_lqr2j")
+id = 47
+department = 3
+title = "POO"
+description = "En el juego, la clase Minigame define start() y QuizMinigame y SwipeMinigame lo implementan cada una a su manera. ¿Qué concepto de POO es este?"
+responses = Array[String](["Encapsulamiento", "Polimorfismo", "Recursión", "Composición"])
+correct_response_index = 1
+difficulty = 1

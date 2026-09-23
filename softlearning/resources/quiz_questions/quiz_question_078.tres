@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="QuizQuestion" format=3]
+
+[ext_resource type="Script" path="res://core/db/models/quiz_question.gd" id="1_t33bg"]
+
+[resource]
+script = ExtResource("1_t33bg")
+id = 78
+department = 2
+title = "Diseño de software"
+description = "En el juego, QuizView se suscribe a las señales de QuizMinigame en lugar de que QuizMinigame llame a la vista. ¿Qué se logra con este diseño?"
+responses = Array[String](["Que la lógica no dependa de la presentación y la vista pueda cambiarse sin tocarla", "Que la vista pueda modificar directamente el temporizador del minijuego", "Que el minijuego se ejecute más rápido porque no dibuja nada", "Que la vista y el minijuego compartan todos sus atributos"])
+difficulty = 3

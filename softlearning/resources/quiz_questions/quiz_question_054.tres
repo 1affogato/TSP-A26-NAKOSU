@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="QuizQuestion" format=3]
+
+[ext_resource type="Script" path="res://core/db/models/quiz_question.gd" id="1_hou5f"]
+
+[resource]
+script = ExtResource("1_hou5f")
+id = 54
+department = 3
+title = "Conceptos básicos de programación"
+description = "Usando división entera, ¿cuánto valen 7 / 2 y 7 % 2 (módulo)?"
+responses = Array[String](["3.5 y 0", "3 y 0.5", "4 y 1", "3 y 1"])
+correct_response_index = 3
+difficulty = 2

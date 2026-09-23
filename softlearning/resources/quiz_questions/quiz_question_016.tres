@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="QuizQuestion" format=3]
+
+[ext_resource type="Script" path="res://core/db/models/quiz_question.gd" id="1_v75ho"]
+
+[resource]
+script = ExtResource("1_v75ho")
+id = 16
+title = "Complejidad (Big-O)"
+description = "¿Cuál es la complejidad de este código? para i desde 0 hasta n-1: { j = 1; mientras j < n: j = j * 2 }"
+responses = Array[String](["O(n²)", "O(n)", "O(log n)", "O(n log n)"])
+correct_response_index = 3
+difficulty = 3

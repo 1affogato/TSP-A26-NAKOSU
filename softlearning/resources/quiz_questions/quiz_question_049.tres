@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="QuizQuestion" format=3]
+
+[ext_resource type="Script" path="res://core/db/models/quiz_question.gd" id="1_tqx8v"]
+
+[resource]
+script = ExtResource("1_tqx8v")
+id = 49
+department = 3
+title = "Programación funcional"
+description = "En programación funcional, ¿qué significa la inmutabilidad?"
+responses = Array[String](["Que los datos no se modifican: se crean nuevas versiones con los cambios", "Que las funciones no pueden recibir parámetros", "Que las variables solo pueden guardar números", "Que el programa no puede usar condicionales"])
+difficulty = 1

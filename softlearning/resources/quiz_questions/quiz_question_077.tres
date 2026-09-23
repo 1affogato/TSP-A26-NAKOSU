@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="QuizQuestion" format=3]
+
+[ext_resource type="Script" path="res://core/db/models/quiz_question.gd" id="1_2ujt1"]
+
+[resource]
+script = ExtResource("1_2ujt1")
+id = 77
+department = 2
+title = "Ciclo de desarrollo de software"
+description = "¿Qué caracteriza al modelo en espiral frente a otros modelos de ciclo de vida?"
+responses = Array[String](["Cada etapa se ejecuta una sola vez y en orden estricto", "Cada etapa de desarrollo tiene su etapa de pruebas correspondiente", "No define etapas: se programa directamente desde el inicio", "Cada vuelta incluye un análisis explícito de riesgos antes de avanzar"])
+correct_response_index = 3
+difficulty = 3

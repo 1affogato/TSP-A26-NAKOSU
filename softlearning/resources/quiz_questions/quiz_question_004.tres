@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="QuizQuestion" format=3]
+
+[ext_resource type="Script" path="res://core/db/models/quiz_question.gd" id="1_cos38"]
+
+[resource]
+script = ExtResource("1_cos38")
+id = 4
+title = "Búsqueda"
+description = "¿Qué condición debe cumplir un arreglo para poder aplicarle búsqueda binaria?"
+responses = Array[String](["Tener una cantidad par de elementos", "Estar ordenado", "No tener elementos repetidos", "Estar implementado como lista enlazada"])
+correct_response_index = 1

@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="QuizQuestion" format=3]
+
+[ext_resource type="Script" path="res://core/db/models/quiz_question.gd" id="1_8r5st"]
+
+[resource]
+script = ExtResource("1_8r5st")
+id = 37
+department = 1
+title = "Historias de usuario"
+description = "Una historia solo puede completarse si antes se termina otra historia distinta. Según INVEST, ¿qué característica incumple?"
+responses = Array[String](["Estimable (E)", "Valiosa (V)", "Independiente (I)", "Testeable (T)"])
+correct_response_index = 2
+difficulty = 3

@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="QuizQuestion" format=3]
+
+[ext_resource type="Script" path="res://core/db/models/quiz_question.gd" id="1_vgp66"]
+
+[resource]
+script = ExtResource("1_vgp66")
+id = 66
+department = 2
+title = "Metodologías de desarrollo"
+description = "En Scrum, ¿quién es responsable de priorizar el Product Backlog?"
+responses = Array[String](["El Scrum Master", "El Product Owner", "El equipo de desarrollo", "Los usuarios finales"])
+correct_response_index = 1
+difficulty = 1

@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="QuizQuestion" format=3]
+
+[ext_resource type="Script" path="res://core/db/models/quiz_question.gd" id="1_3u8bu"]
+
+[resource]
+script = ExtResource("1_3u8bu")
+id = 41
+department = 3
+title = "Conceptos básicos de programación"
+description = "¿Qué es una variable?"
+responses = Array[String](["Un espacio con nombre que guarda un valor que puede cambiar", "Una instrucción que repite un bloque de código", "Un archivo que contiene el programa compilado", "Un error que ocurre durante la ejecución"])

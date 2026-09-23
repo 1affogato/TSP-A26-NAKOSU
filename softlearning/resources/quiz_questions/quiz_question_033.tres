@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="QuizQuestion" format=3]
+
+[ext_resource type="Script" path="res://core/db/models/quiz_question.gd" id="1_bvmu8"]
+
+[resource]
+script = ExtResource("1_bvmu8")
+id = 33
+department = 1
+title = "Elicitación"
+description = "¿Qué técnica de elicitación conviene cuando hay muchos usuarios dispersos geográficamente y se necesitan datos cuantificables?"
+responses = Array[String](["Entrevistas individuales en profundidad", "Observación directa en el lugar de trabajo", "Prototipos en papel con cada usuario", "Cuestionarios o encuestas"])
+correct_response_index = 3
+difficulty = 2

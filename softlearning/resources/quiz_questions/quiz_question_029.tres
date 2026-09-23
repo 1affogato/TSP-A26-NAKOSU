@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="QuizQuestion" format=3]
+
+[ext_resource type="Script" path="res://core/db/models/quiz_question.gd" id="1_nrij1"]
+
+[resource]
+script = ExtResource("1_nrij1")
+id = 29
+department = 1
+title = "Casos de uso"
+description = "En un diagrama de casos de uso, ¿qué indica una relación «include»?"
+responses = Array[String](["Que un caso de uso añade comportamiento a otro solo bajo cierta condición", "Que un actor hereda los casos de uso de otro actor", "Que un caso de uso siempre ejecuta el comportamiento de otro", "Que dos casos de uso se ejecutan en paralelo"])
+correct_response_index = 2
+difficulty = 1

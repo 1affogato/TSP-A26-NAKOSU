@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="QuizQuestion" format=3]
+
+[ext_resource type="Script" path="res://core/db/models/quiz_question.gd" id="1_geusp"]
+
+[resource]
+script = ExtResource("1_geusp")
+id = 35
+department = 1
+title = "Elicitación"
+description = "Dos interesados piden requisitos que se contradicen. ¿Qué es lo más adecuado que haga el analista?"
+responses = Array[String](["Implementar ambos requisitos y que el usuario elija", "Hacer visible el conflicto y negociarlo con ambos para priorizar", "Elegir el requisito del interesado con más antigüedad", "Descartar los dos requisitos para evitar problemas"])
+correct_response_index = 1
+difficulty = 2

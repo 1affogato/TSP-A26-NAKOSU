@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="QuizQuestion" format=3]
+
+[ext_resource type="Script" path="res://core/db/models/quiz_question.gd" id="1_fnavq"]
+
+[resource]
+script = ExtResource("1_fnavq")
+id = 59
+department = 3
+title = "Principios SOLID"
+description = "La interfaz Trabajador obliga a implementar trabajar(), comer() y dormir(), y la clase Robot deja comer() y dormir() vacíos. ¿Qué principio se viola y cómo se corrige?"
+responses = Array[String](["Responsabilidad única: unir Robot y Trabajador en una sola clase", "Segregación de interfaces: dividirla en interfaces más pequeñas y específicas", "Abierto/cerrado: hacer públicos todos los métodos de Robot", "Inversión de dependencias: hacer que Trabajador herede de Robot"])
+correct_response_index = 1
+difficulty = 3

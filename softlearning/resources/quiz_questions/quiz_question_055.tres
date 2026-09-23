@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="QuizQuestion" format=3]
+
+[ext_resource type="Script" path="res://core/db/models/quiz_question.gd" id="1_737qr"]
+
+[resource]
+script = ExtResource("1_737qr")
+id = 55
+department = 3
+title = "Principios SOLID"
+description = "¿Qué propone el principio de inversión de dependencias (DIP)?"
+responses = Array[String](["Que las clases hijas no dependan de sus clases padre", "Que las dependencias se instalen en orden inverso", "Que los módulos de bajo nivel controlen a los de alto nivel", "Que los módulos de alto nivel dependan de abstracciones y no de clases concretas"])
+correct_response_index = 3
+difficulty = 2

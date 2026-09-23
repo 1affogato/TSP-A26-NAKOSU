@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="QuizQuestion" format=3]
+
+[ext_resource type="Script" path="res://core/db/models/quiz_question.gd" id="1_6j3o1"]
+
+[resource]
+script = ExtResource("1_6j3o1")
+id = 71
+department = 2
+title = "Metodologías de desarrollo"
+description = "¿Cuál es una ventaja clave de las metodologías ágiles frente al modelo en cascada?"
+responses = Array[String](["Eliminan por completo la necesidad de documentar", "Se adaptan a cambios de requisitos gracias a entregas frecuentes y retroalimentación", "Garantizan que el proyecto nunca supere el presupuesto", "Evitan que el cliente participe durante el desarrollo"])
+correct_response_index = 1
+difficulty = 2

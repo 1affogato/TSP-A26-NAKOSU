@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="QuizQuestion" format=3]
+
+[ext_resource type="Script" path="res://core/db/models/quiz_question.gd" id="1_birqs"]
+
+[resource]
+script = ExtResource("1_birqs")
+id = 28
+department = 1
+title = "Elicitación"
+description = "¿Qué técnica de elicitación consiste en observar al usuario mientras realiza su trabajo real?"
+responses = Array[String](["Observación (etnografía)", "Lluvia de ideas", "Cuestionarios", "Análisis de documentos"])
+difficulty = 1

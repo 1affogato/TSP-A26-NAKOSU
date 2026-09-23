@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="QuizQuestion" format=3]
+
+[ext_resource type="Script" path="res://core/db/models/quiz_question.gd" id="1_ely88"]
+
+[resource]
+script = ExtResource("1_ely88")
+id = 21
+department = 1
+title = "Elicitación"
+description = "¿Qué es la elicitación de requisitos?"
+responses = Array[String](["El proceso de descubrir los requisitos junto con los interesados", "La etapa en la que se programan las funciones del sistema", "La prueba final del sistema junto con el cliente", "La instalación del sistema en el entorno de producción"])

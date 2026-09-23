@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="QuizQuestion" format=3]
+
+[ext_resource type="Script" path="res://core/db/models/quiz_question.gd" id="1_4l35e"]
+
+[resource]
+script = ExtResource("1_4l35e")
+id = 53
+department = 3
+title = "Programación funcional"
+description = "¿Qué es una clausura (closure)?"
+responses = Array[String](["Una función que cierra archivos y conexiones al terminar", "Un bloque try/finally que libera recursos", "Una función que recuerda las variables del entorno donde fue creada", "Una clase que no tiene métodos públicos"])
+correct_response_index = 2
+difficulty = 2

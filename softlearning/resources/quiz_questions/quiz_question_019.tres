@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="QuizQuestion" format=3]
+
+[ext_resource type="Script" path="res://core/db/models/quiz_question.gd" id="1_lcgc5"]
+
+[resource]
+script = ExtResource("1_lcgc5")
+id = 19
+title = "Arreglos dinámicos"
+description = "Un arreglo dinámico duplica su capacidad cada vez que se llena. ¿Cuál es el costo amortizado de agregar un elemento al final?"
+responses = Array[String](["O(n) amortizado, porque a veces copia todo", "O(log n) amortizado, por las duplicaciones", "O(1) amortizado", "O(n²) amortizado, por las copias acumuladas"])
+correct_response_index = 2
+difficulty = 3

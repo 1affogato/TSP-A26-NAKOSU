@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="QuizQuestion" format=3]
+
+[ext_resource type="Script" path="res://core/db/models/quiz_question.gd" id="1_705e1"]
+
+[resource]
+script = ExtResource("1_705e1")
+id = 1
+title = "Pilas"
+description = "¿Qué principio sigue una pila (stack) al insertar y retirar elementos?"
+responses = Array[String](["FIFO: el primero en entrar es el primero en salir", "LIFO: el último en entrar es el primero en salir", "Siempre se retira el elemento de menor valor", "Se retira un elemento elegido al azar"])
+correct_response_index = 1

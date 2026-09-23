@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="QuizQuestion" format=3]
+
+[ext_resource type="Script" path="res://core/db/models/quiz_question.gd" id="1_8kxdi"]
+
+[resource]
+script = ExtResource("1_8kxdi")
+id = 2
+title = "Colas"
+description = "¿Qué estructura de datos atiende a los elementos en el mismo orden en que llegaron (FIFO)?"
+responses = Array[String](["Pila (stack)", "Árbol binario", "Cola (queue)", "Tabla hash"])
+correct_response_index = 2

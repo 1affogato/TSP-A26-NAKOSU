@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="QuizQuestion" format=3]
+
+[ext_resource type="Script" path="res://core/db/models/quiz_question.gd" id="1_ykhcp"]
+
+[resource]
+script = ExtResource("1_ykhcp")
+id = 64
+department = 2
+title = "Diseño de software"
+description = "¿Qué diagrama UML muestra las clases de un sistema con sus atributos, métodos y relaciones?"
+responses = Array[String](["Diagrama de secuencia", "Diagrama de casos de uso", "Diagrama de clases", "Diagrama de despliegue"])
+correct_response_index = 2

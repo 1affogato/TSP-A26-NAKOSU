@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="QuizQuestion" format=3]
+
+[ext_resource type="Script" path="res://core/db/models/quiz_question.gd" id="1_6lyop"]
+
+[resource]
+script = ExtResource("1_6lyop")
+id = 57
+department = 3
+title = "Programación funcional"
+description = "¿Qué valor devuelve reduce(lambda acc, x: acc + x, map(lambda x: x * 2, filter(lambda x: x % 2 == 1, [1, 2, 3, 4, 5])), 0)?"
+responses = Array[String](["30", "18", "9", "12"])
+correct_response_index = 1
+difficulty = 3

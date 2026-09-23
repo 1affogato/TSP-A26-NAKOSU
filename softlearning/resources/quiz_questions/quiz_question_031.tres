@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="QuizQuestion" format=3]
+
+[ext_resource type="Script" path="res://core/db/models/quiz_question.gd" id="1_i77gf"]
+
+[resource]
+script = ExtResource("1_i77gf")
+id = 31
+department = 1
+title = "Casos de uso"
+description = "¿Cuál es un error común al redactar la especificación de un caso de uso?"
+responses = Array[String](["Escribir cada paso desde el punto de vista del actor o del sistema", "Describir detalles de la interfaz (botones, colores) en vez de la interacción", "Incluir precondiciones y postcondiciones", "Numerar los pasos del flujo principal"])
+correct_response_index = 1
+difficulty = 2

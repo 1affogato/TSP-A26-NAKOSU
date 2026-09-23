@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="QuizQuestion" format=3]
+
+[ext_resource type="Script" path="res://core/db/models/quiz_question.gd" id="1_w3nxf"]
+
+[resource]
+script = ExtResource("1_w3nxf")
+id = 32
+department = 1
+title = "Historias de usuario"
+description = "Una historia dice: 'Como usuario, quiero que el sistema use una base de datos PostgreSQL'. ¿Cuál es su principal problema?"
+responses = Array[String](["Describe una solución técnica, no una necesidad con valor para el usuario", "No indica una prioridad numérica", "Está escrita en primera persona", "Es demasiado pequeña para poder estimarla"])
+difficulty = 2

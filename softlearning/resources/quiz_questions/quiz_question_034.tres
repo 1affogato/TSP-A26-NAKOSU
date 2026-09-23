@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="QuizQuestion" format=3]
+
+[ext_resource type="Script" path="res://core/db/models/quiz_question.gd" id="1_0vvdt"]
+
+[resource]
+script = ExtResource("1_0vvdt")
+id = 34
+department = 1
+title = "Historias de usuario"
+description = "¿Qué es una épica en el contexto de las historias de usuario?"
+responses = Array[String](["Una historia ya terminada y aprobada por el cliente", "Un error crítico encontrado en producción", "Una historia demasiado grande que debe dividirse en otras más pequeñas", "La historia de mayor prioridad del sprint"])
+correct_response_index = 2
+difficulty = 2

@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="QuizQuestion" format=3]
+
+[ext_resource type="Script" path="res://core/db/models/quiz_question.gd" id="1_n2vek"]
+
+[resource]
+script = ExtResource("1_n2vek")
+id = 3
+title = "Arreglos"
+description = "¿Cuánto cuesta acceder a un elemento de un arreglo si ya conoces su índice?"
+responses = Array[String](["O(1): tiempo constante", "O(n): hay que recorrerlo desde el inicio", "O(log n): se hace una búsqueda binaria", "O(n²): depende del tamaño al cuadrado"])

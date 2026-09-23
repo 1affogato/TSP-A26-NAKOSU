@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="QuizQuestion" format=3]
+
+[ext_resource type="Script" path="res://core/db/models/quiz_question.gd" id="1_due6k"]
+
+[resource]
+script = ExtResource("1_due6k")
+id = 63
+department = 2
+title = "Análisis"
+description = "¿Cuál es el objetivo principal de la etapa de análisis?"
+responses = Array[String](["Elegir los colores y la tipografía de la interfaz", "Escribir el código de las funciones principales", "Entender y especificar qué debe hacer el sistema", "Instalar el sistema en los equipos del cliente"])
+correct_response_index = 2

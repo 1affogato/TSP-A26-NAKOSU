@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="QuizQuestion" format=3]
+
+[ext_resource type="Script" path="res://core/db/models/quiz_question.gd" id="1_xcu6y"]
+
+[resource]
+script = ExtResource("1_xcu6y")
+id = 76
+department = 2
+title = "Metodologías de desarrollo"
+description = "¿Cuál es la diferencia principal entre Kanban y Scrum?"
+responses = Array[String](["Kanban usa flujo continuo con límites de trabajo en curso (WIP); Scrum usa sprints de duración fija", "Kanban usa sprints de dos semanas y Scrum no tiene iteraciones", "Kanban exige un Scrum Master y Scrum no define roles", "Kanban solo sirve para mantenimiento y Scrum para proyectos nuevos"])
+difficulty = 3

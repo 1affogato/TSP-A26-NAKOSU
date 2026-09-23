@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="QuizQuestion" format=3]
+
+[ext_resource type="Script" path="res://core/db/models/quiz_question.gd" id="1_5nrlo"]
+
+[resource]
+script = ExtResource("1_5nrlo")
+id = 72
+department = 2
+title = "Diseño de software"
+description = "¿Qué patrón de diseño permite que un objeto notifique automáticamente a otros cuando cambia su estado?"
+responses = Array[String](["Singleton", "Factory Method", "Observer", "Adapter"])
+correct_response_index = 2
+difficulty = 2

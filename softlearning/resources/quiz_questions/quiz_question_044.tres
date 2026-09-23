@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="QuizQuestion" format=3]
+
+[ext_resource type="Script" path="res://core/db/models/quiz_question.gd" id="1_qpyat"]
+
+[resource]
+script = ExtResource("1_qpyat")
+id = 44
+department = 3
+title = "Principios SOLID"
+description = "¿Qué indica la 'S' de SOLID (principio de responsabilidad única)?"
+responses = Array[String](["Que una clase debe tener una sola razón para cambiar", "Que una clase debe tener un solo método público", "Que un programa debe tener una sola clase principal", "Que cada variable debe usarse una sola vez"])

@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="QuizQuestion" format=3]
+
+[ext_resource type="Script" path="res://core/db/models/quiz_question.gd" id="1_xnxyw"]
+
+[resource]
+script = ExtResource("1_xnxyw")
+id = 5
+title = "Complejidad (Big-O)"
+description = "¿Qué describe la notación Big-O de un algoritmo?"
+responses = Array[String](["El tiempo exacto en segundos que tarda en ejecutarse", "Cómo crece su costo (tiempo o memoria) según el tamaño de la entrada", "La cantidad de líneas de código que tiene el algoritmo", "El lenguaje de programación más adecuado para implementarlo"])
+correct_response_index = 1

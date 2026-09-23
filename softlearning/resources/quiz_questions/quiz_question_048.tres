@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="QuizQuestion" format=3]
+
+[ext_resource type="Script" path="res://core/db/models/quiz_question.gd" id="1_u8l0r"]
+
+[resource]
+script = ExtResource("1_u8l0r")
+id = 48
+department = 3
+title = "Programación funcional"
+description = "¿Qué hace la función de orden superior map sobre una lista?"
+responses = Array[String](["Conserva solo los elementos que cumplen una condición", "Aplica una función a cada elemento y devuelve una nueva lista con los resultados", "Combina todos los elementos en un único valor", "Ordena los elementos de menor a mayor"])
+correct_response_index = 1
+difficulty = 1

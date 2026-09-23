@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="QuizQuestion" format=3]
+
+[ext_resource type="Script" path="res://core/db/models/quiz_question.gd" id="1_dp7cx"]
+
+[resource]
+script = ExtResource("1_dp7cx")
+id = 60
+department = 3
+title = "Conceptos básicos de programación"
+description = "Si a vale null, ¿qué ocurre al evaluar la expresión (a != null && a.length > 0)?"
+responses = Array[String](["Lanza un error al intentar leer a.length", "Evalúa ambas partes y devuelve null", "Da falso sin evaluar a.length, gracias a la evaluación en cortocircuito", "Devuelve verdadero porque la primera parte es falsa"])
+correct_response_index = 2
+difficulty = 3

@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="QuizQuestion" format=3]
+
+[ext_resource type="Script" path="res://core/db/models/quiz_question.gd" id="1_k383f"]
+
+[resource]
+script = ExtResource("1_k383f")
+id = 39
+department = 1
+title = "Casos de uso"
+description = "Un caso de uso tiene como precondición 'el usuario inició sesión'. ¿Qué implica esto?"
+responses = Array[String](["Que el primer paso del flujo principal debe ser iniciar sesión", "Que el caso de uso asume que ya ocurrió y no lo verifica en su flujo", "Que el caso de uso incluye («include») al caso 'Iniciar sesión'", "Que si no hay sesión, el flujo principal la crea automáticamente"])
+correct_response_index = 1
+difficulty = 3

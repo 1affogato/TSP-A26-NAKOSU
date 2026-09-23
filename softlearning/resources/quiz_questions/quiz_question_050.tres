@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="QuizQuestion" format=3]
+
+[ext_resource type="Script" path="res://core/db/models/quiz_question.gd" id="1_fjt5n"]
+
+[resource]
+script = ExtResource("1_fjt5n")
+id = 50
+department = 3
+title = "Conceptos básicos de programación"
+description = "¿Qué diferencia hay entre pasar un argumento por valor y por referencia?"
+responses = Array[String](["Por valor se pasa una copia; por referencia la función puede modificar el original", "Por valor solo se aceptan números; por referencia solo texto", "Por valor es más lento; por referencia no usa memoria", "No hay diferencia; son dos nombres para lo mismo"])
+difficulty = 1

@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="QuizQuestion" format=3]
+
+[ext_resource type="Script" path="res://core/db/models/quiz_question.gd" id="1_bbg6i"]
+
+[resource]
+script = ExtResource("1_bbg6i")
+id = 69
+department = 2
+title = "Análisis"
+description = "¿Qué es un modelo de dominio en la etapa de análisis?"
+responses = Array[String](["El esquema físico de tablas de la base de datos", "La lista de servidores donde se desplegará el sistema", "Una representación de los conceptos del problema y sus relaciones, sin detalles de implementación", "El conjunto de pantallas finales de la aplicación"])
+correct_response_index = 2
+difficulty = 1

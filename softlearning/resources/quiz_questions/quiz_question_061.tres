@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="QuizQuestion" format=3]
+
+[ext_resource type="Script" path="res://core/db/models/quiz_question.gd" id="1_74dm8"]
+
+[resource]
+script = ExtResource("1_74dm8")
+id = 61
+department = 2
+title = "Ciclo de desarrollo de software"
+description = "¿Cuál es el orden típico de las etapas del ciclo de vida del software?"
+responses = Array[String](["Implementación, requisitos, pruebas, diseño y mantenimiento", "Pruebas, diseño, requisitos, mantenimiento e implementación", "Diseño, pruebas, implementación, requisitos y mantenimiento", "Requisitos, diseño, implementación, pruebas y mantenimiento"])
+correct_response_index = 3

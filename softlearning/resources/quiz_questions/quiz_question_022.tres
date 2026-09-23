@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="QuizQuestion" format=3]
+
+[ext_resource type="Script" path="res://core/db/models/quiz_question.gd" id="1_6ep0w"]
+
+[resource]
+script = ExtResource("1_6ep0w")
+id = 22
+department = 1
+title = "Historias de usuario"
+description = "¿Cuál es el formato más usado para escribir una historia de usuario?"
+responses = Array[String](["Si <condición>, entonces <acción>, si no <alternativa>", "Como <rol>, quiero <objetivo>, para <beneficio>", "Actor, precondiciones, flujo principal y postcondiciones", "Entrada, proceso y salida del sistema"])
+correct_response_index = 1

@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="QuizQuestion" format=3]
+
+[ext_resource type="Script" path="res://core/db/models/quiz_question.gd" id="1_7s2xy"]
+
+[resource]
+script = ExtResource("1_7s2xy")
+id = 30
+department = 1
+title = "Elicitación"
+description = "En una entrevista, el cliente dice: 'el sistema debe ser fácil de usar'. ¿Qué debería hacer el analista?"
+responses = Array[String](["Anotarlo tal cual como requisito final", "Pedir criterios medibles, por ejemplo: completar la tarea en menos de 3 pasos", "Descartarlo porque no es un requisito funcional", "Dejarlo para que lo decida el equipo de diseño gráfico"])
+correct_response_index = 1
+difficulty = 1

@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="QuizQuestion" format=3]
+
+[ext_resource type="Script" path="res://core/db/models/quiz_question.gd" id="1_3xcf7"]
+
+[resource]
+script = ExtResource("1_3xcf7")
+id = 68
+department = 2
+title = "Ciclo de desarrollo de software"
+description = "¿En qué etapa del ciclo de vida se corrigen errores y se agregan mejoras después de entregar el sistema?"
+responses = Array[String](["Mantenimiento", "Análisis", "Diseño", "Implementación"])
+difficulty = 1

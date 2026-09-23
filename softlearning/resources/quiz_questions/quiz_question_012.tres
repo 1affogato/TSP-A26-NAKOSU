@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="QuizQuestion" format=3]
+
+[ext_resource type="Script" path="res://core/db/models/quiz_question.gd" id="1_h7t57"]
+
+[resource]
+script = ExtResource("1_h7t57")
+id = 12
+title = "Montículos (heaps)"
+description = "¿Qué estructura permite implementar una cola de prioridad con inserción y extracción del máximo en O(log n)?"
+responses = Array[String](["Montículo binario (heap)", "Lista enlazada sin ordenar", "Arreglo ordenado", "Pila (stack)"])
+difficulty = 2
