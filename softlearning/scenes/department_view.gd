@@ -138,10 +138,13 @@ func show_upgrade_option() -> void:
 ## UC-11.5: una fila por grupo del detalle (cada minijuego o cada dificultad) y,
 ## en las tres columnas, cuántos se jugaron, cuántos se ganaron y la efectividad.
 func show_detailed_stats(detail: DetailedStats) -> void:
+	var entries := detail.entries
+	if detail.type == Enums.StatType.BY_DIFFICULTY:
+		entries = _all_difficulties(entries)
 	var played := PackedStringArray()
 	var won := PackedStringArray()
 	var accuracy := PackedStringArray()
-	for entry in detail.entries:
+	for entry in entries:
 		if detail.type == Enums.StatType.BY_DIFFICULTY:
 			var level: String = DIFFICULTY_LABELS.get(entry.label, entry.label)
 			played.append("%d\nRetos %s hechos" % [entry.played, level])
@@ -206,6 +209,19 @@ func _refresh_floors() -> void:
 		var floor: Button = _floors.get_node(floor_name)
 		var progress := floor.get_node("Progress") as ProgressBar
 		progress.value = DepartmentManager.get_level_up_progress(department_id) * 100.0
+
+
+## Las cuatro dificultades siempre, de fácil a muy difícil, como en el mockup:
+## B6 solo trae las que ya se jugaron, y las que faltan se muestran en cero.
+func _all_difficulties(entries: Array[StatEntry]) -> Array[StatEntry]:
+	var played_levels := {}
+	for entry in entries:
+		played_levels[entry.label] = entry
+	var all: Array[StatEntry] = []
+	for difficulty in Enums.Difficulty.values():
+		var key := Enums.difficulty_to_key(difficulty)
+		all.append(played_levels[key] if played_levels.has(key) else StatEntry.create(key, 0, 0))
+	return all
 
 
 ## Rehace las filas de una columna: la primera fila escrita en la escena queda
