@@ -415,19 +415,20 @@ layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 16
 
-[node name="ByMinigame" type="VBoxContainer" parent="DetailScreen/Layout/BottomRow/StatsPanel/Content/Scroll/Columns" unique_id=454064261]
+[node name="Played" type="VBoxContainer" parent="DetailScreen/Layout/BottomRow/StatsPanel/Content/Scroll/Columns" unique_id=454064261]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 8
 
-[node name="Quiz" type="PanelContainer" parent="DetailScreen/Layout/BottomRow/StatsPanel/Content/Scroll/Columns/ByMinigame" unique_id=1965102355]
+[node name="Template" type="PanelContainer" parent="DetailScreen/Layout/BottomRow/StatsPanel/Content/Scroll/Columns/Played" unique_id=1965102355]
+custom_minimum_size = Vector2(0, 62)
 layout_mode = 2
 theme_type_variation = &"StatRow"
 
-[node name="Row" type="HBoxContainer" parent="DetailScreen/Layout/BottomRow/StatsPanel/Content/Scroll/Columns/ByMinigame/Quiz" unique_id=748613959]
+[node name="Row" type="HBoxContainer" parent="DetailScreen/Layout/BottomRow/StatsPanel/Content/Scroll/Columns/Played/Template" unique_id=748613959]
 layout_mode = 2
 
-[node name="Icon" type="TextureRect" parent="DetailScreen/Layout/BottomRow/StatsPanel/Content/Scroll/Columns/ByMinigame/Quiz/Row" unique_id=948109038]
+[node name="Icon" type="TextureRect" parent="DetailScreen/Layout/BottomRow/StatsPanel/Content/Scroll/Columns/Played/Template/Row" unique_id=948109038]
 custom_minimum_size = Vector2(24, 24)
 layout_mode = 2
 size_flags_vertical = 4
@@ -435,32 +436,35 @@ texture = ExtResource("5_controller")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="Text" type="Label" parent="DetailScreen/Layout/BottomRow/StatsPanel/Content/Scroll/Columns/ByMinigame/Quiz/Row" unique_id=1461402975]
+[node name="Text" type="Label" parent="DetailScreen/Layout/BottomRow/StatsPanel/Content/Scroll/Columns/Played/Template/Row" unique_id=1461402975]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_type_variation = &"RowLabel"
 text = "100
 quizes jugados"
 horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
 
-[node name="Spacer" type="Control" parent="DetailScreen/Layout/BottomRow/StatsPanel/Content/Scroll/Columns/ByMinigame/Quiz/Row"]
+[node name="Spacer" type="Control" parent="DetailScreen/Layout/BottomRow/StatsPanel/Content/Scroll/Columns/Played/Template/Row"]
 custom_minimum_size = Vector2(24, 0)
 layout_mode = 2
 mouse_filter = 2
 
-[node name="ByDifficulty" type="VBoxContainer" parent="DetailScreen/Layout/BottomRow/StatsPanel/Content/Scroll/Columns" unique_id=2122825982]
+[node name="Won" type="VBoxContainer" parent="DetailScreen/Layout/BottomRow/StatsPanel/Content/Scroll/Columns" unique_id=2122825982]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 8
 
-[node name="Facil" type="PanelContainer" parent="DetailScreen/Layout/BottomRow/StatsPanel/Content/Scroll/Columns/ByDifficulty" unique_id=617318416]
+[node name="Template" type="PanelContainer" parent="DetailScreen/Layout/BottomRow/StatsPanel/Content/Scroll/Columns/Won" unique_id=617318416]
+custom_minimum_size = Vector2(0, 62)
 layout_mode = 2
 theme_type_variation = &"StatRow"
 
-[node name="Row" type="HBoxContainer" parent="DetailScreen/Layout/BottomRow/StatsPanel/Content/Scroll/Columns/ByDifficulty/Facil" unique_id=492426740]
+[node name="Row" type="HBoxContainer" parent="DetailScreen/Layout/BottomRow/StatsPanel/Content/Scroll/Columns/Won/Template" unique_id=492426740]
 layout_mode = 2
 
-[node name="Icon" type="TextureRect" parent="DetailScreen/Layout/BottomRow/StatsPanel/Content/Scroll/Columns/ByDifficulty/Facil/Row" unique_id=2130578238]
+[node name="Icon" type="TextureRect" parent="DetailScreen/Layout/BottomRow/StatsPanel/Content/Scroll/Columns/Won/Template/Row" unique_id=2130578238]
 custom_minimum_size = Vector2(24, 24)
 layout_mode = 2
 size_flags_vertical = 4
@@ -468,32 +472,35 @@ texture = ExtResource("5_controller")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="Text" type="Label" parent="DetailScreen/Layout/BottomRow/StatsPanel/Content/Scroll/Columns/ByDifficulty/Facil/Row" unique_id=1896277090]
+[node name="Text" type="Label" parent="DetailScreen/Layout/BottomRow/StatsPanel/Content/Scroll/Columns/Won/Template/Row" unique_id=1896277090]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_type_variation = &"RowLabel"
 text = "100
-Fácil ganados"
+quizes ganados"
 horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
 
-[node name="Spacer" type="Control" parent="DetailScreen/Layout/BottomRow/StatsPanel/Content/Scroll/Columns/ByDifficulty/Facil/Row"]
+[node name="Spacer" type="Control" parent="DetailScreen/Layout/BottomRow/StatsPanel/Content/Scroll/Columns/Won/Template/Row"]
 custom_minimum_size = Vector2(24, 0)
 layout_mode = 2
 mouse_filter = 2
 
-[node name="History" type="VBoxContainer" parent="DetailScreen/Layout/BottomRow/StatsPanel/Content/Scroll/Columns" unique_id=1369325200]
+[node name="Accuracy" type="VBoxContainer" parent="DetailScreen/Layout/BottomRow/StatsPanel/Content/Scroll/Columns" unique_id=1369325200]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 8
 
-[node name="Entry1" type="PanelContainer" parent="DetailScreen/Layout/BottomRow/StatsPanel/Content/Scroll/Columns/History" unique_id=1570911805]
+[node name="Template" type="PanelContainer" parent="DetailScreen/Layout/BottomRow/StatsPanel/Content/Scroll/Columns/Accuracy" unique_id=1570911805]
+custom_minimum_size = Vector2(0, 62)
 layout_mode = 2
 theme_type_variation = &"StatRow"
 
-[node name="Row" type="HBoxContainer" parent="DetailScreen/Layout/BottomRow/StatsPanel/Content/Scroll/Columns/History/Entry1" unique_id=1461153658]
+[node name="Row" type="HBoxContainer" parent="DetailScreen/Layout/BottomRow/StatsPanel/Content/Scroll/Columns/Accuracy/Template" unique_id=1461153658]
 layout_mode = 2
 
-[node name="Icon" type="TextureRect" parent="DetailScreen/Layout/BottomRow/StatsPanel/Content/Scroll/Columns/History/Entry1/Row" unique_id=783009164]
+[node name="Icon" type="TextureRect" parent="DetailScreen/Layout/BottomRow/StatsPanel/Content/Scroll/Columns/Accuracy/Template/Row" unique_id=783009164]
 custom_minimum_size = Vector2(24, 24)
 layout_mode = 2
 size_flags_vertical = 4
@@ -501,15 +508,17 @@ texture = ExtResource("5_controller")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="Text" type="Label" parent="DetailScreen/Layout/BottomRow/StatsPanel/Content/Scroll/Columns/History/Entry1/Row" unique_id=1869988571]
+[node name="Text" type="Label" parent="DetailScreen/Layout/BottomRow/StatsPanel/Content/Scroll/Columns/Accuracy/Template/Row" unique_id=1869988571]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_type_variation = &"RowLabel"
 text = "100%
-2026-09-23"
+porcentaje de efectividad"
 horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
 
-[node name="Spacer" type="Control" parent="DetailScreen/Layout/BottomRow/StatsPanel/Content/Scroll/Columns/History/Entry1/Row"]
+[node name="Spacer" type="Control" parent="DetailScreen/Layout/BottomRow/StatsPanel/Content/Scroll/Columns/Accuracy/Template/Row"]
 custom_minimum_size = Vector2(24, 0)
 layout_mode = 2
 mouse_filter = 2

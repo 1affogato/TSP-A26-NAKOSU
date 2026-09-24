@@ -14,16 +14,16 @@ extends Control
 ## The diagram's `stats: StatisticsTracker` field is the autoload itself, so
 ## there is no reference to store here: the view calls the singleton directly.
 
-## Texto de la columna de dificultad. B6 trabaja con la clave ("MUY_DIFICIL");
-## pasarla a algo legible es cosa de la vista.
+## Texto de las filas por dificultad ("Retos fáciles hechos"). B6 trabaja con la
+## clave ("MUY_DIFICIL"); pasarla a algo legible es cosa de la vista.
 const DIFFICULTY_LABELS := {
-	"FACIL": "Fácil",
-	"MEDIO": "Medio",
-	"DIFICIL": "Difícil",
-	"MUY_DIFICIL": "Muy difícil",
+	"FACIL": "fáciles",
+	"MEDIO": "medios",
+	"DIFICIL": "difíciles",
+	"MUY_DIFICIL": "muy difíciles",
 }
 
-## Lo mismo para la columna de minijuegos: B6 agrupa por la clave del motor
+## Lo mismo para las filas por minijuego: B6 agrupa por la clave del motor
 ## (`QuizMinigame.TYPE`), y aquí se pasa a texto del mockup.
 const MINIGAME_LABELS := {
 	QuizMinigame.TYPE: "quizes",
@@ -37,15 +37,6 @@ const DESCRIPTIONS := {
 	Enums.Department.SOFTWARE_DEV: "Del requisito al entregable: aquí se planifica, se construye y se mantiene el software.",
 	Enums.Department.CODING: "Estilos, patrones y buenas prácticas: el arte de escribir código que otros puedan leer.",
 }
-
-## Las tres agrupaciones del detalle, en el orden de las pestañas. Con las de
-## minijuego y dificultad se ven las tres columnas a la vez, como en el mockup;
-## "Tu histórico" las cambia por la gráfica de ELO.
-const STAT_TYPES := [
-	Enums.StatType.BY_MINIGAME,
-	Enums.StatType.BY_DIFFICULTY,
-	Enums.StatType.OVER_TIME,
-]
 
 ## Qué departamento hay detrás de cada piso. Coincide con los `binds` de las
 ## conexiones del .tscn (Piso 1 = Requerimientos, ... Piso 4 = Desarrollo).
@@ -83,15 +74,16 @@ var department: Enums.Department = Enums.Department.DATA_STRUCTURES
 
 @onready var _office_image: TextureRect = $DetailScreen/Layout/BottomRow/OfficeImage
 
+## Indexed by `Enums.StatType`, in the order of the tabs.
 @onready var _tabs: Array[Button] = [
 	$DetailScreen/Layout/BottomRow/StatsPanel/Content/Tabs/ByMinigameTab,
 	$DetailScreen/Layout/BottomRow/StatsPanel/Content/Tabs/ByDifficultyTab,
 	$DetailScreen/Layout/BottomRow/StatsPanel/Content/Tabs/HistoryTab,
 ]
 @onready var _columns: ScrollContainer = $DetailScreen/Layout/BottomRow/StatsPanel/Content/Scroll
-@onready var _by_minigame_column: VBoxContainer = $DetailScreen/Layout/BottomRow/StatsPanel/Content/Scroll/Columns/ByMinigame
-@onready var _by_difficulty_column: VBoxContainer = $DetailScreen/Layout/BottomRow/StatsPanel/Content/Scroll/Columns/ByDifficulty
-@onready var _over_time_column: VBoxContainer = $DetailScreen/Layout/BottomRow/StatsPanel/Content/Scroll/Columns/History
+@onready var _played_column: VBoxContainer = $DetailScreen/Layout/BottomRow/StatsPanel/Content/Scroll/Columns/Played
+@onready var _won_column: VBoxContainer = $DetailScreen/Layout/BottomRow/StatsPanel/Content/Scroll/Columns/Won
+@onready var _accuracy_column: VBoxContainer = $DetailScreen/Layout/BottomRow/StatsPanel/Content/Scroll/Columns/Accuracy
 @onready var _chart_card: PanelContainer = $DetailScreen/Layout/BottomRow/StatsPanel/Content/ChartCard
 @onready var _elo_chart: EloChart = $DetailScreen/Layout/BottomRow/StatsPanel/Content/ChartCard/Content/EloChart
 
@@ -116,11 +108,8 @@ func select_department(selected: Enums.Department) -> void:
 
 	show_general_stats(StatisticsTracker.get_general_stats(department))
 
-	# UC-11.4: se pide el detalle de cada agrupación, una por columna, y se abre
-	# la primera pestaña.
-	for type in STAT_TYPES:
-		show_detailed_stats(StatisticsTracker.get_detailed_stats(department, type))
-	_show_tab(Enums.StatType.BY_MINIGAME)
+	# Se abre con la primera pestaña, como en el mockup.
+	_on_stat_selected(Enums.StatType.BY_MINIGAME)
 
 
 # --------------------------------------------------------- UC-11.2 / UC-11.3
@@ -146,21 +135,45 @@ func show_upgrade_option() -> void:
 
 # ------------------------------------------------------------- UC-11.4 / 11.5
 
-## Pinta una de las tres columnas de detalle.
+## UC-11.5: una fila por grupo del detalle (cada minijuego o cada dificultad) y,
+## en las tres columnas, cuántos se jugaron, cuántos se ganaron y la efectividad.
 func show_detailed_stats(detail: DetailedStats) -> void:
-	var rows := PackedStringArray()
+	var played := PackedStringArray()
+	var won := PackedStringArray()
+	var accuracy := PackedStringArray()
 	for entry in detail.entries:
-		rows.append(_row_text(entry, detail.type))
-	_fill_column(_column_for(detail.type), rows)
+		if detail.type == Enums.StatType.BY_DIFFICULTY:
+			var level: String = DIFFICULTY_LABELS.get(entry.label, entry.label)
+			played.append("%d\nRetos %s hechos" % [entry.played, level])
+			won.append("%d\nRetos %s ganados" % [entry.correct, level])
+		else:
+			var minigame: String = MINIGAME_LABELS.get(entry.label, entry.label)
+			played.append("%d\n%s jugados" % [entry.played, minigame])
+			won.append("%d\n%s ganados" % [entry.correct, minigame])
+		accuracy.append("%d%%\nporcentaje de efectividad" % roundi(entry.get_accuracy() * 100.0))
+	_fill_column(_played_column, played)
+	_fill_column(_won_column, won)
+	_fill_column(_accuracy_column, accuracy)
 
 
 # ------------------------------------------------------------------ botones
 
 ## UC-11.4: el jugador elige una estadística con las pestañas (conectadas en el
-## .tscn). Se vuelve a pedir su detalle (UC-11.5) y se muestra su vista.
+## .tscn). Por minijuego y por dificultad llenan las columnas con su detalle;
+## "Tu histórico" las cambia por la gráfica del ELO tras cada partida, con las
+## fechas de la primera y la última.
 func _on_stat_selected(type: Enums.StatType) -> void:
-	show_detailed_stats(StatisticsTracker.get_detailed_stats(department, type))
-	_show_tab(type)
+	_tabs[type].button_pressed = true
+	var detail := StatisticsTracker.get_detailed_stats(department, type)
+	var over_time := type == Enums.StatType.OVER_TIME
+	_columns.visible = not over_time
+	_chart_card.visible = over_time
+	if not over_time:
+		show_detailed_stats(detail)
+		return
+	var days := detail.entries
+	_elo_chart.show_history(StatisticsTracker.get_elo_history(department),
+		days[0].label if days else "", days[-1].label if days else "")
 
 
 ## UC-11.3.a1.1: inicia UC-12 (Upgrade Department), que todavía no existe.
@@ -193,45 +206,6 @@ func _refresh_floors() -> void:
 		var floor: Button = _floors.get_node(floor_name)
 		var progress := floor.get_node("Progress") as ProgressBar
 		progress.value = DepartmentManager.get_level_up_progress(department_id) * 100.0
-
-
-## Marca la pestaña y enseña su vista: las tres columnas, o para "Tu histórico"
-## la gráfica del ELO tras cada partida, con las fechas de la primera y la última.
-func _show_tab(type: Enums.StatType) -> void:
-	_tabs[type].button_pressed = true
-	var over_time := type == Enums.StatType.OVER_TIME
-	_columns.visible = not over_time
-	_chart_card.visible = over_time
-	if over_time:
-		var days := StatisticsTracker.get_detailed_stats(department, type).entries
-		_elo_chart.show_history(StatisticsTracker.get_elo_history(department),
-			days[0].label if days else "", days[-1].label if days else "")
-
-
-func _column_for(type: Enums.StatType) -> VBoxContainer:
-	match type:
-		Enums.StatType.BY_DIFFICULTY:
-			return _by_difficulty_column
-		Enums.StatType.OVER_TIME:
-			return _over_time_column
-		_:
-			return _by_minigame_column
-
-
-## Texto de una fila, con la forma del mockup: el número arriba y qué mide
-## abajo. Cada columna destaca una métrica distinta de StatEntry.
-func _row_text(entry: StatEntry, type: Enums.StatType) -> String:
-	match type:
-		Enums.StatType.BY_MINIGAME:
-			return "%d\n%s jugados" % [entry.played, MINIGAME_LABELS.get(entry.label, entry.label)]
-		Enums.StatType.BY_DIFFICULTY:
-			return "%d\n%s ganados" % [entry.correct, _difficulty_label(entry.label)]
-		_:
-			return "%d%%\n%s" % [roundi(entry.get_accuracy() * 100.0), entry.label]
-
-
-func _difficulty_label(key: String) -> String:
-	return String(DIFFICULTY_LABELS.get(key, key))
 
 
 ## Rehace las filas de una columna: la primera fila escrita en la escena queda
