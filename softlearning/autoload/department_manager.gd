@@ -107,13 +107,26 @@ func get_all_states() -> Array[DepartmentState]:
 	return all
 
 
+## UC-11 "evolución en el tiempo": the ELO before the first of `records` and
+## after each one, oldest first, replaying the same rule update_elo() applies.
+## B6 hands it the records of one department.
+# ponytail: assumes the ELO only moves through results; if UC-12 ever touches
+# it, store the ELO in each ResultRecord instead of replaying.
+func get_elo_curve(records: Array[ResultRecord]) -> PackedFloat32Array:
+	var elo := DepartmentState.STARTING_ELO
+	var curve := PackedFloat32Array([elo])
+	for record in records:
+		elo = maxf(0.0, elo + _compute_elo_delta(elo, record.level, record.success))
+		curve.append(elo)
+	return curve
+
+
 # ------------------------------------------------------------------- write
 
 ## UC-02.6: applies the ELO adjustment of one finished minigame.
 func update_elo(result: MinigameResult) -> void:
 	var state := get_state(result.department)
-	state.elo += _compute_elo_delta(result)
-	state.sanitize()
+	state.elo = maxf(0.0, state.elo + _compute_elo_delta(state.elo, result.level, result.success))
 
 
 # ---------------------------------------------------------------- internals
@@ -122,7 +135,7 @@ func update_elo(result: MinigameResult) -> void:
 ## pool's ELO anchors (`Enums.difficulty_to_elo`): a hit on a hard item adds
 ## more, and a miss on a hard item subtracts less, than the same result on an
 ## easy one.
-func _compute_elo_delta(result: MinigameResult) -> float:
-	var gap := Enums.difficulty_to_elo(result.level) - get_elo(result.department)
+func _compute_elo_delta(elo: float, level: Enums.Difficulty, success: bool) -> float:
+	var gap := Enums.difficulty_to_elo(level) - elo
 	var expected := 1.0 / (1.0 + pow(10.0, gap / 400.0))
-	return K_FACTOR * ((1.0 if result.success else 0.0) - expected)
+	return K_FACTOR * ((1.0 if success else 0.0) - expected)

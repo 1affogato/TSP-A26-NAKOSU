@@ -191,6 +191,13 @@ func _append_new_history(history: Array[ResultRecord]) -> bool:
 		push_error(_last_error)
 		return false
 
+	# A crash while appending can leave the last line without its newline:
+	# start on a fresh line so the first new record is not glued to it.
+	var length := file.get_length()
+	if length > 0:
+		file.seek(length - 1)
+		if file.get_8() != 0x0A:
+			file.store_8(0x0A)
 	file.seek_end()
 	for index in range(_persisted_history_count, history.size()):
 		var record: ResultRecord = history[index]

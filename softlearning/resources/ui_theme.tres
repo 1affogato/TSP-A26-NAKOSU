@@ -254,6 +254,30 @@ corner_radius_top_right = 10
 corner_radius_bottom_right = 10
 corner_radius_bottom_left = 10
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tab_idle"]
+content_margin_left = 12.0
+content_margin_top = 6.0
+content_margin_right = 12.0
+content_margin_bottom = 6.0
+bg_color = Color(0.435, 0.627, 0.949, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tab_hover"]
+content_margin_left = 12.0
+content_margin_top = 6.0
+content_margin_right = 12.0
+content_margin_bottom = 6.0
+bg_color = Color(0.357, 0.561, 0.941, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_no_focus"]
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wrong_answer"]
 content_margin_left = 16.0
 content_margin_top = 12.0
@@ -375,10 +399,18 @@ StatRow/base_type = &"PanelContainer"
 StatRow/styles/panel = SubResource("StyleBoxFlat_row")
 StatsPanel/base_type = &"PanelContainer"
 StatsPanel/styles/panel = SubResource("StyleBoxFlat_stats")
-Tab/base_type = &"Label"
-Tab/colors/font_color = Color(1, 1, 1, 1)
-Tab/font_sizes/font_size = 13
-Tab/styles/normal = SubResource("StyleBoxFlat_tab")
+TabButton/base_type = &"Button"
+TabButton/colors/font_color = Color(1, 1, 1, 1)
+TabButton/colors/font_focus_color = Color(1, 1, 1, 1)
+TabButton/colors/font_hover_color = Color(1, 1, 1, 1)
+TabButton/colors/font_hover_pressed_color = Color(1, 1, 1, 1)
+TabButton/colors/font_pressed_color = Color(1, 1, 1, 1)
+TabButton/font_sizes/font_size = 13
+TabButton/styles/focus = SubResource("StyleBoxEmpty_no_focus")
+TabButton/styles/hover = SubResource("StyleBoxFlat_tab_hover")
+TabButton/styles/hover_pressed = SubResource("StyleBoxFlat_tab")
+TabButton/styles/normal = SubResource("StyleBoxFlat_tab_idle")
+TabButton/styles/pressed = SubResource("StyleBoxFlat_tab")
 Tag/base_type = &"Label"
 Tag/colors/font_color = Color(0.145, 0.388, 0.922, 1)
 Tag/font_sizes/font_size = 13

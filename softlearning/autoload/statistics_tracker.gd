@@ -58,6 +58,13 @@ func get_detailed_stats(department: Enums.Department, type: Enums.StatType) -> D
 	return DetailedStats.create(department, type, entries)
 
 
+## UC-11 "evolución en el tiempo" ("Tu histórico"): the department's ELO before
+## its first game and after each one, oldest first. Derived from the history
+## like every other statistic; B1 replays its own ELO rule over the records.
+func get_elo_history(department: Enums.Department) -> PackedFloat32Array:
+	return DepartmentManager.get_elo_curve(_records_of(department))
+
+
 # ---------------------------------------------------------------- internals
 
 ## UC-11.2: only the records of one department.
@@ -89,7 +96,9 @@ func _label_of(record: ResultRecord, type: Enums.StatType) -> String:
 		Enums.StatType.BY_DIFFICULTY:
 			return Enums.difficulty_to_key(record.level)
 		_:
-			return Time.get_date_string_from_unix_time(record.timestamp)
+			# The timestamp is UTC; the player expects the date of their own clock.
+			var bias_seconds: int = Time.get_time_zone_from_system().get("bias", 0) * 60
+			return Time.get_date_string_from_unix_time(record.timestamp + bias_seconds)
 
 
 ## Row order: difficulties from easy to hard, dates chronologically (ISO dates

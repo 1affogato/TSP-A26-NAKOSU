@@ -38,8 +38,9 @@ const DESCRIPTIONS := {
 	Enums.Department.CODING: "Estilos, patrones y buenas prácticas: el arte de escribir código que otros puedan leer.",
 }
 
-## Las tres agrupaciones del detalle. En esta escena se ven a la vez, una por
-## columna, como en el mockup.
+## Las tres agrupaciones del detalle, en el orden de las pestañas. Con las de
+## minijuego y dificultad se ven las tres columnas a la vez, como en el mockup;
+## "Tu histórico" las cambia por la gráfica de ELO.
 const STAT_TYPES := [
 	Enums.StatType.BY_MINIGAME,
 	Enums.StatType.BY_DIFFICULTY,
@@ -53,6 +54,15 @@ const FLOOR_DEPARTMENTS := {
 	"Floor2": Enums.Department.DATA_STRUCTURES,
 	"Floor3": Enums.Department.CODING,
 	"Floor4": Enums.Department.SOFTWARE_DEV,
+}
+
+## Oficina de cada departamento (assets/). Como las descripciones, es
+## presentación de la vista, no un dato de B1.
+const OFFICE_IMAGES := {
+	Enums.Department.DATA_STRUCTURES: "res://assets/data structures view.png",
+	Enums.Department.REQUIREMENTS: "res://assets/requirements view.png",
+	Enums.Department.SOFTWARE_DEV: "res://assets/software_department_view.jpeg",
+	Enums.Department.CODING: "res://assets/coding_paradigms_view.png",
 }
 
 ## Department shown in DetailScreen, set by the floor that was pressed.
@@ -71,9 +81,19 @@ var department: Enums.Department = Enums.Department.DATA_STRUCTURES
 @onready var _start_button: Button = $DetailScreen/Layout/TopRow/Actions/StartButton
 @onready var _level_up_button: Button = $DetailScreen/Layout/TopRow/Actions/LevelUpButton
 
+@onready var _office_image: TextureRect = $DetailScreen/Layout/BottomRow/OfficeImage
+
+@onready var _tabs: Array[Button] = [
+	$DetailScreen/Layout/BottomRow/StatsPanel/Content/Tabs/ByMinigameTab,
+	$DetailScreen/Layout/BottomRow/StatsPanel/Content/Tabs/ByDifficultyTab,
+	$DetailScreen/Layout/BottomRow/StatsPanel/Content/Tabs/HistoryTab,
+]
+@onready var _columns: ScrollContainer = $DetailScreen/Layout/BottomRow/StatsPanel/Content/Scroll
 @onready var _by_minigame_column: VBoxContainer = $DetailScreen/Layout/BottomRow/StatsPanel/Content/Scroll/Columns/ByMinigame
 @onready var _by_difficulty_column: VBoxContainer = $DetailScreen/Layout/BottomRow/StatsPanel/Content/Scroll/Columns/ByDifficulty
 @onready var _over_time_column: VBoxContainer = $DetailScreen/Layout/BottomRow/StatsPanel/Content/Scroll/Columns/History
+@onready var _chart_card: PanelContainer = $DetailScreen/Layout/BottomRow/StatsPanel/Content/ChartCard
+@onready var _elo_chart: EloChart = $DetailScreen/Layout/BottomRow/StatsPanel/Content/ChartCard/Content/EloChart
 
 
 func _ready() -> void:
@@ -92,13 +112,15 @@ func select_department(selected: Enums.Department) -> void:
 
 	_dept_name.text = DepartmentManager.get_department_name(department)
 	_dept_description.text = String(DESCRIPTIONS.get(department, ""))
+	_office_image.texture = load(OFFICE_IMAGES[department])
 
 	show_general_stats(StatisticsTracker.get_general_stats(department))
 
-	# UC-11.4: se pide el detalle de cada agrupación. En esta escena las tres
-	# columnas se ven a la vez, así que se piden las tres de una vez.
+	# UC-11.4: se pide el detalle de cada agrupación, una por columna, y se abre
+	# la primera pestaña.
 	for type in STAT_TYPES:
-		_on_stat_selected(type)
+		show_detailed_stats(StatisticsTracker.get_detailed_stats(department, type))
+	_show_tab(Enums.StatType.BY_MINIGAME)
 
 
 # --------------------------------------------------------- UC-11.2 / UC-11.3
@@ -134,11 +156,11 @@ func show_detailed_stats(detail: DetailedStats) -> void:
 
 # ------------------------------------------------------------------ botones
 
-## UC-11.4: el jugador elige una estadística. Hoy los rótulos de las columnas
-## son Labels, no botones, así que se llama una vez por tipo; si pasan a ser
-## botones, basta con conectarlos aquí.
+## UC-11.4: el jugador elige una estadística con las pestañas (conectadas en el
+## .tscn). Se vuelve a pedir su detalle (UC-11.5) y se muestra su vista.
 func _on_stat_selected(type: Enums.StatType) -> void:
 	show_detailed_stats(StatisticsTracker.get_detailed_stats(department, type))
+	_show_tab(type)
 
 
 ## UC-11.3.a1.1: inicia UC-12 (Upgrade Department), que todavía no existe.
@@ -173,6 +195,19 @@ func _refresh_floors() -> void:
 		progress.value = DepartmentManager.get_level_up_progress(department_id) * 100.0
 
 
+## Marca la pestaña y enseña su vista: las tres columnas, o para "Tu histórico"
+## la gráfica del ELO tras cada partida, con las fechas de la primera y la última.
+func _show_tab(type: Enums.StatType) -> void:
+	_tabs[type].button_pressed = true
+	var over_time := type == Enums.StatType.OVER_TIME
+	_columns.visible = not over_time
+	_chart_card.visible = over_time
+	if over_time:
+		var days := StatisticsTracker.get_detailed_stats(department, type).entries
+		_elo_chart.show_history(StatisticsTracker.get_elo_history(department),
+			days[0].label if days else "", days[-1].label if days else "")
+
+
 func _column_for(type: Enums.StatType) -> VBoxContainer:
 	match type:
 		Enums.StatType.BY_DIFFICULTY:
@@ -199,21 +234,23 @@ func _difficulty_label(key: String) -> String:
 	return String(DIFFICULTY_LABELS.get(key, key))
 
 
-## Rehace las filas de una columna: las filas escritas en la escena hacen de
-## plantilla, así que se muestran tantos grupos como tenga el historial y nunca
-## quedan filas de ejemplo a la vista.
+## Rehace las filas de una columna: la primera fila escrita en la escena queda
+## oculta como plantilla, así que se muestran tantos grupos como tenga el
+## historial, nunca quedan filas de ejemplo a la vista y una columna vacía
+## (departamento sin historial) se puede volver a llenar después.
 func _fill_column(column: VBoxContainer, rows: PackedStringArray) -> void:
 	if column.get_child_count() == 0:
 		return
 
-	var template := column.get_child(0).duplicate() as PanelContainer
-	for row in column.get_children():
-		column.remove_child(row)
-		row.queue_free()
+	var template := column.get_child(0) as PanelContainer
+	template.hide()
+	for i in range(column.get_child_count() - 1, 0, -1):
+		var old_row := column.get_child(i)
+		column.remove_child(old_row)
+		old_row.queue_free()
 
 	for text in rows:
 		var row := template.duplicate() as PanelContainer
+		row.show()
 		column.add_child(row)
 		(row.get_node("Row/Text") as Label).text = text
-
-	template.free()
