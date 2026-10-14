@@ -1,0 +1,61 @@
+@startuml swipe_minigame_data
+title Swipe! Minigame - Estructura de datos de los escenarios
+
+skinparam classAttributeIconSize 0
+skinparam shadowing false
+skinparam nodesep 60
+skinparam ranksep 70
+
+class SwipePool <<Pool B2>> {
+  - cards: List<SwipeCard>
+  --
+  + get_card(department: Department, elo: float): SwipeCard
+  - select_difficulty(elo: float): Difficulty
+}
+
+class SwipeCard {
+  - id: int
+  - department: Department
+  - difficulty: Difficulty
+  - concept: String
+  - example_text: String
+  - possible_categories: List<SwipeCategory>
+  - correct_category: SwipeCategory
+  --
+  + get_concept(): String
+  + get_example_text(): String
+  + get_categories(): List<SwipeCategory>
+  + check_answer(selected_category: SwipeCategory): bool
+}
+
+enum Department {
+  DATA_STRUCTURES
+  REQUIREMENTS
+  SOFTWARE_DEV
+  CODING
+}
+
+enum Difficulty {
+  FACIL
+  MEDIO
+  DIFICIL
+  MUY_DIFICIL
+}
+
+enum SwipeCategory {
+  QUALITY_ATTRIBUTE
+  FUNCTIONAL_REQUIREMENT
+  ...
+  AVAILABILITY
+  RELIABILITY
+  ...
+  INTERVIEWS
+  OBSERVATION
+}
+
+SwipePool "1" *-- "1..*" SwipeCard : contiene
+SwipeCard "*" --> "1" Department
+SwipeCard "*" --> "1" Difficulty
+SwipeCard "*" --> "1" SwipeCategory
+
+@enduml
