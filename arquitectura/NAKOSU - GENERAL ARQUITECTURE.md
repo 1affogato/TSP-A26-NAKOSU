@@ -51,7 +51,7 @@ Especificación final de los bloques conceptuales de la arquitectura general del
 
 - Cuatro opciones de respuesta (una correcta).
 
-- Nivel de dificultad (4 niveles, facil, medio, dificil y muy dificil).
+- Nivel de dificultad (4 niveles: facil, medio, dificil, muy dificil).
 
 **Datos — Pool de Swipe:**
 
@@ -63,11 +63,51 @@ Especificación final de los bloques conceptuales de la arquitectura general del
 
 - Nivel de dificultad (discreto).
 
+**Datos — Pool de Narrative Fill-in-the-Blank:**
+
+- Id, departamento, escenario (rol, contexto, historia con blanks).
+
+- Banco de 8 opciones (mezcla correctas + distractores).
+
+- Piel narrativa de intentos: Credibilidad / Presupuesto / Tiempo de Sprint.
+
+- Nivel de dificultad (discreto).
+
+**Datos — Pool de Connect the Cables:**
+
+- Id, departamento, lista de conceptos.
+
+- Lista de ejemplos asociados (orden aleatorio).
+
+- Nivel de dificultad (discreto).
+
+**Datos — Pool de Train Sorting:**
+
+- Id, departamento, instrucción de ordenamiento.
+
+- Secuencia objetivo de vagones (conceptos).
+
+- Nivel de dificultad (discreto).
+
+**Datos — Pool de Bomb Defusal:**
+
+- Id, departamento, 3 candados con pregunta + 3 cables cada uno (1 correcto).
+
+- Nivel de dificultad (discreto).
+
 **Operaciones externas:**
 
 - Obtener un ítem del pool de Quiz, dado un departamento y su ELO actual.
 
 - Obtener un ítem del pool de Swipe, dado un departamento y su ELO actual.
+
+- Obtener un ítem del pool de Narrative, dado un departamento y su ELO actual.
+
+- Obtener un tablero del pool de Connect the Cables, dado un departamento y su ELO actual.
+
+- Obtener una secuencia del pool de Train Sorting, dado un departamento y su ELO actual.
+
+- Obtener una bomba del pool de Bomb Defusal, dado un departamento y su ELO actual.
 
 - (Extensible a nuevos pools para minijuegos futuros.)
 
@@ -143,7 +183,7 @@ Especificación final de los bloques conceptuales de la arquitectura general del
 
 - Finalizar la sesión.
 
-## 5. Motor de cada minijuego (Quiz, Swipe, y futuros)
+## 5. Motor de cada minijuego (Quiz, Swipe, Narrative, Connect Cables, Train Sorting, Bomb Defusal)
 
 **Descripción:** implementa las reglas propias de un minijuego concreto, cumpliendo el contrato hacia afuera y consumiendo su pool específico hacia adentro. Recibe la entrada del usuario para determinar el resultado
 
@@ -171,7 +211,13 @@ Especificación final de los bloques conceptuales de la arquitectura general del
 
 - Dar retroalimentación inmediata.
 
-- Reglas propias de cada minijuego: Quiz maneja un temporizador (fuerza resultado incorrecto si expira); Swipe no tiene límite de tiempo.
+- Reglas propias de cada minijuego:
+  - **Quiz:** temporizador (fuerza resultado incorrecto si expira).
+  - **Swipe:** sin límite de tiempo.
+  - **Narrative:** intentos con piel narrativa; reintenta hasta agotar intentos; feedback final con respuestas correctas.
+  - **Connect the Cables:** conexiones concepto-ejemplo; permite cambiar conexiones antes de confirmar.
+  - **Train Sorting:** temporizador; reordenar vagones; feedback con orden correcto.
+  - **Bomb Defusal:** cuenta regresiva; 3 candados secuenciales; cable incorrecto o timeout = fallo inmediato.
 
 ## 6. Estadísticas y progreso del jugador
 

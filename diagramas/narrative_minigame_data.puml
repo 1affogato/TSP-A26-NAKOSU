@@ -1,0 +1,110 @@
+@startuml narrative_minigame_data
+title Narrative Fill-in-the-Blank Minigame - Estructura de datos de los escenarios
+
+skinparam classAttributeIconSize 0
+skinparam shadowing false
+skinparam nodesep 60
+skinparam ranksep 70
+
+class NarrativePool <<Pool B2>> {
+  -scenarios: List<NarrativeScenario>
+  --
+  +get_narrative(department: Department, elo: float): NarrativeScenario
+  -select_difficulty(elo: float): Difficulty
+}
+
+note left of NarrativePool
+  Pool de Narrative Fill-in-the-Blank (B2 - Pools de contenido).
+  Selección ponderada: a mayor ELO, mayor
+  probabilidad de elegir una dificultad más alta.
+end note
+
+class NarrativeScenario {
+  -id: int
+  -department: Department
+  -role: String
+  -context: String
+  -story: String
+  -blanks: List<Blank>
+  -options: List<String>
+  -skin: SkinType
+  -difficulty: Difficulty
+  --
+  +get_blanks(): List<Blank>
+  +get_options(): List<String>
+  +get_correct_answers(): List<String>
+  +get_skin(): SkinType
+  +get_role(): String
+  +get_context(): String
+  +get_story(): String
+  +get_department(): Department
+  +get_difficulty(): Difficulty
+}
+
+note left of NarrativeScenario
+  Las instancias de NarrativeScenario viven en NarrativePool;
+  el minijuego recibe UNO al iniciar (UC-09.1).
+  role: rol del jugador (ej. "Junior Developer") — badge UI.
+  context: situación inicial — texto introductorio.
+  story: texto con huecos marcados (ej. "[BLANK_1]", "[BLANK_2]...").
+  blanks: lista de Blank {index, correct_answer}.
+    - index: posición ordinal en el story (1-based, secuencial).
+    - correct_answer: string que DEBE existir en options.
+  options: banco de 8 strings (respuestas correctas + distractores).
+    - El usuario SOLO elige de aquí → no hay input libre.
+    - get_correct_answers() devuelve lista ordenada por Blank.index
+      (computada desde blanks, no almacenada → imposible desincronizar).
+  skin: indicador visual de intentos (UC-09.2):
+    CREDIBILITY = estrellas/reputación, BUDGET = dinero, SPRINT_TIME = días.
+  department: campo directo (sin NarrativeCategory), según spec pool.
+end note
+
+class Blank {
+  -index: int
+  -correct_answer: String
+}
+
+note right of Blank
+  Propósito: dar estructura posicional a los huecos.
+  - index: nº de orden en el story (1, 2, 3...).
+    Permite: feedback por hueco, bloqueo selectivo en reintentos,
+    mostrar story completado con respuestas en su sitio exacto.
+  - correct_answer: respuesta válida (debe estar en options).
+  get_correct_answers() = blanks ordenados por index → map(correct_answer).
+  Single source of truth: blanks. No lista separada almacenada.
+end note
+
+enum Department {
+  DATA_STRUCTURES
+  REQUIREMENTS
+  SOFTWARE_DEV
+  CODING
+}
+
+enum Difficulty {
+  FACIL
+  MEDIO
+  DIFICIL
+  MUY_DIFICIL
+}
+
+enum SkinType {
+  CREDIBILITY
+  BUDGET
+  SPRINT_TIME
+}
+
+
+NarrativePool "1" *-- "1..*" NarrativeScenario : contiene
+NarrativeScenario "*" --> "1" Department
+NarrativeScenario "*" --> "1" Difficulty
+NarrativeScenario "*" --> "1" SkinType
+NarrativeScenario "1" *-- "1..*" Blank : blanks (composición)
+
+note top of Blank
+  Composición fuerte: Blank no existe sin su Scenario.
+  Índices esperados: 1..N densos, sin huecos ni duplicados.
+  Validación en load(): max(index) == size && unique(index).
+end note
+
+@enduml
