@@ -26,7 +26,7 @@ const DIFFICULTY_LABELS := {
 ## Lo mismo para las filas por minijuego: B6 agrupa por la clave del motor
 ## (`QuizMinigame.TYPE`), y aquí se pasa a texto del mockup.
 const MINIGAME_LABELS := {
-	QuizMinigame.TYPE: "quizes",
+	QuizMinigame.TYPE: "Quiz",
 }
 
 ## Descripción de cada departamento: texto de presentación de la vista (sale del

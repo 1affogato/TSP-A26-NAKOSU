@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="QuizQuestion" format=3]
+
+[ext_resource type="Script" path="res://core/db/models/quiz_question.gd" id="1_pw1fk"]
+
+[resource]
+script = ExtResource("1_pw1fk")
+id = 126
+department = 2
+title = "Metodologías de desarrollo"
+description = "¿Qué es el Sprint Backlog en Scrum?"
+responses = Array[String](["La lista completa de deseos del cliente", "Las tareas que el equipo se compromete a terminar en el sprint", "El calendario de vacaciones del equipo", "El reporte de defectos del producto"])
+correct_response_index = 1
+difficulty = 1

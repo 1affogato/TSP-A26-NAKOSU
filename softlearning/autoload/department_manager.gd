@@ -25,8 +25,10 @@ var department_names: Dictionary[Enums.Department, String] = {
 
 ## DATOS DE AUTORÍA — ajústalos aquí; no se guardan en la partida.
 ## Minijuegos ESPECÍFICOS de cada departamento. Los genéricos no van aquí: los
-## añade el orquestador (B4) al armar la secuencia (UC-02.2). El Quiz es genérico
-## (su pool cubre los cuatro departamentos), así que hoy ninguno tiene específicos.
+## añade el orquestador (B4) al armar la secuencia (UC-02.2). Quiz, Swipe! y
+## Narrativa son genéricos (sus pools cubren los cuatro departamentos). Cada
+## valor es la clave TYPE del motor: "BOMB" = BombMinigame (UC-04),
+## "TRAIN" = TrainMinigame (UC-03).
 var enabled_minigames: Dictionary[Enums.Department, Array] = {
 	Enums.Department.DATA_STRUCTURES: [],
 	Enums.Department.REQUIREMENTS: [],
@@ -90,13 +92,17 @@ func can_level_up(department: Enums.Department) -> bool:
 	return get_state(department).elo >= threshold
 
 
-## Progress towards that threshold, from 0.0 to 1.0. 1.0 means the department
-## already meets the condition. It is what the building's floor bars show.
+## Progress from the starting ELO to that threshold, from 0.0 to 1.0. 1.0
+## means the department already meets the condition. It is what the
+## building's floor bars show. Measured from STARTING_ELO and not from 0, so a
+## new department starts at 0 % and every point won shows (the bar used to
+## start at 67 % and barely move).
 func get_level_up_progress(department: Enums.Department) -> float:
 	var threshold: float = level_up_thresholds.get(department, INF)
-	if not is_finite(threshold) or threshold <= 0.0:
+	var span := threshold - DepartmentState.STARTING_ELO
+	if not is_finite(threshold) or span <= 0.0:
 		return 0.0
-	return clampf(get_state(department).elo / threshold, 0.0, 1.0)
+	return clampf((get_state(department).elo - DepartmentState.STARTING_ELO) / span, 0.0, 1.0)
 
 
 ## UC-02.8: the orchestrator packs these into a [SaveData].

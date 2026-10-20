@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="QuizQuestion" format=3]
+
+[ext_resource type="Script" path="res://core/db/models/quiz_question.gd" id="1_07qo1"]
+
+[resource]
+script = ExtResource("1_07qo1")
+id = 98
+title = "Complejidad (Big-O)"
+description = "Un algoritmo divide el problema en dos mitades y hace trabajo lineal para combinarlas. ¿Qué complejidad tiene?"
+responses = Array[String](["O(n²)", "O(2ⁿ)", "O(n log n)", "O(log n)"])
+correct_response_index = 2
+difficulty = 3

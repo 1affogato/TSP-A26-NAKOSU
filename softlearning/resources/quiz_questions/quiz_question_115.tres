@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="QuizQuestion" format=3]
+
+[ext_resource type="Script" path="res://core/db/models/quiz_question.gd" id="1_euwhl"]
+
+[resource]
+script = ExtResource("1_euwhl")
+id = 115
+department = 1
+title = "Validación de requisitos"
+description = "¿Qué se busca al validar los requisitos?"
+responses = Array[String](["Que el código compile sin errores", "Que las pruebas unitarias pasen", "Que el diseño use patrones", "Confirmar que describen lo que el cliente realmente necesita"])
+correct_response_index = 3
+difficulty = 2

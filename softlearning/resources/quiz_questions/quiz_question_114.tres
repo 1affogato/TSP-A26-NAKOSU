@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="QuizQuestion" format=3]
+
+[ext_resource type="Script" path="res://core/db/models/quiz_question.gd" id="1_cn8dr"]
+
+[resource]
+script = ExtResource("1_cn8dr")
+id = 114
+department = 1
+title = "Gestión de requisitos"
+description = "¿Qué técnica de priorización clasifica los requisitos en Must, Should, Could y Won't?"
+responses = Array[String](["INVEST", "MoSCoW", "SMART", "CRUD"])
+correct_response_index = 1
+difficulty = 2

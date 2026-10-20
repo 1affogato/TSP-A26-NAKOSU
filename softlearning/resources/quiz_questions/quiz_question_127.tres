@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="QuizQuestion" format=3]
+
+[ext_resource type="Script" path="res://core/db/models/quiz_question.gd" id="1_fckhj"]
+
+[resource]
+script = ExtResource("1_fckhj")
+id = 127
+department = 2
+title = "Pruebas"
+description = "¿Qué verifica una prueba unitaria?"
+responses = Array[String](["La aceptación del cliente", "El sistema completo con usuarios reales", "La velocidad de la red", "Una pieza pequeña del código de forma aislada"])
+correct_response_index = 3
+difficulty = 1

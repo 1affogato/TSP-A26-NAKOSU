@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="QuizQuestion" format=3]
+
+[ext_resource type="Script" path="res://core/db/models/quiz_question.gd" id="1_p5e1l"]
+
+[resource]
+script = ExtResource("1_p5e1l")
+id = 144
+department = 3
+title = "POO"
+description = "¿Qué es la herencia en programación orientada a objetos?"
+responses = Array[String](["Borrar los atributos de una clase", "Ejecutar dos programas al mismo tiempo", "Copiar y pegar código entre archivos", "Que una clase reutilice y extienda lo definido por otra"])
+correct_response_index = 3

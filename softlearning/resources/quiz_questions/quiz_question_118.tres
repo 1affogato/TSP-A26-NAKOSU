@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="QuizQuestion" format=3]
+
+[ext_resource type="Script" path="res://core/db/models/quiz_question.gd" id="1_5akvr"]
+
+[resource]
+script = ExtResource("1_5akvr")
+id = 118
+department = 1
+title = "Tipos de requisitos"
+description = "'El sistema debe enviar cada pedido a la impresora de la cocina' viene de 'la dueña quiere que la cocina se entere al instante'. ¿Qué relación hay?"
+responses = Array[String](["Un requisito de sistema que realiza un requisito de usuario", "Una restricción que contradice al usuario", "Dos requisitos de negocio iguales", "Un caso de prueba y su resultado"])
+difficulty = 3

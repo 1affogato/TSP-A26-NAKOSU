@@ -1,7 +1,6 @@
 [gd_scene format=3 uid="uid://rfh4u5qcb7a7"]
 
 [ext_resource type="Script" uid="uid://bsmkaoutx07a" path="res://scenes/session_view.gd" id="1_session"]
-[ext_resource type="PackedScene" uid="uid://besce3rt1g7ew" path="res://scenes/quiz_view.tscn" id="1_l4x0j"]
 [ext_resource type="Script" uid="uid://c43nhh3n2pg5e" path="res://core/session_orchestrator.gd" id="3_orchestrator"]
 
 [node name="SessionView" type="Control" unique_id=1506321855]
@@ -24,9 +23,6 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.937, 0.957, 0.996, 1)
-
-[node name="QuizView" parent="." unique_id=1467361519 instance=ExtResource("1_l4x0j")]
-layout_mode = 1
 
 [node name="SessionProgress" type="ProgressBar" parent="."]
 layout_mode = 1
@@ -53,6 +49,17 @@ grow_horizontal = 0
 theme_type_variation = &"RoundButton"
 text = "II"
 
+[node name="EloChange" type="Label" parent="."]
+visible = false
+layout_mode = 1
+offset_left = 24.0
+offset_top = 52.0
+offset_right = 196.0
+offset_bottom = 84.0
+theme_type_variation = &"RightAnswer"
+text = "ELO 1016  (+16)"
+vertical_alignment = 1
+
 [node name="PauseMenu" type="ColorRect" parent="."]
 visible = false
 layout_mode = 1
@@ -75,6 +82,12 @@ grow_vertical = 2
 layout_mode = 2
 theme_override_constants/separation = 20
 
+[node name="PauseTitle" type="Label" parent="PauseMenu/Center/Buttons"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 22
+text = "Juego en pausa"
+horizontal_alignment = 1
+
 [node name="ResumeButton" type="Button" parent="PauseMenu/Center/Buttons"]
 custom_minimum_size = Vector2(300, 60)
 layout_mode = 2
@@ -86,6 +99,16 @@ custom_minimum_size = Vector2(300, 60)
 layout_mode = 2
 theme_type_variation = &"PrimaryButton"
 text = "Salir"
+
+[node name="PauseNote" type="Label" parent="PauseMenu/Center/Buttons"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+theme_type_variation = &"Muted"
+theme_override_font_sizes/font_size = 13
+text = "Se conservan tus respuestas y tus intentos restantes."
+horizontal_alignment = 1
+autowrap_mode = 3
 
 [node name="SaveError" type="ColorRect" parent="."]
 visible = false
@@ -133,8 +156,7 @@ text = "Volver a departamentos"
 [connection signal="resumed" from="SessionOrchestrator" to="." method="hide_pause_menu"]
 [connection signal="save_failed" from="SessionOrchestrator" to="." method="show_save_error"]
 [connection signal="session_ended" from="SessionOrchestrator" to="." method="return_to_department"]
-[connection signal="exit_requested" from="QuizView" to="SessionOrchestrator" method="exit"]
-[connection signal="next_requested" from="QuizView" to="SessionOrchestrator" method="next"]
+[connection signal="elo_updated" from="SessionOrchestrator" to="." method="show_elo_change"]
 [connection signal="pressed" from="PauseButton" to="SessionOrchestrator" method="pause"]
 [connection signal="pressed" from="PauseMenu/Center/Buttons/ResumeButton" to="SessionOrchestrator" method="resume"]
 [connection signal="pressed" from="PauseMenu/Center/Buttons/ExitButton" to="SessionOrchestrator" method="exit"]

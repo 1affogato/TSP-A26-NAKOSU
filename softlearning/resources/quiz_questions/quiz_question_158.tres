@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="QuizQuestion" format=3]
+
+[ext_resource type="Script" path="res://core/db/models/quiz_question.gd" id="1_e1idp"]
+
+[resource]
+script = ExtResource("1_e1idp")
+id = 158
+department = 3
+title = "Principios SOLID"
+description = "Una clase Reporte calcula datos, los formatea en PDF y los envía por correo. ¿Qué principio viola?"
+responses = Array[String](["Ninguno", "Sustitución de Liskov", "Responsabilidad única", "Segregación de interfaces"])
+correct_response_index = 2
+difficulty = 3

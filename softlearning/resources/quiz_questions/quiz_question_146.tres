@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="QuizQuestion" format=3]
+
+[ext_resource type="Script" path="res://core/db/models/quiz_question.gd" id="1_5hiy5"]
+
+[resource]
+script = ExtResource("1_5hiy5")
+id = 146
+department = 3
+title = "POO"
+description = "¿Qué es el polimorfismo?"
+responses = Array[String](["Que una clase tenga muchos atributos", "Que objetos de clases distintas respondan al mismo mensaje cada uno a su manera", "Que una variable cambie de nombre", "Que un método no reciba parámetros"])
+correct_response_index = 1
+difficulty = 1

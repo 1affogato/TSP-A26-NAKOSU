@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="QuizQuestion" format=3]
+
+[ext_resource type="Script" path="res://core/db/models/quiz_question.gd" id="1_ac31t"]
+
+[resource]
+script = ExtResource("1_ac31t")
+id = 129
+department = 2
+title = "Metodologías de desarrollo"
+description = "¿Para qué sirve la retrospectiva al final de un sprint?"
+responses = Array[String](["Para que el equipo mejore su forma de trabajar", "Para escribir las pruebas unitarias", "Para mostrar el producto al cliente", "Para estimar todo el proyecto"])
+difficulty = 1
