@@ -1,0 +1,186 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scenes/narrative_view.gd" id="1_narrative"]
+[ext_resource type="Script" path="res://scenes/attempts_indicator.gd" id="2_attempts"]
+[ext_resource type="PackedScene" path="res://scenes/minigame_feedback.tscn" id="3_feedback"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBox_story"]
+content_margin_left = 14.0
+content_margin_top = 12.0
+content_margin_right = 14.0
+content_margin_bottom = 12.0
+bg_color = Color(0.965, 0.976, 0.996, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.886, 0.91, 0.941, 1)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+
+[sub_resource type="StyleBoxFlat" id="StyleBox_fail"]
+content_margin_left = 12.0
+content_margin_top = 6.0
+content_margin_right = 12.0
+content_margin_bottom = 6.0
+bg_color = Color(0.996, 0.949, 0.949, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[node name="NarrativeView" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_narrative")
+
+[node name="PlayScreen" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 120
+theme_override_constants/margin_top = 64
+theme_override_constants/margin_right = 120
+theme_override_constants/margin_bottom = 24
+
+[node name="Card" type="PanelContainer" parent="PlayScreen"]
+layout_mode = 2
+theme_type_variation = &"Frame"
+
+[node name="Scroll" type="ScrollContainer" parent="PlayScreen/Card"]
+layout_mode = 2
+horizontal_scroll_mode = 0
+
+[node name="Content" type="VBoxContainer" parent="PlayScreen/Card/Scroll"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/separation = 12
+
+[node name="Header" type="HBoxContainer" parent="PlayScreen/Card/Scroll/Content"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="DepartmentTag" type="Label" parent="PlayScreen/Card/Scroll/Content/Header"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"Tag"
+text = "Requerimientos"
+vertical_alignment = 1
+
+[node name="GameTag" type="Label" parent="PlayScreen/Card/Scroll/Content/Header"]
+layout_mode = 2
+theme_type_variation = &"Tag"
+text = "Narrativa"
+vertical_alignment = 1
+
+[node name="Progress" type="Label" parent="PlayScreen/Card/Scroll/Content/Header"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"Muted"
+theme_override_font_sizes/font_size = 13
+text = "Minijuego 1 de 10"
+vertical_alignment = 1
+
+[node name="Spacer" type="Control" parent="PlayScreen/Card/Scroll/Content/Header"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="SkinName" type="Label" parent="PlayScreen/Card/Scroll/Content/Header"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"Tag"
+text = "Tiempo de sprint"
+vertical_alignment = 1
+
+[node name="Attempts" type="Control" parent="PlayScreen/Card/Scroll/Content/Header"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(56, 22)
+layout_mode = 2
+size_flags_vertical = 4
+script = ExtResource("2_attempts")
+
+[node name="Role" type="Label" parent="PlayScreen/Card/Scroll/Content"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 0
+theme_type_variation = &"Tag"
+text = "Tu rol: Product Owner"
+
+[node name="Context" type="Label" parent="PlayScreen/Card/Scroll/Content"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 15
+text = "Una cafetería quiere su propia app de pedidos."
+autowrap_mode = 3
+
+[node name="FailBanner" type="Label" parent="PlayScreen/Card/Scroll/Content"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_override_colors/font_color = Color(0.6, 0.106, 0.106, 1)
+theme_override_font_sizes/font_size = 14
+theme_override_styles/normal = SubResource("StyleBox_fail")
+text = "No funcionó: perdiste credibilidad. Revisa tus respuestas."
+autowrap_mode = 3
+
+[node name="StoryPanel" type="PanelContainer" parent="PlayScreen/Card/Scroll/Content"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBox_story")
+
+[node name="Story" type="VBoxContainer" parent="PlayScreen/Card/Scroll/Content/StoryPanel"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="BankCaption" type="Label" parent="PlayScreen/Card/Scroll/Content"]
+layout_mode = 2
+theme_type_variation = &"Muted"
+theme_override_font_sizes/font_size = 13
+text = "Banco de opciones (8). Una opción puede usarse en más de un hueco."
+
+[node name="Options" type="GridContainer" parent="PlayScreen/Card/Scroll/Content"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/h_separation = 10
+theme_override_constants/v_separation = 10
+columns = 4
+
+[node name="Spacer" type="Control" parent="PlayScreen/Card/Scroll/Content"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Footer" type="HBoxContainer" parent="PlayScreen/Card/Scroll/Content"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Hint" type="Label" parent="PlayScreen/Card/Scroll/Content/Footer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"Muted"
+theme_override_font_sizes/font_size = 13
+text = "Arrastra una opción a un hueco."
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="ConfirmButton" type="Button" parent="PlayScreen/Card/Scroll/Content/Footer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"PrimaryButton"
+theme_override_font_sizes/font_size = 18
+disabled = true
+text = "Confirmar"
+
+[node name="Feedback" parent="." instance=ExtResource("3_feedback")]
+visible = false
+layout_mode = 1
