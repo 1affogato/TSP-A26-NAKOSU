@@ -1,0 +1,212 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scenes/swipe_view.gd" id="1_swipe"]
+[ext_resource type="PackedScene" path="res://scenes/minigame_feedback.tscn" id="2_feedback"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBox_card"]
+content_margin_left = 20.0
+content_margin_top = 20.0
+content_margin_right = 20.0
+content_margin_bottom = 20.0
+bg_color = Color(1, 1, 1, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.145, 0.388, 0.922, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+shadow_color = Color(0.118, 0.161, 0.231, 0.12)
+shadow_size = 8
+
+[node name="SwipeView" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_swipe")
+
+[node name="PlayScreen" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 160
+theme_override_constants/margin_top = 64
+theme_override_constants/margin_right = 160
+theme_override_constants/margin_bottom = 24
+
+[node name="Card" type="PanelContainer" parent="PlayScreen"]
+layout_mode = 2
+theme_type_variation = &"Frame"
+
+[node name="Content" type="VBoxContainer" parent="PlayScreen/Card"]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="Header" type="HBoxContainer" parent="PlayScreen/Card/Content"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="DepartmentTag" type="Label" parent="PlayScreen/Card/Content/Header"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"Tag"
+text = "Requerimientos"
+vertical_alignment = 1
+
+[node name="GameTag" type="Label" parent="PlayScreen/Card/Content/Header"]
+layout_mode = 2
+theme_type_variation = &"Tag"
+text = "Swipe!"
+vertical_alignment = 1
+
+[node name="Progress" type="Label" parent="PlayScreen/Card/Content/Header"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"Muted"
+theme_override_font_sizes/font_size = 13
+text = "Minijuego 1 de 10"
+vertical_alignment = 1
+
+[node name="Spacer" type="Control" parent="PlayScreen/Card/Content/Header"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="NoLimit" type="Label" parent="PlayScreen/Card/Content/Header"]
+layout_mode = 2
+theme_type_variation = &"Muted"
+theme_override_font_sizes/font_size = 13
+text = "Sin límite de tiempo"
+vertical_alignment = 1
+
+[node name="Instruction" type="Label" parent="PlayScreen/Card/Content"]
+layout_mode = 2
+theme_type_variation = &"QuestionText"
+text = "Desliza la tarjeta hacia la categoría a la que pertenece."
+autowrap_mode = 3
+
+[node name="Body" type="HBoxContainer" parent="PlayScreen/Card/Content"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 16
+
+[node name="LeftCategory" type="Button" parent="PlayScreen/Card/Content/Body"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(150, 110)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+theme_type_variation = &"Option"
+toggle_mode = true
+
+[node name="Layout" type="VBoxContainer" parent="PlayScreen/Card/Content/Body/LeftCategory"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+alignment = 1
+
+[node name="Arrow" type="Label" parent="PlayScreen/Card/Content/Body/LeftCategory/Layout"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "←"
+horizontal_alignment = 1
+
+[node name="LeftName" type="Label" parent="PlayScreen/Card/Content/Body/LeftCategory/Layout"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 15
+text = "Requisito funcional"
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="CardArea" type="Control" parent="PlayScreen/Card/Content/Body"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(300, 280)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Card" type="PanelContainer" parent="PlayScreen/Card/Content/Body/CardArea"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(260, 240)
+layout_mode = 0
+mouse_default_cursor_shape = 6
+theme_override_styles/panel = SubResource("StyleBox_card")
+
+[node name="Layout" type="VBoxContainer" parent="PlayScreen/Card/Content/Body/CardArea/Card"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 12
+alignment = 1
+
+[node name="Concept" type="Label" parent="PlayScreen/Card/Content/Body/CardArea/Card/Layout"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"Muted"
+theme_override_font_sizes/font_size = 12
+text = "EJEMPLO"
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="Example" type="Label" parent="PlayScreen/Card/Content/Body/CardArea/Card/Layout"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(220, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 19
+text = "“Quiero recibir una notificación cuando mi pedido sea enviado.”"
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="RightCategory" type="Button" parent="PlayScreen/Card/Content/Body"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(150, 110)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+theme_type_variation = &"Option"
+toggle_mode = true
+
+[node name="Layout" type="VBoxContainer" parent="PlayScreen/Card/Content/Body/RightCategory"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+alignment = 1
+
+[node name="Arrow" type="Label" parent="PlayScreen/Card/Content/Body/RightCategory/Layout"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "→"
+horizontal_alignment = 1
+
+[node name="RightName" type="Label" parent="PlayScreen/Card/Content/Body/RightCategory/Layout"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 15
+text = "Requisito no funcional"
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="Hint" type="Label" parent="PlayScreen/Card/Content"]
+layout_mode = 2
+theme_type_variation = &"Muted"
+theme_override_font_sizes/font_size = 13
+text = "Arrastra la tarjeta con el mouse o el dedo, o usa las flechas ← y → del teclado. Al soltarla lejos del centro, la respuesta queda registrada."
+autowrap_mode = 3
+
+[node name="Feedback" parent="." instance=ExtResource("2_feedback")]
+visible = false
+layout_mode = 1
