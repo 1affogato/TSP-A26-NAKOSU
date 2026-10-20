@@ -1,0 +1,116 @@
+[gd_resource type="Resource" script_class="TrainPool" format=3]
+
+[ext_resource type="Script" path="res://core/train_pool.gd" id="1_nbjik"]
+[ext_resource type="Script" path="res://core/db/models/train_sequence.gd" id="2_qu38h"]
+
+[sub_resource type="Resource" id="Resource_e5q7g"]
+script = ExtResource("2_qu38h")
+id = 1
+instruction = "Ordena las fases del ciclo de vida del software."
+wagons = Array[String](["Análisis", "Diseño", "Implementación", "Pruebas", "Despliegue"])
+
+[sub_resource type="Resource" id="Resource_6xht6"]
+script = ExtResource("2_qu38h")
+id = 2
+instruction = "Ordena los pasos para corregir un error reportado."
+wagons = Array[String](["Reproducir el error", "Encontrar la causa", "Corregir el código", "Volver a probar"])
+
+[sub_resource type="Resource" id="Resource_hpfn1"]
+script = ExtResource("2_qu38h")
+id = 3
+instruction = "Ordena las etapas del modelo en cascada."
+wagons = Array[String](["Requisitos", "Diseño", "Implementación", "Verificación", "Mantenimiento"])
+
+[sub_resource type="Resource" id="Resource_wf4at"]
+script = ExtResource("2_qu38h")
+id = 4
+instruction = "Ordena los pasos para guardar un cambio con Git."
+wagons = Array[String](["Editar el archivo", "git add", "git commit", "git push"])
+
+[sub_resource type="Resource" id="Resource_o6h0a"]
+script = ExtResource("2_qu38h")
+id = 5
+difficulty = 1
+instruction = "Ordena los eventos de un sprint de Scrum."
+wagons = Array[String](["Sprint Planning", "Daily Scrum", "Sprint Review", "Sprint Retrospective"])
+
+[sub_resource type="Resource" id="Resource_5rs50"]
+script = ExtResource("2_qu38h")
+id = 6
+difficulty = 1
+instruction = "Ordena los pasos de una historia de usuario hasta terminarla."
+wagons = Array[String](["Escribir la historia", "Definir criterios de aceptación", "Estimar con el equipo", "Implementar", "Validar con el Product Owner"])
+
+[sub_resource type="Resource" id="Resource_arag5"]
+script = ExtResource("2_qu38h")
+id = 7
+difficulty = 1
+instruction = "Ordena los niveles de prueba, del más pequeño al más grande."
+wagons = Array[String](["Pruebas unitarias", "Pruebas de integración", "Pruebas de sistema", "Pruebas de aceptación"])
+
+[sub_resource type="Resource" id="Resource_cxudh"]
+script = ExtResource("2_qu38h")
+id = 8
+difficulty = 1
+instruction = "Ordena el ciclo de TDD (desarrollo guiado por pruebas)."
+wagons = Array[String](["Escribir una prueba que falle", "Escribir el código mínimo", "Ver la prueba pasar", "Refactorizar"])
+
+[sub_resource type="Resource" id="Resource_gncpk"]
+script = ExtResource("2_qu38h")
+id = 9
+difficulty = 2
+instruction = "Ordena el flujo de una solicitud de cambio (pull request)."
+wagons = Array[String](["Crear una rama", "Hacer commits", "Abrir el pull request", "Revisión de código", "Pasar la integración continua", "Fusionar a main"])
+
+[sub_resource type="Resource" id="Resource_rhbg2"]
+script = ExtResource("2_qu38h")
+id = 10
+difficulty = 2
+instruction = "Ordena los pasos del proceso de pruebas."
+wagons = Array[String](["Planear las pruebas", "Diseñar los casos", "Ejecutar los casos", "Reportar defectos", "Reejecutar (regresión)"])
+
+[sub_resource type="Resource" id="Resource_8u84q"]
+script = ExtResource("2_qu38h")
+id = 11
+difficulty = 2
+instruction = "Ordena las fases de una vuelta del modelo en espiral."
+wagons = Array[String](["Determinar objetivos", "Analizar riesgos", "Desarrollar y probar", "Planear la siguiente vuelta"])
+
+[sub_resource type="Resource" id="Resource_pngs0"]
+script = ExtResource("2_qu38h")
+id = 12
+difficulty = 2
+instruction = "Ordena el ciclo de vida de un defecto."
+wagons = Array[String](["Nuevo", "Asignado", "Corregido", "Verificado", "Cerrado"])
+
+[sub_resource type="Resource" id="Resource_xmpp1"]
+script = ExtResource("2_qu38h")
+id = 13
+difficulty = 3
+instruction = "Ordena las etapas de un pipeline de entrega continua."
+wagons = Array[String](["Commit", "Compilación", "Pruebas automáticas", "Despliegue en staging", "Pruebas de aceptación", "Producción"])
+
+[sub_resource type="Resource" id="Resource_1nnjj"]
+script = ExtResource("2_qu38h")
+id = 14
+difficulty = 3
+instruction = "Ordena la gestión de un riesgo del proyecto."
+wagons = Array[String](["Identificar el riesgo", "Analizar probabilidad e impacto", "Planear la mitigación", "Ejecutar la mitigación", "Monitorear el riesgo"])
+
+[sub_resource type="Resource" id="Resource_mq2dr"]
+script = ExtResource("2_qu38h")
+id = 15
+difficulty = 3
+instruction = "Ordena los pasos de una inspección formal de código."
+wagons = Array[String](["Planeación", "Reunión de arranque", "Preparación individual", "Reunión de inspección", "Corrección", "Seguimiento"])
+
+[sub_resource type="Resource" id="Resource_pi01c"]
+script = ExtResource("2_qu38h")
+id = 16
+difficulty = 3
+instruction = "Ordena las etapas de Kanban por las que pasa una tarea."
+wagons = Array[String](["Backlog", "Por hacer", "En progreso", "En revisión", "Terminado"])
+
+[resource]
+script = ExtResource("1_nbjik")
+sequences = Array[ExtResource("2_qu38h")]([SubResource("Resource_e5q7g"), SubResource("Resource_6xht6"), SubResource("Resource_hpfn1"), SubResource("Resource_wf4at"), SubResource("Resource_o6h0a"), SubResource("Resource_5rs50"), SubResource("Resource_arag5"), SubResource("Resource_cxudh"), SubResource("Resource_gncpk"), SubResource("Resource_rhbg2"), SubResource("Resource_8u84q"), SubResource("Resource_pngs0"), SubResource("Resource_xmpp1"), SubResource("Resource_1nnjj"), SubResource("Resource_mq2dr"), SubResource("Resource_pi01c")])

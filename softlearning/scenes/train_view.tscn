@@ -1,0 +1,173 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scenes/train_view.gd" id="1_train"]
+[ext_resource type="PackedScene" path="res://scenes/minigame_feedback.tscn" id="2_feedback"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBox_track"]
+content_margin_left = 16.0
+content_margin_top = 16.0
+content_margin_right = 16.0
+content_margin_bottom = 16.0
+bg_color = Color(0.965, 0.976, 0.996, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.886, 0.91, 0.941, 1)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+
+[sub_resource type="StyleBoxFlat" id="StyleBox_locomotive"]
+content_margin_left = 12.0
+content_margin_right = 12.0
+bg_color = Color(0.114, 0.306, 0.847, 1)
+corner_radius_top_left = 18
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[node name="TrainView" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_train")
+
+[node name="PlayScreen" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 96
+theme_override_constants/margin_top = 64
+theme_override_constants/margin_right = 96
+theme_override_constants/margin_bottom = 24
+
+[node name="Card" type="PanelContainer" parent="PlayScreen"]
+layout_mode = 2
+theme_type_variation = &"Frame"
+
+[node name="Content" type="VBoxContainer" parent="PlayScreen/Card"]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="Header" type="HBoxContainer" parent="PlayScreen/Card/Content"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="DepartmentTag" type="Label" parent="PlayScreen/Card/Content/Header"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"Tag"
+text = "Desarrollo de Software"
+vertical_alignment = 1
+
+[node name="GameTag" type="Label" parent="PlayScreen/Card/Content/Header"]
+layout_mode = 2
+theme_type_variation = &"Tag"
+text = "Ordena el tren"
+vertical_alignment = 1
+
+[node name="Progress" type="Label" parent="PlayScreen/Card/Content/Header"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"Muted"
+theme_override_font_sizes/font_size = 13
+text = "Minijuego 1 de 10"
+vertical_alignment = 1
+
+[node name="Spacer" type="Control" parent="PlayScreen/Card/Content/Header"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="TimeLeft" type="Label" parent="PlayScreen/Card/Content/Header"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"TimerValue"
+text = "60"
+vertical_alignment = 1
+
+[node name="TimeUnit" type="Label" parent="PlayScreen/Card/Content/Header"]
+layout_mode = 2
+theme_type_variation = &"Muted"
+theme_override_font_sizes/font_size = 13
+text = "seg"
+vertical_alignment = 1
+
+[node name="Instruction" type="Label" parent="PlayScreen/Card/Content"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"QuestionText"
+text = "Ordena las fases del ciclo de vida del software."
+autowrap_mode = 3
+
+[node name="Rules" type="Label" parent="PlayScreen/Card/Content"]
+layout_mode = 2
+theme_type_variation = &"Muted"
+theme_override_font_sizes/font_size = 14
+text = "Arrastra un vagón a otra posición, o haz clic en un vagón y luego en su nuevo lugar. Puedes moverlos cuantas veces quieras, pero solo puedes confirmar una vez."
+autowrap_mode = 3
+
+[node name="TopSpacer" type="Control" parent="PlayScreen/Card/Content"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Track" type="PanelContainer" parent="PlayScreen/Card/Content"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBox_track")
+
+[node name="Wagons" type="HBoxContainer" parent="PlayScreen/Card/Content/Track"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 8
+alignment = 1
+
+[node name="Locomotive" type="PanelContainer" parent="PlayScreen/Card/Content/Track/Wagons"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(96, 72)
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_styles/panel = SubResource("StyleBox_locomotive")
+
+[node name="Label" type="Label" parent="PlayScreen/Card/Content/Track/Wagons/Locomotive"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 13
+text = "Locomotora"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="BottomSpacer" type="Control" parent="PlayScreen/Card/Content"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Footer" type="HBoxContainer" parent="PlayScreen/Card/Content"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Hint" type="Label" parent="PlayScreen/Card/Content/Footer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"Muted"
+theme_override_font_sizes/font_size = 13
+text = "5 vagones · un solo orden correcto"
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="ConfirmButton" type="Button" parent="PlayScreen/Card/Content/Footer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"PrimaryButton"
+theme_override_font_sizes/font_size = 18
+text = "Confirmar orden"
+
+[node name="Feedback" parent="." instance=ExtResource("2_feedback")]
+visible = false
+layout_mode = 1
