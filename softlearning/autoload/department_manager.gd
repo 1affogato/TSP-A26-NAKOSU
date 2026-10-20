@@ -31,8 +31,8 @@ var department_names: Dictionary[Enums.Department, String] = {
 ## "TRAIN" = TrainMinigame (UC-03).
 var enabled_minigames: Dictionary[Enums.Department, Array] = {
 	Enums.Department.DATA_STRUCTURES: [],
-	Enums.Department.REQUIREMENTS: [],
-	Enums.Department.SOFTWARE_DEV: [],
+	Enums.Department.REQUIREMENTS: ["BOMB"],
+	Enums.Department.SOFTWARE_DEV: ["TRAIN"],
 	Enums.Department.CODING: [],
 }
 

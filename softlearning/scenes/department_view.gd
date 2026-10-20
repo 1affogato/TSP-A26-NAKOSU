@@ -27,6 +27,10 @@ const DIFFICULTY_LABELS := {
 ## (`QuizMinigame.TYPE`), y aquí se pasa a texto del mockup.
 const MINIGAME_LABELS := {
 	QuizMinigame.TYPE: "Quiz",
+	SwipeMinigame.TYPE: "Swipe",
+	NarrativeMinigame.TYPE: "Narrativa",
+	TrainMinigame.TYPE: "Ordena el tren",
+	BombMinigame.TYPE: "Desactivar bomba",
 }
 
 ## Descripción de cada departamento: texto de presentación de la vista (sale del

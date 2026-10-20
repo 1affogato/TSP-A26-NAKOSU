@@ -38,8 +38,8 @@ const SEQUENCE_LENGTH := 10
 @export var pause_time_limit := 300.0
 
 var department: Enums.Department
-## Minigames playable in every department (the quiz pool covers all four).
-var generic_minigames: Array[String] = [QuizMinigame.TYPE]
+## Minigames playable in every department (their pools cover all four).
+var generic_minigames: Array[String] = [QuizMinigame.TYPE, SwipeMinigame.TYPE, NarrativeMinigame.TYPE]
 var sequence: Array[String] = []
 var current_index := 0
 var current_minigame: Minigame
@@ -135,6 +135,14 @@ func _create_minigame(type: String) -> Minigame:
 	match type:
 		QuizMinigame.TYPE:
 			minigame = QuizMinigame.new()
+		SwipeMinigame.TYPE:
+			minigame = SwipeMinigame.new()
+		NarrativeMinigame.TYPE:
+			minigame = NarrativeMinigame.new()
+		TrainMinigame.TYPE:
+			minigame = TrainMinigame.new()
+		BombMinigame.TYPE:
+			minigame = BombMinigame.new()
 	minigame.finished.connect(_on_minigame_finished)
 	add_child(minigame)
 	return minigame

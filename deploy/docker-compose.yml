@@ -1,0 +1,29 @@
+services:
+  # El juego en http://localhost:8088 (otro puerto: PORT=9000 docker compose up)
+  web:
+    build: .
+    ports:
+      - "${PORT:-8088}:80"
+    restart: unless-stopped
+
+  # Link público temporal (https://<algo>.trycloudflare.com, cambia cada vez).
+  # Arranca con: docker compose --profile publico up -d   (el link sale en: docker compose logs tunnel)
+  tunnel:
+    image: cloudflare/cloudflared:latest
+    profiles: ["publico"]
+    depends_on:
+      - web
+    command: tunnel --url http://web:80
+    restart: unless-stopped
+
+  # Link fijo con un túnel con nombre de Cloudflare Zero Trust.
+  # Arranca con: TUNNEL_TOKEN=<token> docker compose --profile fijo up -d
+  tunnel-fijo:
+    image: cloudflare/cloudflared:latest
+    profiles: ["fijo"]
+    depends_on:
+      - web
+    environment:
+      - TUNNEL_TOKEN=${TUNNEL_TOKEN:-}
+    command: tunnel run
+    restart: unless-stopped
