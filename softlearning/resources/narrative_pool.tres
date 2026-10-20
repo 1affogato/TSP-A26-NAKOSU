@@ -1,0 +1,941 @@
+[gd_resource type="Resource" script_class="NarrativePool" format=3]
+
+[ext_resource type="Script" path="res://core/db/models/narrative_scenario.gd" id="1_362sh"]
+[ext_resource type="Script" path="res://core/db/models/blank.gd" id="2_k5u6k"]
+[ext_resource type="Script" path="res://core/narrative_pool.gd" id="3_1ikcy"]
+
+[sub_resource type="Resource" id="Resource_t67kb"]
+script = ExtResource("2_k5u6k")
+correct_answer = "Requisito de negocio"
+
+[sub_resource type="Resource" id="Resource_nns77"]
+script = ExtResource("2_k5u6k")
+index = 2
+correct_answer = "Requisito de usuario"
+
+[sub_resource type="Resource" id="Resource_g40y8"]
+script = ExtResource("2_k5u6k")
+index = 3
+correct_answer = "Requisito de sistema"
+
+[sub_resource type="Resource" id="Resource_10jrb"]
+script = ExtResource("1_362sh")
+id = 1
+department = 1
+role = "Product Owner"
+context = "Una cafetería quiere su propia app de pedidos. En la primera reunión, la dueña te cuenta lo que necesita y tú clasificas cada petición."
+story = "\"Queremos vender 20 % más en línea este año\" es un [BLANK_1]
+\"Quiero pedir mi café desde el celular\" es un [BLANK_2]
+\"El sistema debe enviar cada pedido a la impresora de la cocina\" es un [BLANK_3]"
+blanks = Array[ExtResource("2_k5u6k")]([SubResource("Resource_t67kb"), SubResource("Resource_nns77"), SubResource("Resource_g40y8")])
+options = Array[String](["Requisito de sistema", "Caso de uso", "Caso de prueba", "Restricción", "Requisito emocional", "Requisito de usuario", "Requisito de negocio", "Criterio de aceptación"])
+skin = 2
+good_ending = "La dueña sonríe: \"Por fin alguien entendió lo que necesitamos. ¡Empecemos con la app!\""
+bad_ending = "La dueña cierra su libreta: \"Creo que buscaremos otro equipo para este proyecto.\""
+
+[sub_resource type="Resource" id="Resource_638xv"]
+script = ExtResource("2_k5u6k")
+correct_answer = "Requisito funcional"
+
+[sub_resource type="Resource" id="Resource_n2v6o"]
+script = ExtResource("2_k5u6k")
+index = 2
+correct_answer = "Requisito no funcional"
+
+[sub_resource type="Resource" id="Resource_3dnrh"]
+script = ExtResource("2_k5u6k")
+index = 3
+correct_answer = "Requisito funcional"
+
+[sub_resource type="Resource" id="Resource_8frfw"]
+script = ExtResource("1_362sh")
+id = 2
+department = 1
+role = "Analista de requisitos"
+context = "Una biblioteca escolar quiere un sistema de préstamos. Separas lo que el sistema debe hacer de cómo debe hacerlo."
+story = "\"El alumno puede apartar un libro desde su casa\" es un [BLANK_1]
+\"La búsqueda debe responder en menos de un segundo\" es un [BLANK_2]
+\"El sistema avisa por correo cuando vence un préstamo\" es un [BLANK_3]"
+blanks = Array[ExtResource("2_k5u6k")]([SubResource("Resource_638xv"), SubResource("Resource_n2v6o"), SubResource("Resource_3dnrh")])
+options = Array[String](["Requisito funcional", "Requisito emocional", "Caso de prueba", "Diagrama de clases", "Restricción", "Actor", "Riesgo", "Requisito no funcional"])
+good_ending = "La bibliotecaria asiente: \"Así sí sé qué esperar del sistema. ¡Gracias!\""
+bad_ending = "La bibliotecaria duda: \"Siento que mezclamos todo. Mejor lo platicamos otro día.\""
+
+[sub_resource type="Resource" id="Resource_nfa3l"]
+script = ExtResource("2_k5u6k")
+correct_answer = "Observación"
+
+[sub_resource type="Resource" id="Resource_uvqes"]
+script = ExtResource("2_k5u6k")
+index = 2
+correct_answer = "Cuestionario"
+
+[sub_resource type="Resource" id="Resource_030ld"]
+script = ExtResource("2_k5u6k")
+index = 3
+correct_answer = "Entrevista"
+
+[sub_resource type="Resource" id="Resource_mijsr"]
+script = ExtResource("1_362sh")
+id = 3
+department = 1
+difficulty = 1
+role = "Analista de requisitos"
+context = "Un gimnasio quiere digitalizar sus inscripciones. Antes de escribir nada, decides cómo obtener la información de cada grupo."
+story = "Para entender cómo trabaja la recepción, pasas una mañana mirando: usas [BLANK_1]
+Para conocer la opinión de 400 socios, envías un formulario: usas [BLANK_2]
+Para aclarar dudas con el dueño, platicas con él cara a cara: usas [BLANK_3]"
+blanks = Array[ExtResource("2_k5u6k")]([SubResource("Resource_nfa3l"), SubResource("Resource_uvqes"), SubResource("Resource_030ld")])
+options = Array[String](["Cuestionario", "Entrevista", "Observación", "Adivinación", "Prototipo", "Refactorización", "Prueba unitaria", "Despliegue"])
+skin = 1
+good_ending = "El dueño queda impresionado: \"Nunca nos habían escuchado tan bien.\""
+bad_ending = "Gastaste el presupuesto de análisis y todavía no sabes qué necesita el gimnasio."
+
+[sub_resource type="Resource" id="Resource_2sdrc"]
+script = ExtResource("2_k5u6k")
+correct_answer = "Rol"
+
+[sub_resource type="Resource" id="Resource_f64bx"]
+script = ExtResource("2_k5u6k")
+index = 2
+correct_answer = "Funcionalidad"
+
+[sub_resource type="Resource" id="Resource_pls15"]
+script = ExtResource("2_k5u6k")
+index = 3
+correct_answer = "Criterio de aceptación"
+
+[sub_resource type="Resource" id="Resource_ibmbr"]
+script = ExtResource("1_362sh")
+id = 4
+department = 1
+difficulty = 1
+role = "Product Owner"
+context = "Escribes la primera historia de usuario de una app de citas médicas y la revisas con el equipo."
+story = "En \"Como paciente, quiero agendar una cita, para no hacer fila\", \"paciente\" es el [BLANK_1]
+\"Agendar una cita\" es la [BLANK_2]
+\"Dado que hay horarios libres, cuando elijo uno, entonces queda reservado\" es un [BLANK_3]"
+blanks = Array[ExtResource("2_k5u6k")]([SubResource("Resource_2sdrc"), SubResource("Resource_f64bx"), SubResource("Resource_pls15")])
+options = Array[String](["Requisito emocional", "Beneficio", "Restricción", "Funcionalidad", "Riesgo", "Épica", "Rol", "Criterio de aceptación"])
+skin = 2
+good_ending = "El equipo entiende la historia a la primera y la estima en minutos."
+bad_ending = "El sprint se acabó entre dudas: nadie sabía qué significaba \"terminado\"."
+
+[sub_resource type="Resource" id="Resource_xmnj6"]
+script = ExtResource("2_k5u6k")
+correct_answer = "Disponibilidad"
+
+[sub_resource type="Resource" id="Resource_60mnm"]
+script = ExtResource("2_k5u6k")
+index = 2
+correct_answer = "Seguridad"
+
+[sub_resource type="Resource" id="Resource_msmmo"]
+script = ExtResource("2_k5u6k")
+index = 3
+correct_answer = "Fiabilidad"
+
+[sub_resource type="Resource" id="Resource_r4sw2"]
+script = ExtResource("1_362sh")
+id = 5
+department = 1
+difficulty = 2
+role = "Ingeniero de calidad"
+context = "Revisas los requisitos no funcionales de una tienda en línea y los asocias con su atributo de calidad."
+story = "\"El sitio debe estar arriba el 99.5 % del tiempo\" habla de [BLANK_1]
+\"Solo el administrador ve los datos de pago\" habla de [BLANK_2]
+\"Si se cae la red, el carrito no se pierde\" habla de [BLANK_3]"
+blanks = Array[ExtResource("2_k5u6k")]([SubResource("Resource_xmnj6"), SubResource("Resource_60mnm"), SubResource("Resource_msmmo")])
+options = Array[String](["Usabilidad", "Portabilidad", "Disponibilidad", "Funcionalidad", "Rendimiento", "Seguridad", "Fiabilidad", "Alegría"])
+good_ending = "El auditor firma el documento: \"Atributos claros y medibles. Excelente.\""
+bad_ending = "El auditor regresa el documento lleno de notas rojas: perdiste credibilidad."
+
+[sub_resource type="Resource" id="Resource_xn8v5"]
+script = ExtResource("2_k5u6k")
+correct_answer = "Restricción"
+
+[sub_resource type="Resource" id="Resource_yq5su"]
+script = ExtResource("2_k5u6k")
+index = 2
+correct_answer = "Requisito de usuario"
+
+[sub_resource type="Resource" id="Resource_noc53"]
+script = ExtResource("2_k5u6k")
+index = 3
+correct_answer = "Requisito funcional"
+
+[sub_resource type="Resource" id="Resource_pdi1b"]
+script = ExtResource("1_362sh")
+id = 6
+department = 1
+difficulty = 2
+role = "Analista de requisitos"
+context = "El cliente de un sistema de nómina te entrega una lista de peticiones. Algunas no son requisitos de usuario."
+story = "\"Debe programarse en Java porque es lo que sabe el equipo de TI\" es una [BLANK_1]
+\"Como contador, quiero exportar la nómina a Excel\" es un [BLANK_2]
+\"El sistema debe calcular el ISR de cada empleado\" es un [BLANK_3]"
+blanks = Array[ExtResource("2_k5u6k")]([SubResource("Resource_xn8v5"), SubResource("Resource_yq5su"), SubResource("Resource_noc53")])
+options = Array[String](["Atributo de calidad", "Caso de prueba", "Requisito de usuario", "Requisito emocional", "Requisito funcional", "Restricción", "Requisito de negocio", "Riesgo"])
+skin = 1
+good_ending = "El cliente aprueba el documento sin cambios y el proyecto arranca a tiempo."
+bad_ending = "Las correcciones consumieron el presupuesto de la fase de análisis."
+
+[sub_resource type="Resource" id="Resource_pmdb3"]
+script = ExtResource("2_k5u6k")
+correct_answer = "Ambiguo"
+
+[sub_resource type="Resource" id="Resource_qxndo"]
+script = ExtResource("2_k5u6k")
+index = 2
+correct_answer = "Verificable"
+
+[sub_resource type="Resource" id="Resource_fi6t8"]
+script = ExtResource("2_k5u6k")
+index = 3
+correct_answer = "Caso de prueba"
+
+[sub_resource type="Resource" id="Resource_7vwu5"]
+script = ExtResource("1_362sh")
+id = 7
+department = 1
+difficulty = 3
+role = "Analista senior"
+context = "Una app de transporte escolar recibió quejas. Reescribes los requisitos ambiguos para que se puedan probar."
+story = "\"La app debe ser rápida\" es un requisito [BLANK_1]
+\"El 95 % de las rutas se calculan en menos de 2 s\" es un requisito [BLANK_2]
+\"Para comprobar el segundo, el equipo diseña un [BLANK_3]\""
+blanks = Array[ExtResource("2_k5u6k")]([SubResource("Resource_pmdb3"), SubResource("Resource_qxndo"), SubResource("Resource_fi6t8")])
+options = Array[String](["Emocional", "Verificable", "Caso de uso", "Diagrama de clases", "Caso de prueba", "Ambiguo", "Sprint", "Funcional"])
+good_ending = "Las quejas bajan: ahora todos saben exactamente qué significa \"rápida\"."
+bad_ending = "Las quejas siguen y el cliente pierde la confianza en el equipo."
+
+[sub_resource type="Resource" id="Resource_vjp83"]
+script = ExtResource("2_k5u6k")
+correct_answer = "Matriz de trazabilidad"
+
+[sub_resource type="Resource" id="Resource_k20xx"]
+script = ExtResource("2_k5u6k")
+index = 2
+correct_answer = "Prioridad"
+
+[sub_resource type="Resource" id="Resource_psj0f"]
+script = ExtResource("2_k5u6k")
+index = 3
+correct_answer = "Validación"
+
+[sub_resource type="Resource" id="Resource_ta78u"]
+script = ExtResource("1_362sh")
+id = 8
+department = 1
+difficulty = 3
+role = "Analista senior"
+context = "A mitad del proyecto, el cliente cambia un requisito. Tienes que medir el impacto antes de aceptar."
+story = "Para ver qué diseño, código y pruebas toca el cambio, consultas la [BLANK_1]
+Para decidir si entra en este sprint, revisas su [BLANK_2]
+Al final, el cliente confirma que el cambio sí resuelve su necesidad: eso es [BLANK_3]"
+blanks = Array[ExtResource("2_k5u6k")]([SubResource("Resource_vjp83"), SubResource("Resource_k20xx"), SubResource("Resource_psj0f")])
+options = Array[String](["Matriz de trazabilidad", "Suerte", "Prioridad", "Validación", "Velocidad", "Refactorización", "Verificación", "Densidad de defectos"])
+skin = 2
+good_ending = "El cambio entra sin romper nada y el cliente queda tranquilo."
+bad_ending = "Se te acabó el tiempo de sprint y el cambio rompió dos pantallas."
+
+[sub_resource type="Resource" id="Resource_uqsne"]
+script = ExtResource("2_k5u6k")
+correct_answer = "Cola"
+
+[sub_resource type="Resource" id="Resource_timmr"]
+script = ExtResource("2_k5u6k")
+index = 2
+correct_answer = "Pila"
+
+[sub_resource type="Resource" id="Resource_1kacs"]
+script = ExtResource("2_k5u6k")
+index = 3
+correct_answer = "Arreglo"
+
+[sub_resource type="Resource" id="Resource_rblkh"]
+script = ExtResource("1_362sh")
+id = 9
+role = "Junior Developer"
+context = "Tu equipo programa una app de comida. Eliges la estructura adecuada para cada parte."
+story = "Los pedidos se atienden en el orden en que llegan: usas una [BLANK_1]
+El botón Deshacer recupera la última acción: usas una [BLANK_2]
+El menú tiene 20 platillos fijos que se leen por posición: usas un [BLANK_3]"
+blanks = Array[ExtResource("2_k5u6k")]([SubResource("Resource_uqsne"), SubResource("Resource_timmr"), SubResource("Resource_1kacs")])
+options = Array[String](["Montículo", "Tabla hash", "Grafo", "Lista de deseos", "Pila", "Arreglo", "Cola", "Árbol"])
+skin = 2
+good_ending = "La app funciona fluida desde el primer día. ¡Buen trabajo!"
+bad_ending = "Los pedidos salieron en desorden y el sprint se fue en corregirlo."
+
+[sub_resource type="Resource" id="Resource_6veyu"]
+script = ExtResource("2_k5u6k")
+correct_answer = "Árbol"
+
+[sub_resource type="Resource" id="Resource_2evga"]
+script = ExtResource("2_k5u6k")
+index = 2
+correct_answer = "Tabla hash"
+
+[sub_resource type="Resource" id="Resource_wk0bd"]
+script = ExtResource("2_k5u6k")
+index = 3
+correct_answer = "Cola"
+
+[sub_resource type="Resource" id="Resource_g7rlp"]
+script = ExtResource("1_362sh")
+id = 10
+role = "Junior Developer"
+context = "Ayudas a organizar los datos de una escuela."
+story = "Las carpetas de grupos dentro de cada grado forman un [BLANK_1]
+Buscar a un alumno por su matrícula al instante requiere una [BLANK_2]
+La fila de entrega de boletas es una [BLANK_3]"
+blanks = Array[ExtResource("2_k5u6k")]([SubResource("Resource_6veyu"), SubResource("Resource_2evga"), SubResource("Resource_wk0bd")])
+options = Array[String](["Cola", "Grafo", "Montículo", "Pila", "Árbol", "Tabla hash", "Arreglo", "Bucle"])
+good_ending = "La directora queda encantada: todo se encuentra en segundos."
+bad_ending = "La directora no confía en el sistema: nadie encuentra nada."
+
+[sub_resource type="Resource" id="Resource_3b58t"]
+script = ExtResource("2_k5u6k")
+correct_answer = "O(n)"
+
+[sub_resource type="Resource" id="Resource_uu3ja"]
+script = ExtResource("2_k5u6k")
+index = 2
+correct_answer = "O(log n)"
+
+[sub_resource type="Resource" id="Resource_tv1jo"]
+script = ExtResource("2_k5u6k")
+index = 3
+correct_answer = "O(1)"
+
+[sub_resource type="Resource" id="Resource_iru3w"]
+script = ExtResource("1_362sh")
+id = 11
+difficulty = 1
+role = "Desarrollador"
+context = "Optimizas el buscador de una tienda en línea."
+story = "Buscar en una lista desordenada revisando uno por uno cuesta [BLANK_1]
+Si la lista está ordenada, la búsqueda binaria cuesta [BLANK_2]
+Con una tabla hash, la búsqueda promedio cuesta [BLANK_3]"
+blanks = Array[ExtResource("2_k5u6k")]([SubResource("Resource_3b58t"), SubResource("Resource_uu3ja"), SubResource("Resource_tv1jo")])
+options = Array[String](["O(n²)", "O(√n)", "O(n log n)", "O(log n)", "O(n)", "O(n³)", "O(1)", "O(2ⁿ)"])
+skin = 1
+good_ending = "El buscador ahora responde al instante y las ventas suben."
+bad_ending = "El servidor se saturó y se fue el presupuesto en máquinas más grandes."
+
+[sub_resource type="Resource" id="Resource_x5ilk"]
+script = ExtResource("2_k5u6k")
+correct_answer = "Grafo"
+
+[sub_resource type="Resource" id="Resource_83i3u"]
+script = ExtResource("2_k5u6k")
+index = 2
+correct_answer = "Anchura (BFS)"
+
+[sub_resource type="Resource" id="Resource_snfwj"]
+script = ExtResource("2_k5u6k")
+index = 3
+correct_answer = "Cola"
+
+[sub_resource type="Resource" id="Resource_vvrfi"]
+script = ExtResource("1_362sh")
+id = 12
+difficulty = 1
+role = "Desarrollador"
+context = "Modelas el mapa de una app de rutas en bicicleta."
+story = "Las calles conectan cruces en ambos sentidos: el mapa es un [BLANK_1]
+Para hallar la ruta con menos cruces, recorres en [BLANK_2]
+Para recordar qué cruces faltan por visitar en ese recorrido, usas una [BLANK_3]"
+blanks = Array[ExtResource("2_k5u6k")]([SubResource("Resource_x5ilk"), SubResource("Resource_83i3u"), SubResource("Resource_snfwj")])
+options = Array[String](["Arreglo", "Cola", "Tabla hash", "Grafo", "Pila", "Profundidad (DFS)", "Árbol", "Anchura (BFS)"])
+skin = 2
+good_ending = "Los ciclistas llegan por la ruta más corta. ¡Éxito!"
+bad_ending = "Las rutas daban vueltas sin sentido y se agotó el tiempo de sprint."
+
+[sub_resource type="Resource" id="Resource_mdi7h"]
+script = ExtResource("2_k5u6k")
+correct_answer = "Cola de prioridad"
+
+[sub_resource type="Resource" id="Resource_m6j5r"]
+script = ExtResource("2_k5u6k")
+index = 2
+correct_answer = "Montículo"
+
+[sub_resource type="Resource" id="Resource_n6tnb"]
+script = ExtResource("2_k5u6k")
+index = 3
+correct_answer = "O(log n)"
+
+[sub_resource type="Resource" id="Resource_i626x"]
+script = ExtResource("1_362sh")
+id = 13
+difficulty = 2
+role = "Desarrollador"
+context = "Diseñas el sistema de turnos de un hospital."
+story = "Atender primero al paciente más grave requiere una [BLANK_1]
+Esa estructura se implementa con un [BLANK_2]
+Sacar al más grave cuesta [BLANK_3]"
+blanks = Array[ExtResource("2_k5u6k")]([SubResource("Resource_mdi7h"), SubResource("Resource_m6j5r"), SubResource("Resource_n6tnb")])
+options = Array[String](["Montículo", "Lista enlazada", "O(n²)", "O(1)", "Cola de prioridad", "Árbol AVL", "O(log n)", "Pila"])
+good_ending = "Urgencias funciona con orden y rapidez. Los médicos te lo agradecen."
+bad_ending = "Los turnos se atendieron por llegada y perdiste la confianza del hospital."
+
+[sub_resource type="Resource" id="Resource_y2ek5"]
+script = ExtResource("2_k5u6k")
+correct_answer = "Lista"
+
+[sub_resource type="Resource" id="Resource_yht5h"]
+script = ExtResource("2_k5u6k")
+index = 2
+correct_answer = "AVL"
+
+[sub_resource type="Resource" id="Resource_uxst4"]
+script = ExtResource("2_k5u6k")
+index = 3
+correct_answer = "O(log n)"
+
+[sub_resource type="Resource" id="Resource_636wc"]
+script = ExtResource("1_362sh")
+id = 14
+difficulty = 2
+role = "Desarrollador"
+context = "Mejoras la base de usuarios de un videojuego en línea."
+story = "Al insertar nombres ya ordenados, un árbol binario de búsqueda simple se vuelve una [BLANK_1]
+Para evitarlo usas un árbol [BLANK_2]
+Así la búsqueda vuelve a costar [BLANK_3]"
+blanks = Array[ExtResource("2_k5u6k")]([SubResource("Resource_y2ek5"), SubResource("Resource_yht5h"), SubResource("Resource_uxst4")])
+options = Array[String](["Lista", "Cola", "O(log n)", "O(n²)", "Pila", "O(1)", "AVL", "Hash"])
+skin = 1
+good_ending = "Los jugadores entran sin esperas. ¡La base de datos vuela!"
+bad_ending = "El login se volvió lento y el presupuesto se fue en servidores."
+
+[sub_resource type="Resource" id="Resource_a7j16"]
+script = ExtResource("2_k5u6k")
+correct_answer = "Grafo dirigido"
+
+[sub_resource type="Resource" id="Resource_tgun5"]
+script = ExtResource("2_k5u6k")
+index = 2
+correct_answer = "Ordenamiento topológico"
+
+[sub_resource type="Resource" id="Resource_3fom2"]
+script = ExtResource("2_k5u6k")
+index = 3
+correct_answer = "Ciclos"
+
+[sub_resource type="Resource" id="Resource_vneln"]
+script = ExtResource("1_362sh")
+id = 15
+difficulty = 3
+role = "Arquitecto de software"
+context = "Planeas la compilación de un proyecto con muchos módulos que dependen unos de otros."
+story = "Las dependencias entre módulos forman un [BLANK_1]
+Para compilar en el orden correcto aplicas un [BLANK_2]
+Eso solo es posible si el grafo no tiene [BLANK_3]"
+blanks = Array[ExtResource("2_k5u6k")]([SubResource("Resource_a7j16"), SubResource("Resource_tgun5"), SubResource("Resource_3fom2")])
+options = Array[String](["Pesos negativos", "Árbol binario", "Hojas", "Raíz", "Ciclos", "Quicksort", "Grafo dirigido", "Ordenamiento topológico"])
+skin = 2
+good_ending = "El proyecto compila en el orden perfecto. ¡Nada falla!"
+bad_ending = "Los módulos se compilaron en desorden y el sprint terminó sin build."
+
+[sub_resource type="Resource" id="Resource_o2w11"]
+script = ExtResource("2_k5u6k")
+correct_answer = "Dijkstra"
+
+[sub_resource type="Resource" id="Resource_wc1l1"]
+script = ExtResource("2_k5u6k")
+index = 2
+correct_answer = "Bellman-Ford"
+
+[sub_resource type="Resource" id="Resource_phfl3"]
+script = ExtResource("2_k5u6k")
+index = 3
+correct_answer = "Montículo"
+
+[sub_resource type="Resource" id="Resource_i73d4"]
+script = ExtResource("1_362sh")
+id = 16
+difficulty = 3
+role = "Arquitecto de software"
+context = "Calculas rutas de entrega con costos distintos en cada calle."
+story = "Para el camino más barato con pesos positivos usas [BLANK_1]
+Si hay pesos negativos, cambias a [BLANK_2]
+Para elegir rápido el siguiente vértice más cercano, Dijkstra usa un [BLANK_3]"
+blanks = Array[ExtResource("2_k5u6k")]([SubResource("Resource_o2w11"), SubResource("Resource_wc1l1"), SubResource("Resource_phfl3")])
+options = Array[String](["Pila", "Dijkstra", "Montículo", "Arreglo", "Búsqueda binaria", "Bubble Sort", "BFS", "Bellman-Ford"])
+good_ending = "Las entregas llegan por la ruta más barata. El cliente renueva el contrato."
+bad_ending = "Las rutas salieron carísimas y el cliente dejó de confiar en ti."
+
+[sub_resource type="Resource" id="Resource_qvxcl"]
+script = ExtResource("2_k5u6k")
+correct_answer = "Análisis"
+
+[sub_resource type="Resource" id="Resource_yds2b"]
+script = ExtResource("2_k5u6k")
+index = 2
+correct_answer = "Diseño"
+
+[sub_resource type="Resource" id="Resource_ia5p8"]
+script = ExtResource("2_k5u6k")
+index = 3
+correct_answer = "Pruebas"
+
+[sub_resource type="Resource" id="Resource_15q22"]
+script = ExtResource("1_362sh")
+id = 17
+department = 2
+role = "Scrum Team Member"
+context = "Es tu primer día en un equipo de desarrollo. Te explican las etapas del proyecto."
+story = "Entender qué necesita el cliente es la etapa de [BLANK_1]
+Dibujar el diagrama de clases es parte del [BLANK_2]
+Buscar defectos antes de entregar son las [BLANK_3]"
+blanks = Array[ExtResource("2_k5u6k")]([SubResource("Resource_qvxcl"), SubResource("Resource_yds2b"), SubResource("Resource_ia5p8")])
+options = Array[String](["Diseño", "Marketing", "Despliegue", "Implementación", "Pruebas", "Mantenimiento", "Análisis", "Vacaciones"])
+skin = 2
+good_ending = "Tu líder te felicita: ¡ya entiendes cómo trabaja el equipo!"
+bad_ending = "Te perdiste entre etapas y el sprint avanzó sin ti."
+
+[sub_resource type="Resource" id="Resource_7a2f2"]
+script = ExtResource("2_k5u6k")
+correct_answer = "Product Owner"
+
+[sub_resource type="Resource" id="Resource_vleul"]
+script = ExtResource("2_k5u6k")
+index = 2
+correct_answer = "Scrum Master"
+
+[sub_resource type="Resource" id="Resource_6fxgk"]
+script = ExtResource("2_k5u6k")
+index = 3
+correct_answer = "Equipo de desarrollo"
+
+[sub_resource type="Resource" id="Resource_c3tdh"]
+script = ExtResource("1_362sh")
+id = 18
+department = 2
+role = "Scrum Team Member"
+context = "Tu equipo usa Scrum. Te presentan a cada rol."
+story = "Quien prioriza el Product Backlog es el [BLANK_1]
+Quien ayuda a quitar impedimentos es el [BLANK_2]
+Quienes construyen el incremento son el [BLANK_3]"
+blanks = Array[ExtResource("2_k5u6k")]([SubResource("Resource_7a2f2"), SubResource("Resource_vleul"), SubResource("Resource_6fxgk")])
+options = Array[String](["Cliente", "Equipo de desarrollo", "Usuario final", "Becario", "Auditor", "Gerente de ventas", "Product Owner", "Scrum Master"])
+good_ending = "El equipo te recibe con gusto: entiendes muy bien cada rol."
+bad_ending = "Le pediste prioridades a quien no correspondía y perdiste credibilidad."
+
+[sub_resource type="Resource" id="Resource_88qos"]
+script = ExtResource("2_k5u6k")
+correct_answer = "Unitaria"
+
+[sub_resource type="Resource" id="Resource_nxgix"]
+script = ExtResource("2_k5u6k")
+index = 2
+correct_answer = "Integración"
+
+[sub_resource type="Resource" id="Resource_7nunl"]
+script = ExtResource("2_k5u6k")
+index = 3
+correct_answer = "Aceptación"
+
+[sub_resource type="Resource" id="Resource_3giwf"]
+script = ExtResource("1_362sh")
+id = 19
+department = 2
+difficulty = 1
+role = "Desarrollador"
+context = "Organizas las pruebas de un sistema de inscripciones."
+story = "Probar una función sola es una prueba [BLANK_1]
+Probar que el módulo de pagos funciona con el de inscripciones es una prueba de [BLANK_2]
+Que el cliente confirme que el sistema le sirve es una prueba de [BLANK_3]"
+blanks = Array[ExtResource("2_k5u6k")]([SubResource("Resource_88qos"), SubResource("Resource_nxgix"), SubResource("Resource_7nunl")])
+options = Array[String](["Regresión", "Integración", "Estrés", "Opinión", "Humo", "Diseño", "Aceptación", "Unitaria"])
+skin = 1
+good_ending = "El sistema llega a producción sin sorpresas. ¡Gran trabajo de pruebas!"
+bad_ending = "Los defectos aparecieron en producción y se fue el presupuesto en correcciones."
+
+[sub_resource type="Resource" id="Resource_hckye"]
+script = ExtResource("2_k5u6k")
+correct_answer = "Rama"
+
+[sub_resource type="Resource" id="Resource_1muwl"]
+script = ExtResource("2_k5u6k")
+index = 2
+correct_answer = "Commit"
+
+[sub_resource type="Resource" id="Resource_netar"]
+script = ExtResource("2_k5u6k")
+index = 3
+correct_answer = "Pull request"
+
+[sub_resource type="Resource" id="Resource_hi2x6"]
+script = ExtResource("1_362sh")
+id = 20
+department = 2
+difficulty = 1
+role = "Desarrollador"
+context = "Trabajas un cambio nuevo en el repositorio del equipo."
+story = "Para no afectar la versión estable, creas una [BLANK_1]
+Cada avance lo guardas con un [BLANK_2]
+Al terminar, pides integrar tu trabajo con un [BLANK_3]"
+blanks = Array[ExtResource("2_k5u6k")]([SubResource("Resource_hckye"), SubResource("Resource_1muwl"), SubResource("Resource_netar")])
+options = Array[String](["Rama", "Fork del cliente", "Commit", "Correo", "Pull request", "Backup en USB", "Merge directo a main", "Captura de pantalla"])
+skin = 2
+good_ending = "Tu cambio entra limpio a main y nadie pierde trabajo."
+bad_ending = "Subiste directo a main, rompiste el build y se acabó el tiempo de sprint."
+
+[sub_resource type="Resource" id="Resource_ov4fd"]
+script = ExtResource("2_k5u6k")
+correct_answer = "Regresión"
+
+[sub_resource type="Resource" id="Resource_orxsx"]
+script = ExtResource("2_k5u6k")
+index = 2
+correct_answer = "Densidad de defectos"
+
+[sub_resource type="Resource" id="Resource_xv2nx"]
+script = ExtResource("2_k5u6k")
+index = 3
+correct_answer = "Definition of Done"
+
+[sub_resource type="Resource" id="Resource_0i0tx"]
+script = ExtResource("1_362sh")
+id = 21
+department = 2
+difficulty = 2
+role = "Líder técnico"
+context = "El equipo terminó el sprint. Revisas la calidad del incremento."
+story = "Volver a probar lo que ya funcionaba tras un cambio es una prueba de [BLANK_1]
+Defectos encontrados por cada mil líneas de código es la [BLANK_2]
+Los criterios para dar por terminado un incremento forman la [BLANK_3]"
+blanks = Array[ExtResource("2_k5u6k")]([SubResource("Resource_ov4fd"), SubResource("Resource_orxsx"), SubResource("Resource_xv2nx")])
+options = Array[String](["Deuda técnica", "Sprint Review", "Definition of Done", "Épica", "Regresión", "Retrospectiva", "Densidad de defectos", "Velocidad"])
+good_ending = "El incremento sale con calidad medible. El cliente queda encantado."
+bad_ending = "Se entregó sin criterios claros y el cliente dudó de la calidad."
+
+[sub_resource type="Resource" id="Resource_tddmf"]
+script = ExtResource("2_k5u6k")
+correct_answer = "Cascada"
+
+[sub_resource type="Resource" id="Resource_ddfdg"]
+script = ExtResource("2_k5u6k")
+index = 2
+correct_answer = "Ágil"
+
+[sub_resource type="Resource" id="Resource_bdfya"]
+script = ExtResource("2_k5u6k")
+index = 3
+correct_answer = "Espiral"
+
+[sub_resource type="Resource" id="Resource_6f25s"]
+script = ExtResource("1_362sh")
+id = 22
+department = 2
+difficulty = 2
+role = "Líder técnico"
+context = "Comparas modelos de proceso para un nuevo proyecto con requisitos inciertos."
+story = "Avanzar etapa por etapa sin volver atrás es el modelo en [BLANK_1]
+Entregar incrementos cortos y ajustar con el cliente es un enfoque [BLANK_2]
+Iterar analizando riesgos en cada vuelta es el modelo en [BLANK_3]"
+blanks = Array[ExtResource("2_k5u6k")]([SubResource("Resource_tddmf"), SubResource("Resource_ddfdg"), SubResource("Resource_bdfya")])
+options = Array[String](["Lineal infinito", "Cascada", "Espiral", "Improvisado", "V", "Big Bang", "Prototipo desechable", "Ágil"])
+skin = 1
+good_ending = "Eliges bien el proceso y el proyecto se adapta a cada cambio."
+bad_ending = "El proceso no encajó con el proyecto y se agotó el presupuesto."
+
+[sub_resource type="Resource" id="Resource_uu6hr"]
+script = ExtResource("2_k5u6k")
+correct_answer = "Riesgo"
+
+[sub_resource type="Resource" id="Resource_xycax"]
+script = ExtResource("2_k5u6k")
+index = 2
+correct_answer = "Mitigación"
+
+[sub_resource type="Resource" id="Resource_btpwb"]
+script = ExtResource("2_k5u6k")
+index = 3
+correct_answer = "Monitoreo"
+
+[sub_resource type="Resource" id="Resource_22kp7"]
+script = ExtResource("1_362sh")
+id = 23
+department = 2
+difficulty = 3
+role = "Gerente de proyecto"
+context = "Detectas que el equipo podría no terminar a tiempo por falta de experiencia en Godot."
+story = "Eso es un [BLANK_1] del proyecto
+Capacitar al equipo antes del sprint es parte del plan de [BLANK_2]
+Revisarlo cada semana para ver si sigue vigente es [BLANK_3]"
+blanks = Array[ExtResource("2_k5u6k")]([SubResource("Resource_uu6hr"), SubResource("Resource_xycax"), SubResource("Resource_btpwb")])
+options = Array[String](["Requisito", "Despliegue", "Rumor", "Monitoreo", "Defecto", "Incidente cerrado", "Mitigación", "Riesgo"])
+skin = 2
+good_ending = "El riesgo nunca se materializa: el equipo entrega a tiempo."
+bad_ending = "El riesgo te alcanzó: el sprint terminó con tareas sin hacer."
+
+[sub_resource type="Resource" id="Resource_ckxcm"]
+script = ExtResource("2_k5u6k")
+correct_answer = "Verificación"
+
+[sub_resource type="Resource" id="Resource_mtu2n"]
+script = ExtResource("2_k5u6k")
+index = 2
+correct_answer = "Validación"
+
+[sub_resource type="Resource" id="Resource_yw0tl"]
+script = ExtResource("2_k5u6k")
+index = 3
+correct_answer = "Deuda técnica"
+
+[sub_resource type="Resource" id="Resource_imvm2"]
+script = ExtResource("1_362sh")
+id = 24
+department = 2
+difficulty = 3
+role = "Gerente de proyecto"
+context = "Explicas a la dirección por qué el equipo verifica y valida."
+story = "Revisar el código contra el diseño con una checklist es [BLANK_1]
+Que los alumnos usen el juego y digan si les sirve es [BLANK_2]
+Atajos en el código que costarán después se llaman [BLANK_3]"
+blanks = Array[ExtResource("2_k5u6k")]([SubResource("Resource_ckxcm"), SubResource("Resource_mtu2n"), SubResource("Resource_yw0tl")])
+options = Array[String](["Validación", "Integración", "Deuda técnica", "Verificación", "Despliegue", "Gold plating", "Refactor", "Velocidad"])
+good_ending = "La dirección aprueba más tiempo para calidad. ¡Bien argumentado!"
+bad_ending = "La dirección no quedó convencida y perdiste credibilidad."
+
+[sub_resource type="Resource" id="Resource_3bogg"]
+script = ExtResource("2_k5u6k")
+correct_answer = "Clase"
+
+[sub_resource type="Resource" id="Resource_0o53x"]
+script = ExtResource("2_k5u6k")
+index = 2
+correct_answer = "Objeto"
+
+[sub_resource type="Resource" id="Resource_i6a5n"]
+script = ExtResource("2_k5u6k")
+index = 3
+correct_answer = "Herencia"
+
+[sub_resource type="Resource" id="Resource_qms0e"]
+script = ExtResource("1_362sh")
+id = 25
+department = 3
+role = "Junior Developer"
+context = "Tu primer programa orientado a objetos es un zoológico virtual."
+story = "\"Animal\" define atributos y métodos: es una [BLANK_1]
+\"Firulais\", un perro concreto, es un [BLANK_2]
+\"Perro extiende Animal\" usa [BLANK_3]"
+blanks = Array[ExtResource("2_k5u6k")]([SubResource("Resource_3bogg"), SubResource("Resource_0o53x"), SubResource("Resource_i6a5n")])
+options = Array[String](["Variable global", "Herencia", "Clase", "Comentario", "Composición", "Compilador", "Bucle", "Objeto"])
+skin = 2
+good_ending = "El zoológico virtual corre sin errores. ¡Primer programa logrado!"
+bad_ending = "El código no compiló a tiempo y se acabó el tiempo de sprint."
+
+[sub_resource type="Resource" id="Resource_fxijx"]
+script = ExtResource("2_k5u6k")
+correct_answer = "Pura"
+
+[sub_resource type="Resource" id="Resource_5qigh"]
+script = ExtResource("2_k5u6k")
+index = 2
+correct_answer = "Efecto secundario"
+
+[sub_resource type="Resource" id="Resource_toy78"]
+script = ExtResource("2_k5u6k")
+index = 3
+correct_answer = "Booleano"
+
+[sub_resource type="Resource" id="Resource_4ifgi"]
+script = ExtResource("1_362sh")
+id = 26
+department = 3
+role = "Junior Developer"
+context = "Revisas funciones de un compañero."
+story = "Una función que siempre devuelve lo mismo con los mismos datos y no cambia nada fuera es una función [BLANK_1]
+Una que escribe en un archivo tiene un [BLANK_2]
+Un valor que solo puede ser verdadero o falso es un [BLANK_3]"
+blanks = Array[ExtResource("2_k5u6k")]([SubResource("Resource_fxijx"), SubResource("Resource_5qigh"), SubResource("Resource_toy78")])
+options = Array[String](["Mágica", "Constante global", "Booleano", "Efecto secundario", "Pura", "Recursiva", "Clase", "Entero"])
+good_ending = "Tu compañero aprende algo nuevo gracias a tu revisión."
+bad_ending = "Tus comentarios confundieron más de lo que ayudaron."
+
+[sub_resource type="Resource" id="Resource_gamw0"]
+script = ExtResource("2_k5u6k")
+correct_answer = "Encapsulamiento"
+
+[sub_resource type="Resource" id="Resource_v0k0a"]
+script = ExtResource("2_k5u6k")
+index = 2
+correct_answer = "Polimorfismo"
+
+[sub_resource type="Resource" id="Resource_cjp8t"]
+script = ExtResource("2_k5u6k")
+index = 3
+correct_answer = "Composición"
+
+[sub_resource type="Resource" id="Resource_6sg6c"]
+script = ExtResource("1_362sh")
+id = 27
+department = 3
+difficulty = 1
+role = "Desarrollador"
+context = "Refactorizas un juego de figuras geométricas."
+story = "Ocultar los atributos y exponer métodos es [BLANK_1]
+Que Círculo y Cuadrado respondan distinto a dibujar() es [BLANK_2]
+Que Auto tenga un Motor como atributo es [BLANK_3]"
+blanks = Array[ExtResource("2_k5u6k")]([SubResource("Resource_gamw0"), SubResource("Resource_v0k0a"), SubResource("Resource_cjp8t")])
+options = Array[String](["Polimorfismo", "Abstracción vacía", "Herencia", "Sobrecarga de operadores", "Recursión", "Copiar y pegar", "Encapsulamiento", "Composición"])
+skin = 1
+good_ending = "El código queda limpio y fácil de extender. ¡Excelente refactor!"
+bad_ending = "El refactor rompió todo y se gastó el presupuesto en arreglarlo."
+
+[sub_resource type="Resource" id="Resource_eo810"]
+script = ExtResource("2_k5u6k")
+correct_answer = "filter"
+
+[sub_resource type="Resource" id="Resource_md3wq"]
+script = ExtResource("2_k5u6k")
+index = 2
+correct_answer = "map"
+
+[sub_resource type="Resource" id="Resource_atsum"]
+script = ExtResource("2_k5u6k")
+index = 3
+correct_answer = "reduce"
+
+[sub_resource type="Resource" id="Resource_1gexa"]
+script = ExtResource("1_362sh")
+id = 28
+department = 3
+difficulty = 1
+role = "Desarrollador"
+context = "Procesas una lista de calificaciones con estilo funcional."
+story = "Para quedarte solo con los aprobados usas [BLANK_1]
+Para convertir cada calificación a escala de 10 usas [BLANK_2]
+Para sumarlas todas en un solo número usas [BLANK_3]"
+blanks = Array[ExtResource("2_k5u6k")]([SubResource("Resource_eo810"), SubResource("Resource_md3wq"), SubResource("Resource_atsum")])
+options = Array[String](["sort", "while", "print", "reduce", "len", "filter", "goto", "map"])
+skin = 2
+good_ending = "El reporte sale en una línea elegante. ¡Programación funcional dominada!"
+bad_ending = "El código se volvió un enredo de bucles y se agotó el tiempo de sprint."
+
+[sub_resource type="Resource" id="Resource_uw63b"]
+script = ExtResource("2_k5u6k")
+correct_answer = "Responsabilidad única"
+
+[sub_resource type="Resource" id="Resource_w6asc"]
+script = ExtResource("2_k5u6k")
+index = 2
+correct_answer = "Abierto/cerrado"
+
+[sub_resource type="Resource" id="Resource_lt84t"]
+script = ExtResource("2_k5u6k")
+index = 3
+correct_answer = "Inversión de dependencias"
+
+[sub_resource type="Resource" id="Resource_0jvdg"]
+script = ExtResource("1_362sh")
+id = 29
+department = 3
+difficulty = 2
+role = "Desarrollador"
+context = "Revisas el diseño de un sistema de notificaciones."
+story = "Una clase que solo envía correos cumple el principio de [BLANK_1]
+Agregar SMS con una clase nueva sin tocar las existentes cumple [BLANK_2]
+Depender de la interfaz Notificador y no de CorreoSMTP cumple [BLANK_3]"
+blanks = Array[ExtResource("2_k5u6k")]([SubResource("Resource_uw63b"), SubResource("Resource_w6asc"), SubResource("Resource_lt84t")])
+options = Array[String](["Herencia múltiple", "Sustitución de Liskov", "Abierto/cerrado", "Segregación de interfaces", "Responsabilidad única", "Código espagueti", "Inversión de dependencias", "Acoplamiento alto"])
+good_ending = "El equipo adopta tu diseño como ejemplo para todo el proyecto."
+bad_ending = "Tu revisión mezcló los principios y el equipo dejó de tomarte en cuenta."
+
+[sub_resource type="Resource" id="Resource_5kp3f"]
+script = ExtResource("2_k5u6k")
+correct_answer = "Orientado a objetos"
+
+[sub_resource type="Resource" id="Resource_euca0"]
+script = ExtResource("2_k5u6k")
+index = 2
+correct_answer = "Funcional"
+
+[sub_resource type="Resource" id="Resource_jbp0b"]
+script = ExtResource("2_k5u6k")
+index = 3
+correct_answer = "Declarativo"
+
+[sub_resource type="Resource" id="Resource_y17qd"]
+script = ExtResource("1_362sh")
+id = 30
+department = 3
+difficulty = 2
+role = "Desarrollador"
+context = "Eliges el paradigma para tres módulos de una app."
+story = "Modelar clientes, pedidos y productos con estado propio sugiere el paradigma [BLANK_1]
+Transformar datos sin modificarlos sugiere el paradigma [BLANK_2]
+Escribir una consulta SQL que dice qué datos quieres, no cómo obtenerlos, es [BLANK_3]"
+blanks = Array[ExtResource("2_k5u6k")]([SubResource("Resource_5kp3f"), SubResource("Resource_euca0"), SubResource("Resource_jbp0b")])
+options = Array[String](["Lógico", "Imperativo", "Aleatorio", "Ensamblador", "Monolítico", "Orientado a objetos", "Declarativo", "Funcional"])
+skin = 1
+good_ending = "Cada módulo usa el paradigma ideal. ¡La app es un gusto de mantener!"
+bad_ending = "Mezclaste paradigmas sin criterio y se fue el presupuesto en reescrituras."
+
+[sub_resource type="Resource" id="Resource_g7875"]
+script = ExtResource("2_k5u6k")
+correct_answer = "Observer"
+
+[sub_resource type="Resource" id="Resource_2u07p"]
+script = ExtResource("2_k5u6k")
+index = 2
+correct_answer = "Inversión de dependencias"
+
+[sub_resource type="Resource" id="Resource_gkajp"]
+script = ExtResource("2_k5u6k")
+index = 3
+correct_answer = "Abierto/cerrado"
+
+[sub_resource type="Resource" id="Resource_6qpwq"]
+script = ExtResource("1_362sh")
+id = 31
+department = 3
+difficulty = 3
+role = "Arquitecto de software"
+context = "Explicas el diseño del juego Nakosu a un nuevo integrante."
+story = "Cada minijuego avisa con la señal finished y el orquestador reacciona: es el patrón [BLANK_1]
+El orquestador solo conoce la clase abstracta Minigame: aplica [BLANK_2]
+Agregar un minijuego nuevo sin tocar el orquestador cumple [BLANK_3]"
+blanks = Array[ExtResource("2_k5u6k")]([SubResource("Resource_g7875"), SubResource("Resource_2u07p"), SubResource("Resource_gkajp")])
+options = Array[String](["Abierto/cerrado", "Inversión de dependencias", "Observer", "Decorator", "God object", "Herencia múltiple", "Singleton", "Responsabilidad única"])
+skin = 2
+good_ending = "El nuevo integrante entiende la arquitectura y entrega su minijuego en un sprint."
+bad_ending = "El nuevo integrante se confundió y se agotó el tiempo de sprint."
+
+[sub_resource type="Resource" id="Resource_wxwmn"]
+script = ExtResource("2_k5u6k")
+correct_answer = "Sustitución de Liskov"
+
+[sub_resource type="Resource" id="Resource_cy4n7"]
+script = ExtResource("2_k5u6k")
+index = 2
+correct_answer = "Segregación de interfaces"
+
+[sub_resource type="Resource" id="Resource_lm7vm"]
+script = ExtResource("2_k5u6k")
+index = 3
+correct_answer = "Composición"
+
+[sub_resource type="Resource" id="Resource_dcge4"]
+script = ExtResource("1_362sh")
+id = 32
+department = 3
+difficulty = 3
+role = "Arquitecto de software"
+context = "Revisas una jerarquía de clases con problemas."
+story = "Pingüino hereda de Ave pero falla en volar(): viola [BLANK_1]
+La interfaz Trabajador obliga a Robot a implementar comer(): viola [BLANK_2]
+Para arreglar lo primero conviene preferir [BLANK_3] sobre herencia"
+blanks = Array[ExtResource("2_k5u6k")]([SubResource("Resource_wxwmn"), SubResource("Resource_cy4n7"), SubResource("Resource_lm7vm")])
+options = Array[String](["Responsabilidad única", "Composición", "Segregación de interfaces", "Abierto/cerrado", "Variables globales", "Sustitución de Liskov", "Encapsulamiento", "Más herencia"])
+good_ending = "La jerarquía queda sólida y nadie vuelve a romperla."
+bad_ending = "Las clases siguieron fallando y perdiste credibilidad como arquitecto."
+
+[resource]
+script = ExtResource("3_1ikcy")
+scenarios = Array[ExtResource("1_362sh")]([SubResource("Resource_10jrb"), SubResource("Resource_8frfw"), SubResource("Resource_mijsr"), SubResource("Resource_ibmbr"), SubResource("Resource_r4sw2"), SubResource("Resource_pdi1b"), SubResource("Resource_7vwu5"), SubResource("Resource_ta78u"), SubResource("Resource_rblkh"), SubResource("Resource_g7rlp"), SubResource("Resource_iru3w"), SubResource("Resource_vvrfi"), SubResource("Resource_i626x"), SubResource("Resource_636wc"), SubResource("Resource_vneln"), SubResource("Resource_i73d4"), SubResource("Resource_15q22"), SubResource("Resource_c3tdh"), SubResource("Resource_3giwf"), SubResource("Resource_hi2x6"), SubResource("Resource_0i0tx"), SubResource("Resource_6f25s"), SubResource("Resource_22kp7"), SubResource("Resource_imvm2"), SubResource("Resource_qms0e"), SubResource("Resource_4ifgi"), SubResource("Resource_6sg6c"), SubResource("Resource_1gexa"), SubResource("Resource_0jvdg"), SubResource("Resource_y17qd"), SubResource("Resource_6qpwq"), SubResource("Resource_dcge4")])
