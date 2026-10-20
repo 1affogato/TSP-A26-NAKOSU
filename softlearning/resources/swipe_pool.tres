@@ -1,0 +1,614 @@
+[gd_resource type="Resource" script_class="SwipePool" format=3]
+
+[ext_resource type="Script" path="res://core/db/models/swipe_card.gd" id="1_323u8"]
+[ext_resource type="Script" path="res://core/swipe_pool.gd" id="2_bi1kb"]
+
+[sub_resource type="Resource" id="Resource_a46py"]
+script = ExtResource("1_323u8")
+id = 1
+concept = "Estructuras lineales"
+example_text = "Una pila de platos: siempre tomas el que pusiste al final."
+possible_categories = Array[int]([17, 18])
+correct_category = 17
+
+[sub_resource type="Resource" id="Resource_hh38l"]
+script = ExtResource("1_323u8")
+id = 2
+concept = "Estructuras lineales"
+example_text = "La fila de las tortillas: se atiende primero a quien llegó primero."
+possible_categories = Array[int]([18, 17])
+correct_category = 18
+
+[sub_resource type="Resource" id="Resource_qa0ck"]
+script = ExtResource("1_323u8")
+id = 3
+concept = "Estructuras lineales"
+example_text = "El botón Deshacer de un editor recupera la última acción que hiciste."
+possible_categories = Array[int]([17, 18])
+correct_category = 17
+
+[sub_resource type="Resource" id="Resource_88obw"]
+script = ExtResource("1_323u8")
+id = 4
+concept = "Estructuras lineales"
+example_text = "Los mensajes de un chat se envían en el mismo orden en que los escribiste."
+possible_categories = Array[int]([18, 17])
+correct_category = 18
+
+[sub_resource type="Resource" id="Resource_mvept"]
+script = ExtResource("1_323u8")
+id = 5
+difficulty = 1
+concept = "Estructuras"
+example_text = "Guardar los 30 días del mes y leer el día 15 directamente por su posición."
+possible_categories = Array[int]([19, 20])
+correct_category = 19
+
+[sub_resource type="Resource" id="Resource_nqylt"]
+script = ExtResource("1_323u8")
+id = 6
+difficulty = 1
+concept = "Estructuras"
+example_text = "Una lista de reproducción donde cada canción apunta a la siguiente."
+possible_categories = Array[int]([20, 19])
+correct_category = 20
+
+[sub_resource type="Resource" id="Resource_pwhv2"]
+script = ExtResource("1_323u8")
+id = 7
+difficulty = 1
+concept = "Estructuras"
+example_text = "Un diccionario que encuentra la definición de una palabra sin recorrerlo todo."
+possible_categories = Array[int]([21, 19])
+correct_category = 21
+
+[sub_resource type="Resource" id="Resource_e3u62"]
+script = ExtResource("1_323u8")
+id = 8
+difficulty = 1
+concept = "Estructuras"
+example_text = "Las carpetas de tu computadora: cada una contiene subcarpetas y archivos."
+possible_categories = Array[int]([22, 18])
+correct_category = 22
+
+[sub_resource type="Resource" id="Resource_ocktx"]
+script = ExtResource("1_323u8")
+id = 9
+difficulty = 2
+concept = "Estructuras no lineales"
+example_text = "Un mapa de rutas de camión entre ciudades, con conexiones en ambos sentidos."
+possible_categories = Array[int]([23, 22])
+correct_category = 23
+
+[sub_resource type="Resource" id="Resource_rxot1"]
+script = ExtResource("1_323u8")
+id = 10
+difficulty = 2
+concept = "Estructuras no lineales"
+example_text = "Urgencias atiende primero al paciente más grave, sin importar la hora de llegada."
+possible_categories = Array[int]([24, 18])
+correct_category = 24
+
+[sub_resource type="Resource" id="Resource_fxubo"]
+script = ExtResource("1_323u8")
+id = 11
+difficulty = 2
+concept = "Estructuras no lineales"
+example_text = "El organigrama de una empresa: cada empleado tiene un solo jefe directo."
+possible_categories = Array[int]([22, 23])
+correct_category = 22
+
+[sub_resource type="Resource" id="Resource_xle2j"]
+script = ExtResource("1_323u8")
+id = 12
+difficulty = 2
+concept = "Estructuras no lineales"
+example_text = "Las amistades de una red social: cualquiera puede ser amigo de cualquiera."
+possible_categories = Array[int]([23, 22])
+correct_category = 23
+
+[sub_resource type="Resource" id="Resource_sq525"]
+script = ExtResource("1_323u8")
+id = 13
+difficulty = 3
+concept = "Complejidad"
+example_text = "Leer el elemento en la posición i de un arreglo."
+possible_categories = Array[int]([25, 27])
+correct_category = 25
+
+[sub_resource type="Resource" id="Resource_a5fy2"]
+script = ExtResource("1_323u8")
+id = 14
+difficulty = 3
+concept = "Complejidad"
+example_text = "Buscar un número en un arreglo ordenado partiéndolo a la mitad en cada paso."
+possible_categories = Array[int]([26, 27])
+correct_category = 26
+
+[sub_resource type="Resource" id="Resource_2ptam"]
+script = ExtResource("1_323u8")
+id = 15
+difficulty = 3
+concept = "Complejidad"
+example_text = "Comparar cada elemento de una lista contra todos los demás para hallar duplicados."
+possible_categories = Array[int]([28, 27])
+correct_category = 28
+
+[sub_resource type="Resource" id="Resource_wb8ux"]
+script = ExtResource("1_323u8")
+id = 16
+difficulty = 3
+concept = "Complejidad"
+example_text = "Sumar todos los elementos de una lista recorriéndola una sola vez."
+possible_categories = Array[int]([27, 26])
+correct_category = 27
+
+[sub_resource type="Resource" id="Resource_jtskn"]
+script = ExtResource("1_323u8")
+id = 17
+department = 1
+concept = "Tipos de requisitos"
+example_text = "Quiero recibir una notificación cuando mi pedido sea enviado."
+possible_categories = Array[int]([0, 1])
+
+[sub_resource type="Resource" id="Resource_lbcw4"]
+script = ExtResource("1_323u8")
+id = 18
+department = 1
+concept = "Tipos de requisitos"
+example_text = "La página de inicio debe cargar en menos de 2 segundos."
+possible_categories = Array[int]([1, 0])
+correct_category = 1
+
+[sub_resource type="Resource" id="Resource_7wypc"]
+script = ExtResource("1_323u8")
+id = 19
+department = 1
+concept = "Tipos de requisitos"
+example_text = "El cliente puede cancelar un pedido antes de que salga de la tienda."
+possible_categories = Array[int]([0, 1])
+
+[sub_resource type="Resource" id="Resource_behfr"]
+script = ExtResource("1_323u8")
+id = 20
+department = 1
+concept = "Tipos de requisitos"
+example_text = "Las contraseñas deben guardarse cifradas."
+possible_categories = Array[int]([1, 0])
+correct_category = 1
+
+[sub_resource type="Resource" id="Resource_rm0e1"]
+script = ExtResource("1_323u8")
+id = 21
+department = 1
+difficulty = 1
+concept = "Niveles de requisitos"
+example_text = "Queremos vender 20 % más en línea este año."
+possible_categories = Array[int]([2, 3])
+correct_category = 2
+
+[sub_resource type="Resource" id="Resource_sog1o"]
+script = ExtResource("1_323u8")
+id = 22
+department = 1
+difficulty = 1
+concept = "Niveles de requisitos"
+example_text = "Como cliente, quiero pedir mi café desde el celular."
+possible_categories = Array[int]([3, 2])
+correct_category = 3
+
+[sub_resource type="Resource" id="Resource_gil7w"]
+script = ExtResource("1_323u8")
+id = 23
+department = 1
+difficulty = 1
+concept = "Niveles de requisitos"
+example_text = "El sistema debe enviar cada pedido a la impresora de la cocina."
+possible_categories = Array[int]([4, 3])
+correct_category = 4
+
+[sub_resource type="Resource" id="Resource_jct2m"]
+script = ExtResource("1_323u8")
+id = 24
+department = 1
+difficulty = 1
+concept = "Niveles de requisitos"
+example_text = "La app debe desarrollarse en Godot y publicarse como página web."
+possible_categories = Array[int]([5, 3])
+correct_category = 5
+
+[sub_resource type="Resource" id="Resource_ynkst"]
+script = ExtResource("1_323u8")
+id = 25
+department = 1
+difficulty = 2
+concept = "Atributos de calidad"
+example_text = "El servicio debe estar disponible el 99.5 % del tiempo."
+possible_categories = Array[int]([7, 10])
+correct_category = 7
+
+[sub_resource type="Resource" id="Resource_etgsp"]
+script = ExtResource("1_323u8")
+id = 26
+department = 1
+difficulty = 2
+concept = "Atributos de calidad"
+example_text = "Un usuario nuevo debe completar su primera compra sin ayuda."
+possible_categories = Array[int]([9, 11])
+correct_category = 9
+
+[sub_resource type="Resource" id="Resource_ttrhs"]
+script = ExtResource("1_323u8")
+id = 27
+department = 1
+difficulty = 2
+concept = "Atributos de calidad"
+example_text = "Si se va la luz a mitad de una compra, no se debe perder el pedido."
+possible_categories = Array[int]([8, 9])
+correct_category = 8
+
+[sub_resource type="Resource" id="Resource_yjval"]
+script = ExtResource("1_323u8")
+id = 28
+department = 1
+difficulty = 2
+concept = "Atributos de calidad"
+example_text = "Solo el administrador puede ver los datos de pago de los clientes."
+possible_categories = Array[int]([11, 7])
+correct_category = 11
+
+[sub_resource type="Resource" id="Resource_mh7jo"]
+script = ExtResource("1_323u8")
+id = 29
+department = 1
+difficulty = 3
+concept = "Calidad y elicitación"
+example_text = "El sistema debe ser rápido y fácil de usar."
+possible_categories = Array[int]([16, 15])
+correct_category = 16
+
+[sub_resource type="Resource" id="Resource_dv5nq"]
+script = ExtResource("1_323u8")
+id = 30
+department = 1
+difficulty = 3
+concept = "Calidad y elicitación"
+example_text = "El 95 % de las búsquedas deben responder en menos de 1 segundo."
+possible_categories = Array[int]([15, 16])
+correct_category = 15
+
+[sub_resource type="Resource" id="Resource_dcmf8"]
+script = ExtResource("1_323u8")
+id = 31
+department = 1
+difficulty = 3
+concept = "Calidad y elicitación"
+example_text = "Pasas una mañana viendo cómo la cajera registra pedidos en su turno."
+possible_categories = Array[int]([13, 12])
+correct_category = 13
+
+[sub_resource type="Resource" id="Resource_phcod"]
+script = ExtResource("1_323u8")
+id = 32
+department = 1
+difficulty = 3
+concept = "Calidad y elicitación"
+example_text = "Envías un formulario en línea a 300 clientes de distintas ciudades."
+possible_categories = Array[int]([14, 12])
+correct_category = 14
+
+[sub_resource type="Resource" id="Resource_xeodd"]
+script = ExtResource("1_323u8")
+id = 33
+department = 2
+concept = "Ciclo de vida"
+example_text = "Escribir el código de la pantalla de inicio de sesión."
+possible_categories = Array[int]([33, 31])
+correct_category = 33
+
+[sub_resource type="Resource" id="Resource_j07aq"]
+script = ExtResource("1_323u8")
+id = 34
+department = 2
+concept = "Ciclo de vida"
+example_text = "Ejecutar casos de prueba para encontrar defectos antes de entregar."
+possible_categories = Array[int]([34, 32])
+correct_category = 34
+
+[sub_resource type="Resource" id="Resource_7roym"]
+script = ExtResource("1_323u8")
+id = 35
+department = 2
+concept = "Ciclo de vida"
+example_text = "Dibujar el diagrama de clases del sistema."
+possible_categories = Array[int]([32, 34])
+correct_category = 32
+
+[sub_resource type="Resource" id="Resource_6ger1"]
+script = ExtResource("1_323u8")
+id = 36
+department = 2
+concept = "Ciclo de vida"
+example_text = "Entrevistar al cliente para entender qué problema quiere resolver."
+possible_categories = Array[int]([31, 33])
+correct_category = 31
+
+[sub_resource type="Resource" id="Resource_4oqgu"]
+script = ExtResource("1_323u8")
+id = 37
+department = 2
+difficulty = 1
+concept = "Metodologías"
+example_text = "El equipo entrega un incremento funcional cada dos semanas."
+possible_categories = Array[int]([29, 30])
+correct_category = 29
+
+[sub_resource type="Resource" id="Resource_2pv2l"]
+script = ExtResource("1_323u8")
+id = 38
+department = 2
+difficulty = 1
+concept = "Metodologías"
+example_text = "No se programa nada hasta que todo el diseño está terminado y aprobado."
+possible_categories = Array[int]([30, 29])
+correct_category = 30
+
+[sub_resource type="Resource" id="Resource_8s52w"]
+script = ExtResource("1_323u8")
+id = 39
+department = 2
+difficulty = 1
+concept = "Ciclo de vida"
+example_text = "Corregir un error que reportó un usuario un mes después de la entrega."
+possible_categories = Array[int]([35, 33])
+correct_category = 35
+
+[sub_resource type="Resource" id="Resource_mdhoq"]
+script = ExtResource("1_323u8")
+id = 40
+department = 2
+difficulty = 1
+concept = "Metodologías"
+example_text = "El cliente revisa el producto al final de cada sprint y cambia prioridades."
+possible_categories = Array[int]([29, 30])
+correct_category = 29
+
+[sub_resource type="Resource" id="Resource_o6tss"]
+script = ExtResource("1_323u8")
+id = 41
+department = 2
+difficulty = 2
+concept = "Roles de Scrum"
+example_text = "Ordena el Product Backlog según el valor para el negocio."
+possible_categories = Array[int]([38, 39])
+correct_category = 38
+
+[sub_resource type="Resource" id="Resource_o7xos"]
+script = ExtResource("1_323u8")
+id = 42
+department = 2
+difficulty = 2
+concept = "Roles de Scrum"
+example_text = "Ayuda al equipo a eliminar los impedimentos que frenan el sprint."
+possible_categories = Array[int]([39, 38])
+correct_category = 39
+
+[sub_resource type="Resource" id="Resource_0cqie"]
+script = ExtResource("1_323u8")
+id = 43
+department = 2
+difficulty = 2
+concept = "Roles de Scrum"
+example_text = "Decide cómo convertir los elementos del backlog en un incremento terminado."
+possible_categories = Array[int]([40, 38])
+correct_category = 40
+
+[sub_resource type="Resource" id="Resource_c6m64"]
+script = ExtResource("1_323u8")
+id = 44
+department = 2
+difficulty = 2
+concept = "Roles de Scrum"
+example_text = "Facilita la Daily Scrum para que dure 15 minutos y se mantenga enfocada."
+possible_categories = Array[int]([39, 40])
+correct_category = 39
+
+[sub_resource type="Resource" id="Resource_nxiev"]
+script = ExtResource("1_323u8")
+id = 45
+department = 2
+difficulty = 3
+concept = "Verificación y validación"
+example_text = "Revisar el código contra el diseño con una checklist."
+possible_categories = Array[int]([36, 37])
+correct_category = 36
+
+[sub_resource type="Resource" id="Resource_y0kka"]
+script = ExtResource("1_323u8")
+id = 46
+department = 2
+difficulty = 3
+concept = "Verificación y validación"
+example_text = "El cliente prueba el juego y confirma que resuelve lo que necesitaba."
+possible_categories = Array[int]([37, 36])
+correct_category = 37
+
+[sub_resource type="Resource" id="Resource_yej3k"]
+script = ExtResource("1_323u8")
+id = 47
+department = 2
+difficulty = 3
+concept = "Verificación y validación"
+example_text = "Comprobar que cada requisito del SRS tiene un caso de prueba asociado."
+possible_categories = Array[int]([36, 37])
+correct_category = 36
+
+[sub_resource type="Resource" id="Resource_cb40m"]
+script = ExtResource("1_323u8")
+id = 48
+department = 2
+difficulty = 3
+concept = "Verificación y validación"
+example_text = "Un grupo de alumnos usa el prototipo y dice si les sirve para estudiar."
+possible_categories = Array[int]([37, 36])
+correct_category = 37
+
+[sub_resource type="Resource" id="Resource_eyit3"]
+script = ExtResource("1_323u8")
+id = 49
+department = 3
+concept = "Paradigmas"
+example_text = "Una clase Perro con atributo nombre y método ladrar()."
+possible_categories = Array[int]([41, 42])
+correct_category = 41
+
+[sub_resource type="Resource" id="Resource_xdo4l"]
+script = ExtResource("1_323u8")
+id = 50
+department = 3
+concept = "Paradigmas"
+example_text = "map(lambda x: x * 2, lista) devuelve una lista nueva sin cambiar la original."
+possible_categories = Array[int]([42, 41])
+correct_category = 42
+
+[sub_resource type="Resource" id="Resource_rgjhi"]
+script = ExtResource("1_323u8")
+id = 51
+department = 3
+concept = "Funciones"
+example_text = "def suma(a, b): return a + b"
+possible_categories = Array[int]([43, 44])
+correct_category = 43
+
+[sub_resource type="Resource" id="Resource_n0n8n"]
+script = ExtResource("1_323u8")
+id = 52
+department = 3
+concept = "Funciones"
+example_text = "def guardar(x): archivo.write(x)"
+possible_categories = Array[int]([44, 43])
+correct_category = 44
+
+[sub_resource type="Resource" id="Resource_a5peh"]
+script = ExtResource("1_323u8")
+id = 53
+department = 3
+difficulty = 1
+concept = "Relaciones entre clases"
+example_text = "Gato extiende Animal y reutiliza su método comer()."
+possible_categories = Array[int]([45, 46])
+correct_category = 45
+
+[sub_resource type="Resource" id="Resource_586pd"]
+script = ExtResource("1_323u8")
+id = 54
+department = 3
+difficulty = 1
+concept = "Relaciones entre clases"
+example_text = "Un Auto tiene un Motor como atributo y le delega arrancar()."
+possible_categories = Array[int]([46, 45])
+correct_category = 46
+
+[sub_resource type="Resource" id="Resource_l57un"]
+script = ExtResource("1_323u8")
+id = 55
+department = 3
+difficulty = 1
+concept = "Pilares de la POO"
+example_text = "Los atributos son privados y solo se cambian con métodos de la clase."
+possible_categories = Array[int]([47, 48])
+correct_category = 47
+
+[sub_resource type="Resource" id="Resource_yh28a"]
+script = ExtResource("1_323u8")
+id = 56
+department = 3
+difficulty = 1
+concept = "Pilares de la POO"
+example_text = "Círculo y Cuadrado responden a dibujar(), cada uno a su manera."
+possible_categories = Array[int]([48, 47])
+correct_category = 48
+
+[sub_resource type="Resource" id="Resource_cygch"]
+script = ExtResource("1_323u8")
+id = 57
+department = 3
+difficulty = 2
+concept = "Funciones"
+example_text = "Una función que devuelve la hora actual del sistema."
+possible_categories = Array[int]([44, 43])
+correct_category = 44
+
+[sub_resource type="Resource" id="Resource_m8qhi"]
+script = ExtResource("1_323u8")
+id = 58
+department = 3
+difficulty = 2
+concept = "Funciones"
+example_text = "Una función que calcula el área de un círculo a partir de su radio."
+possible_categories = Array[int]([43, 44])
+correct_category = 43
+
+[sub_resource type="Resource" id="Resource_d11pr"]
+script = ExtResource("1_323u8")
+id = 59
+department = 3
+difficulty = 2
+concept = "Pilares de la POO"
+example_text = "Una lista de Figura llama area() sin saber si cada una es triángulo o círculo."
+possible_categories = Array[int]([48, 45])
+correct_category = 48
+
+[sub_resource type="Resource" id="Resource_tw1ax"]
+script = ExtResource("1_323u8")
+id = 60
+department = 3
+difficulty = 2
+concept = "Relaciones entre clases"
+example_text = "Para cambiar el sonido de un juego, se le pasa otro objeto Reproductor."
+possible_categories = Array[int]([46, 45])
+correct_category = 46
+
+[sub_resource type="Resource" id="Resource_sgtwc"]
+script = ExtResource("1_323u8")
+id = 61
+department = 3
+difficulty = 3
+concept = "Principios SOLID"
+example_text = "Separar Reporte en una clase que calcula y otra que exporta a PDF."
+possible_categories = Array[int]([49, 50])
+correct_category = 49
+
+[sub_resource type="Resource" id="Resource_f4cc3"]
+script = ExtResource("1_323u8")
+id = 62
+department = 3
+difficulty = 3
+concept = "Principios SOLID"
+example_text = "Agregar un minijuego nuevo creando una subclase, sin tocar el orquestador."
+possible_categories = Array[int]([50, 49])
+correct_category = 50
+
+[sub_resource type="Resource" id="Resource_ehvah"]
+script = ExtResource("1_323u8")
+id = 63
+department = 3
+difficulty = 3
+concept = "Principios SOLID"
+example_text = "Pingüino hereda de Ave pero lanza error en volar(): rompe a quien usa Ave."
+possible_categories = Array[int]([51, 52])
+correct_category = 51
+
+[sub_resource type="Resource" id="Resource_iq2ou"]
+script = ExtResource("1_323u8")
+id = 64
+department = 3
+difficulty = 3
+concept = "Principios SOLID"
+example_text = "El orquestador depende de la clase abstracta Minigame y no de QuizMinigame."
+possible_categories = Array[int]([52, 51])
+correct_category = 52
+
+[resource]
+script = ExtResource("2_bi1kb")
+cards = Array[ExtResource("1_323u8")]([SubResource("Resource_a46py"), SubResource("Resource_hh38l"), SubResource("Resource_qa0ck"), SubResource("Resource_88obw"), SubResource("Resource_mvept"), SubResource("Resource_nqylt"), SubResource("Resource_pwhv2"), SubResource("Resource_e3u62"), SubResource("Resource_ocktx"), SubResource("Resource_rxot1"), SubResource("Resource_fxubo"), SubResource("Resource_xle2j"), SubResource("Resource_sq525"), SubResource("Resource_a5fy2"), SubResource("Resource_2ptam"), SubResource("Resource_wb8ux"), SubResource("Resource_jtskn"), SubResource("Resource_lbcw4"), SubResource("Resource_7wypc"), SubResource("Resource_behfr"), SubResource("Resource_rm0e1"), SubResource("Resource_sog1o"), SubResource("Resource_gil7w"), SubResource("Resource_jct2m"), SubResource("Resource_ynkst"), SubResource("Resource_etgsp"), SubResource("Resource_ttrhs"), SubResource("Resource_yjval"), SubResource("Resource_mh7jo"), SubResource("Resource_dv5nq"), SubResource("Resource_dcmf8"), SubResource("Resource_phcod"), SubResource("Resource_xeodd"), SubResource("Resource_j07aq"), SubResource("Resource_7roym"), SubResource("Resource_6ger1"), SubResource("Resource_4oqgu"), SubResource("Resource_2pv2l"), SubResource("Resource_8s52w"), SubResource("Resource_mdhoq"), SubResource("Resource_o6tss"), SubResource("Resource_o7xos"), SubResource("Resource_0cqie"), SubResource("Resource_c6m64"), SubResource("Resource_nxiev"), SubResource("Resource_y0kka"), SubResource("Resource_yej3k"), SubResource("Resource_cb40m"), SubResource("Resource_eyit3"), SubResource("Resource_xdo4l"), SubResource("Resource_rgjhi"), SubResource("Resource_n0n8n"), SubResource("Resource_a5peh"), SubResource("Resource_586pd"), SubResource("Resource_l57un"), SubResource("Resource_yh28a"), SubResource("Resource_cygch"), SubResource("Resource_m8qhi"), SubResource("Resource_d11pr"), SubResource("Resource_tw1ax"), SubResource("Resource_sgtwc"), SubResource("Resource_f4cc3"), SubResource("Resource_ehvah"), SubResource("Resource_iq2ou")])
