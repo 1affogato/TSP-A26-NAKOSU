@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="QuizQuestion" format=3]
+
+[ext_resource type="Script" path="res://core/db/models/quiz_question.gd" id="1_5mie1"]
+
+[resource]
+script = ExtResource("1_5mie1")
+id = 122
+department = 2
+title = "Pruebas"
+description = "¿Qué busca una prueba de software?"
+responses = Array[String](["Elegir el lenguaje de programación", "Encontrar defectos antes de que lleguen al usuario", "Diseñar la base de datos", "Escribir la documentación del usuario"])
+correct_response_index = 1

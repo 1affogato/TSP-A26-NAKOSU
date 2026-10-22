@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="QuizQuestion" format=3]
+
+[ext_resource type="Script" path="res://core/db/models/quiz_question.gd" id="1_ygx6q"]
+
+[resource]
+script = ExtResource("1_ygx6q")
+id = 160
+department = 3
+title = "POO"
+description = "¿Qué diferencia hay entre una interfaz y una clase abstracta en lenguajes como Java?"
+responses = Array[String](["Las interfaces sí pueden instanciarse", "Una clase puede implementar varias interfaces pero heredar de una sola clase abstracta", "Las clases abstractas no pueden tener métodos", "No hay ninguna diferencia"])
+correct_response_index = 1
+difficulty = 3

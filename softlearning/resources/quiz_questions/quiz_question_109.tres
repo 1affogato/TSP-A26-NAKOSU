@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="QuizQuestion" format=3]
+
+[ext_resource type="Script" path="res://core/db/models/quiz_question.gd" id="1_51tm6"]
+
+[resource]
+script = ExtResource("1_51tm6")
+id = 109
+department = 1
+title = "Prototipos"
+description = "¿Para qué sirve un prototipo durante la elicitación?"
+responses = Array[String](["Para medir el rendimiento del servidor", "Para que los usuarios vean una idea concreta y den retroalimentación", "Para reemplazar la especificación", "Para entregar la versión final"])
+correct_response_index = 1
+difficulty = 1

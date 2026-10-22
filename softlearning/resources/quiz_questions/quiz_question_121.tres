@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="QuizQuestion" format=3]
+
+[ext_resource type="Script" path="res://core/db/models/quiz_question.gd" id="1_1vaat"]
+
+[resource]
+script = ExtResource("1_1vaat")
+id = 121
+department = 2
+title = "Ciclo de desarrollo de software"
+description = "¿En qué etapa del ciclo de vida se escribe el código del sistema?"
+responses = Array[String](["Implementación", "Análisis", "Despliegue", "Mantenimiento"])

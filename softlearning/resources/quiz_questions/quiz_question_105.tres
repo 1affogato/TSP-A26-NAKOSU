@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="QuizQuestion" format=3]
+
+[ext_resource type="Script" path="res://core/db/models/quiz_question.gd" id="1_ss1vi"]
+
+[resource]
+script = ExtResource("1_ss1vi")
+id = 105
+department = 1
+title = "Historias de usuario"
+description = "En 'Como cliente, quiero pagar con tarjeta, para terminar mi compra rápido', ¿qué parte es el rol?"
+responses = Array[String](["Cliente", "Tarjeta", "Terminar mi compra rápido", "Pagar con tarjeta"])

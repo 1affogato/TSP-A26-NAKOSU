@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="QuizQuestion" format=3]
+
+[ext_resource type="Script" path="res://core/db/models/quiz_question.gd" id="1_hvwol"]
+
+[resource]
+script = ExtResource("1_hvwol")
+id = 128
+department = 2
+title = "Pruebas"
+description = "¿Qué verifican las pruebas de integración?"
+responses = Array[String](["Que la interfaz sea bonita", "Que varios componentes funcionen bien juntos", "Que el cliente firme el contrato", "Que cada función sola dé el resultado correcto"])
+correct_response_index = 1
+difficulty = 1

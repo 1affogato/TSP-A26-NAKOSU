@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="QuizQuestion" format=3]
+
+[ext_resource type="Script" path="res://core/db/models/quiz_question.gd" id="1_vha71"]
+
+[resource]
+script = ExtResource("1_vha71")
+id = 130
+department = 2
+title = "Control de versiones"
+description = "¿Para qué se crea una rama (branch) en Git?"
+responses = Array[String](["Para trabajar un cambio sin afectar la línea principal", "Para compilar más rápido", "Para cifrar el repositorio", "Para borrar el historial"])
+difficulty = 1

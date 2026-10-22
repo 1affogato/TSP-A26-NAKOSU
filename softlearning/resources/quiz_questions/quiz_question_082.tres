@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="QuizQuestion" format=3]
+
+[ext_resource type="Script" path="res://core/db/models/quiz_question.gd" id="1_jdak3"]
+
+[resource]
+script = ExtResource("1_jdak3")
+id = 82
+title = "Colas"
+description = "En una cola, ¿por dónde se retira un elemento?"
+responses = Array[String](["Por en medio", "Por el final", "Por el frente", "Por el elemento mayor"])
+correct_response_index = 2

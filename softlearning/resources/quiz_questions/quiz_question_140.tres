@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="QuizQuestion" format=3]
+
+[ext_resource type="Script" path="res://core/db/models/quiz_question.gd" id="1_ak68l"]
+
+[resource]
+script = ExtResource("1_ak68l")
+id = 140
+department = 2
+title = "Despliegue"
+description = "¿Por qué se usa un ambiente de pruebas (staging) antes de producción?"
+responses = Array[String](["Para probar el sistema en condiciones parecidas a las reales sin afectar usuarios", "Porque producción no admite bases de datos", "Para evitar escribir pruebas unitarias", "Para que el cliente no vea el producto"])
+difficulty = 3

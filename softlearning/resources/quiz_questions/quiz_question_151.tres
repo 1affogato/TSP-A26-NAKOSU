@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="QuizQuestion" format=3]
+
+[ext_resource type="Script" path="res://core/db/models/quiz_question.gd" id="1_f0qet"]
+
+[resource]
+script = ExtResource("1_f0qet")
+id = 151
+department = 3
+title = "Programación funcional"
+description = "¿Qué es un efecto secundario (side effect) en una función?"
+responses = Array[String](["Una llamada recursiva", "Un cambio fuera de la función, como modificar una variable global o escribir un archivo", "Un parámetro opcional", "Un valor de retorno incorrecto"])
+correct_response_index = 1
+difficulty = 2

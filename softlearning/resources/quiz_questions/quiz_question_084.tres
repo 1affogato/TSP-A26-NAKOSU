@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="QuizQuestion" format=3]
+
+[ext_resource type="Script" path="res://core/db/models/quiz_question.gd" id="1_cyrw3"]
+
+[resource]
+script = ExtResource("1_cyrw3")
+id = 84
+title = "Listas enlazadas"
+description = "¿Qué guarda cada nodo de una lista simplemente enlazada además de su dato?"
+responses = Array[String](["El índice del último nodo", "Una copia del primer nodo", "Una referencia al siguiente nodo", "El tamaño de la lista"])
+correct_response_index = 2

@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="QuizQuestion" format=3]
+
+[ext_resource type="Script" path="res://core/db/models/quiz_question.gd" id="1_v8evr"]
+
+[resource]
+script = ExtResource("1_v8evr")
+id = 131
+department = 2
+title = "Pruebas"
+description = "¿Qué es una prueba de regresión?"
+responses = Array[String](["Volver a probar lo que ya funcionaba después de un cambio", "Probar la documentación", "Probar con datos aleatorios en producción", "Probar solo el código nuevo"])
+difficulty = 2

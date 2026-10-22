@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="QuizQuestion" format=3]
+
+[ext_resource type="Script" path="res://core/db/models/quiz_question.gd" id="1_cdiut"]
+
+[resource]
+script = ExtResource("1_cdiut")
+id = 89
+title = "Colas"
+description = "¿Qué estructura conviene para atender los trabajos de una impresora en el orden en que llegaron?"
+responses = Array[String](["Cola", "Árbol", "Montículo", "Pila"])
+difficulty = 1

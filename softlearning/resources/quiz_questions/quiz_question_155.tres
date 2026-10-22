@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="QuizQuestion" format=3]
+
+[ext_resource type="Script" path="res://core/db/models/quiz_question.gd" id="1_cj8nd"]
+
+[resource]
+script = ExtResource("1_cj8nd")
+id = 155
+department = 3
+title = "Conceptos básicos de programación"
+description = "¿Qué es el alcance (scope) de una variable?"
+responses = Array[String](["El tipo de dato de la variable", "El tamaño en memoria de la variable", "La parte del programa donde la variable existe y se puede usar", "El número de veces que se modifica"])
+correct_response_index = 2
+difficulty = 2

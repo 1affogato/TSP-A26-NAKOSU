@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="QuizQuestion" format=3]
+
+[ext_resource type="Script" path="res://core/db/models/quiz_question.gd" id="1_higav"]
+
+[resource]
+script = ExtResource("1_higav")
+id = 88
+title = "Búsqueda"
+description = "¿Cuál es la complejidad de la búsqueda lineal en el peor caso para n elementos?"
+responses = Array[String](["O(n²)", "O(log n)", "O(n)", "O(1)"])
+correct_response_index = 2
+difficulty = 1

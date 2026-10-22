@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="QuizQuestion" format=3]
+
+[ext_resource type="Script" path="res://core/db/models/quiz_question.gd" id="1_a7uyd"]
+
+[resource]
+script = ExtResource("1_a7uyd")
+id = 116
+department = 1
+title = "Calidad de requisitos"
+description = "¿Qué versión del requisito 'la app debe ser fácil de usar' es verificable?"
+responses = Array[String](["La app debe ser muy intuitiva", "Un usuario nuevo completa una compra en menos de 3 minutos sin ayuda", "La interfaz debe ser bonita y moderna", "La app debe gustar a los usuarios"])
+correct_response_index = 1
+difficulty = 3

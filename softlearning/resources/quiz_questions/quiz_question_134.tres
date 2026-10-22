@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="QuizQuestion" format=3]
+
+[ext_resource type="Script" path="res://core/db/models/quiz_question.gd" id="1_miyer"]
+
+[resource]
+script = ExtResource("1_miyer")
+id = 134
+department = 2
+title = "Integración continua"
+description = "¿Qué propone la integración continua?"
+responses = Array[String](["Desplegar sin pruebas para ir más rápido", "Integrar y probar los cambios de todos con frecuencia y de forma automática", "Juntar todo el código solo al final del proyecto", "Que un solo programador escriba todo el código"])
+correct_response_index = 1
+difficulty = 2

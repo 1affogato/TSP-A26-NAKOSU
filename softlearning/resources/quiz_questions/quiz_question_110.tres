@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="QuizQuestion" format=3]
+
+[ext_resource type="Script" path="res://core/db/models/quiz_question.gd" id="1_507fw"]
+
+[resource]
+script = ExtResource("1_507fw")
+id = 110
+department = 1
+title = "Casos de uso"
+description = "En un caso de uso, ¿qué es un flujo alterno?"
+responses = Array[String](["La lista de actores", "Un camino distinto al principal, por una condición o error", "El flujo que sigue el administrador", "La precondición del caso de uso"])
+correct_response_index = 1
+difficulty = 1

@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="QuizQuestion" format=3]
+
+[ext_resource type="Script" path="res://core/db/models/quiz_question.gd" id="1_jetrr"]
+
+[resource]
+script = ExtResource("1_jetrr")
+id = 135
+department = 2
+title = "Estimación"
+description = "¿Para qué se usan los puntos de historia en un equipo ágil?"
+responses = Array[String](["Para calificar a cada programador", "Para medir horas exactas de trabajo", "Para contar defectos", "Para estimar el esfuerzo relativo de las historias"])
+correct_response_index = 3
+difficulty = 2

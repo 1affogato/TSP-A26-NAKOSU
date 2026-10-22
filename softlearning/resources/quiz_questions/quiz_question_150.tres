@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="QuizQuestion" format=3]
+
+[ext_resource type="Script" path="res://core/db/models/quiz_question.gd" id="1_227o0"]
+
+[resource]
+script = ExtResource("1_227o0")
+id = 150
+department = 3
+title = "Principios SOLID"
+description = "¿Qué propone el principio abierto/cerrado (OCP)?"
+responses = Array[String](["Que todas las clases sean públicas", "Que no existan clases abstractas", "Abierto a extensión y cerrado a modificación", "Que el código se pueda abrir con cualquier editor"])
+correct_response_index = 2
+difficulty = 1

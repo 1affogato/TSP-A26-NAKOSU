@@ -1,0 +1,379 @@
+[gd_resource type="Resource" script_class="BombPool" format=3]
+
+[ext_resource type="Script" path="res://core/db/models/bomb.gd" id="1_ynvyw"]
+[ext_resource type="Script" path="res://core/db/models/bomb_question.gd" id="2_75a0d"]
+[ext_resource type="Script" path="res://core/bomb_pool.gd" id="3_0wruo"]
+
+[sub_resource type="Resource" id="Resource_rgilg"]
+script = ExtResource("2_75a0d")
+text = "¿Qué tipo de requisito es: 'El usuario puede registrar una cuenta'?"
+wires = Array[String](["Requisito funcional", "Restricción", "Requisito no funcional"])
+
+[sub_resource type="Resource" id="Resource_cdx1o"]
+script = ExtResource("2_75a0d")
+text = "¿Qué técnica de elicitación es preguntarle directamente al cliente?"
+wires = Array[String](["Prototipo", "Entrevista", "Observación"])
+correct_wire_index = 1
+
+[sub_resource type="Resource" id="Resource_18ihj"]
+script = ExtResource("2_75a0d")
+text = "En 'Como cliente quiero pagar con tarjeta', ¿quién es el rol?"
+wires = Array[String](["Sistema", "Tarjeta", "Cliente"])
+correct_wire_index = 2
+
+[sub_resource type="Resource" id="Resource_y5whr"]
+script = ExtResource("1_ynvyw")
+id = 1
+questions = Array[ExtResource("2_75a0d")]([SubResource("Resource_rgilg"), SubResource("Resource_cdx1o"), SubResource("Resource_18ihj")])
+
+[sub_resource type="Resource" id="Resource_efwd6"]
+script = ExtResource("2_75a0d")
+text = "¿Qué tipo de requisito es: 'La app debe responder en menos de 2 segundos'?"
+wires = Array[String](["Requisito no funcional", "Requisito de negocio", "Requisito funcional"])
+
+[sub_resource type="Resource" id="Resource_uhxo1"]
+script = ExtResource("2_75a0d")
+text = "¿Qué representa un actor en un diagrama de casos de uso?"
+wires = Array[String](["Alguien o algo que interactúa con el sistema", "Una clase del código", "Una base de datos"])
+
+[sub_resource type="Resource" id="Resource_36cvn"]
+script = ExtResource("2_75a0d")
+text = "¿Qué es un interesado (stakeholder)?"
+wires = Array[String](["Un servidor", "Solo el programador", "Quien se ve afectado por el sistema"])
+correct_wire_index = 2
+
+[sub_resource type="Resource" id="Resource_pl20s"]
+script = ExtResource("1_ynvyw")
+id = 2
+questions = Array[ExtResource("2_75a0d")]([SubResource("Resource_efwd6"), SubResource("Resource_uhxo1"), SubResource("Resource_36cvn")])
+
+[sub_resource type="Resource" id="Resource_dcupy"]
+script = ExtResource("2_75a0d")
+text = "¿Qué describe el flujo principal de un caso de uso?"
+wires = Array[String](["Los errores posibles", "El camino normal y exitoso", "La lista de actores"])
+correct_wire_index = 1
+
+[sub_resource type="Resource" id="Resource_4tb5s"]
+script = ExtResource("2_75a0d")
+text = "¿Qué es la elicitación de requisitos?"
+wires = Array[String](["Probar el software", "Descubrir las necesidades de los interesados", "Programar el sistema"])
+correct_wire_index = 1
+
+[sub_resource type="Resource" id="Resource_0yny4"]
+script = ExtResource("2_75a0d")
+text = "¿Cuál es un requisito funcional?"
+wires = Array[String](["El sistema es rápido", "El sistema es seguro", "El sistema envía un correo de confirmación"])
+correct_wire_index = 2
+
+[sub_resource type="Resource" id="Resource_8y3ry"]
+script = ExtResource("1_ynvyw")
+id = 3
+questions = Array[ExtResource("2_75a0d")]([SubResource("Resource_dcupy"), SubResource("Resource_4tb5s"), SubResource("Resource_0yny4")])
+
+[sub_resource type="Resource" id="Resource_6crlh"]
+script = ExtResource("2_75a0d")
+text = "¿Para qué sirven los criterios de aceptación?"
+wires = Array[String](["Para elegir el lenguaje", "Para saber cuándo una historia está terminada", "Para estimar el costo"])
+correct_wire_index = 1
+
+[sub_resource type="Resource" id="Resource_h2fks"]
+script = ExtResource("2_75a0d")
+text = "¿Qué formato usa una historia de usuario?"
+wires = Array[String](["Dado... cuando... nunca...", "Como... quiero... para...", "Si... entonces... sino..."])
+correct_wire_index = 1
+
+[sub_resource type="Resource" id="Resource_wwreu"]
+script = ExtResource("2_75a0d")
+text = "¿Qué técnica muestra al usuario una versión simple de la interfaz?"
+wires = Array[String](["Entrevista", "Prototipo", "Cuestionario"])
+correct_wire_index = 1
+
+[sub_resource type="Resource" id="Resource_e46xx"]
+script = ExtResource("1_ynvyw")
+id = 4
+questions = Array[ExtResource("2_75a0d")]([SubResource("Resource_6crlh"), SubResource("Resource_h2fks"), SubResource("Resource_wwreu")])
+
+[sub_resource type="Resource" id="Resource_psun8"]
+script = ExtResource("2_75a0d")
+text = "¿Qué tipo de requisito es: 'El sistema debe responder en menos de 2 segundos'?"
+wires = Array[String](["Requisito de negocio", "Requisito no funcional", "Requisito funcional"])
+correct_wire_index = 1
+
+[sub_resource type="Resource" id="Resource_aonab"]
+script = ExtResource("2_75a0d")
+text = "¿Qué técnica de obtención consiste en observar al usuario mientras hace su trabajo?"
+wires = Array[String](["Cuestionario", "Observación (etnografía)", "Entrevista"])
+correct_wire_index = 1
+
+[sub_resource type="Resource" id="Resource_mr622"]
+script = ExtResource("2_75a0d")
+text = "¿Qué característica tiene un requisito que se puede comprobar con una prueba?"
+wires = Array[String](["Verificable", "Negociable", "Ambiguo"])
+
+[sub_resource type="Resource" id="Resource_w138s"]
+script = ExtResource("1_ynvyw")
+id = 5
+difficulty = 1
+questions = Array[ExtResource("2_75a0d")]([SubResource("Resource_psun8"), SubResource("Resource_aonab"), SubResource("Resource_mr622")])
+
+[sub_resource type="Resource" id="Resource_ci171"]
+script = ExtResource("2_75a0d")
+text = "'Queremos vender 20 % más en línea este año' es un requisito de:"
+wires = Array[String](["Negocio", "Usuario", "Sistema"])
+
+[sub_resource type="Resource" id="Resource_p5swp"]
+script = ExtResource("2_75a0d")
+text = "Según INVEST, una buena historia debe ser:"
+wires = Array[String](["Infinita", "Independiente", "Inmutable"])
+correct_wire_index = 1
+
+[sub_resource type="Resource" id="Resource_4p0ka"]
+script = ExtResource("2_75a0d")
+text = "¿Qué indica la relación «include» entre casos de uso?"
+wires = Array[String](["Un comportamiento opcional", "Un comportamiento que siempre se incluye", "Una herencia de actores"])
+correct_wire_index = 1
+
+[sub_resource type="Resource" id="Resource_h60gq"]
+script = ExtResource("1_ynvyw")
+id = 6
+difficulty = 1
+questions = Array[ExtResource("2_75a0d")]([SubResource("Resource_ci171"), SubResource("Resource_p5swp"), SubResource("Resource_4p0ka")])
+
+[sub_resource type="Resource" id="Resource_ly0x5"]
+script = ExtResource("2_75a0d")
+text = "¿Qué es un flujo alterno en un caso de uso?"
+wires = Array[String](["El flujo del administrador", "Un camino distinto por una condición o error", "La precondición"])
+correct_wire_index = 1
+
+[sub_resource type="Resource" id="Resource_uk6av"]
+script = ExtResource("2_75a0d")
+text = "¿Qué problema tiene 'el sistema debe ser fácil de usar'?"
+wires = Array[String](["Es ambiguo", "Es funcional", "Es una restricción"])
+
+[sub_resource type="Resource" id="Resource_86ipf"]
+script = ExtResource("2_75a0d")
+text = "¿Qué técnica conviene para consultar a 300 usuarios dispersos?"
+wires = Array[String](["Taller presencial", "Observación", "Cuestionario"])
+correct_wire_index = 2
+
+[sub_resource type="Resource" id="Resource_tgo54"]
+script = ExtResource("1_ynvyw")
+id = 7
+difficulty = 1
+questions = Array[ExtResource("2_75a0d")]([SubResource("Resource_ly0x5"), SubResource("Resource_uk6av"), SubResource("Resource_86ipf")])
+
+[sub_resource type="Resource" id="Resource_ne1gm"]
+script = ExtResource("2_75a0d")
+text = "¿Qué es una precondición en un caso de uso?"
+wires = Array[String](["Lo que debe ser cierto antes de empezar", "Un paso del flujo", "El resultado final"])
+
+[sub_resource type="Resource" id="Resource_cnfgc"]
+script = ExtResource("2_75a0d")
+text = "¿Qué es una restricción?"
+wires = Array[String](["Un tipo de actor", "Una función del sistema", "Una condición impuesta a la solución, como la tecnología"])
+correct_wire_index = 2
+
+[sub_resource type="Resource" id="Resource_kfmqs"]
+script = ExtResource("2_75a0d")
+text = "¿Qué es una épica?"
+wires = Array[String](["Un caso de prueba", "Una historia grande que se divide en otras", "Un error crítico"])
+correct_wire_index = 1
+
+[sub_resource type="Resource" id="Resource_x26ca"]
+script = ExtResource("1_ynvyw")
+id = 8
+difficulty = 1
+questions = Array[ExtResource("2_75a0d")]([SubResource("Resource_ne1gm"), SubResource("Resource_cnfgc"), SubResource("Resource_kfmqs")])
+
+[sub_resource type="Resource" id="Resource_85fcy"]
+script = ExtResource("2_75a0d")
+text = "¿Qué atributo de calidad expresa 'disponible el 99.5 % del tiempo'?"
+wires = Array[String](["Portabilidad", "Disponibilidad", "Usabilidad"])
+correct_wire_index = 1
+
+[sub_resource type="Resource" id="Resource_7a84k"]
+script = ExtResource("2_75a0d")
+text = "¿Qué indica la relación «extend» entre casos de uso?"
+wires = Array[String](["Una herencia entre actores", "Un paso que siempre ocurre", "Un comportamiento opcional bajo cierta condición"])
+correct_wire_index = 2
+
+[sub_resource type="Resource" id="Resource_i4o70"]
+script = ExtResource("2_75a0d")
+text = "¿Qué técnica prioriza en Must, Should, Could y Won't?"
+wires = Array[String](["INVEST", "MoSCoW", "SMART"])
+correct_wire_index = 1
+
+[sub_resource type="Resource" id="Resource_fv1ly"]
+script = ExtResource("1_ynvyw")
+id = 9
+difficulty = 2
+questions = Array[ExtResource("2_75a0d")]([SubResource("Resource_85fcy"), SubResource("Resource_7a84k"), SubResource("Resource_i4o70")])
+
+[sub_resource type="Resource" id="Resource_ifang"]
+script = ExtResource("2_75a0d")
+text = "¿Qué se busca al validar los requisitos?"
+wires = Array[String](["Que el código compile", "Que describan lo que el cliente necesita", "Que el diseño use patrones"])
+correct_wire_index = 1
+
+[sub_resource type="Resource" id="Resource_63yre"]
+script = ExtResource("2_75a0d")
+text = "'El sistema debe enviar cada pedido a la cocina' es un requisito de:"
+wires = Array[String](["Negocio", "Usuario", "Sistema"])
+correct_wire_index = 2
+
+[sub_resource type="Resource" id="Resource_op2ea"]
+script = ExtResource("2_75a0d")
+text = "Dos interesados piden cosas contradictorias. ¿Qué haces?"
+wires = Array[String](["Elegir al azar", "Negociar con ambos y documentar el acuerdo", "Implementar las dos"])
+correct_wire_index = 1
+
+[sub_resource type="Resource" id="Resource_f7nsa"]
+script = ExtResource("1_ynvyw")
+id = 10
+difficulty = 2
+questions = Array[ExtResource("2_75a0d")]([SubResource("Resource_ifang"), SubResource("Resource_63yre"), SubResource("Resource_op2ea")])
+
+[sub_resource type="Resource" id="Resource_smd6o"]
+script = ExtResource("2_75a0d")
+text = "¿Qué atributo expresa 'no perder un pedido si se va la luz'?"
+wires = Array[String](["Rendimiento", "Usabilidad", "Fiabilidad"])
+correct_wire_index = 2
+
+[sub_resource type="Resource" id="Resource_2r8v6"]
+script = ExtResource("2_75a0d")
+text = "¿Qué error es común al redactar un caso de uso?"
+wires = Array[String](["Incluir un actor principal", "Nombrarlo con un verbo", "Describir detalles de la interfaz o del código"])
+correct_wire_index = 2
+
+[sub_resource type="Resource" id="Resource_pulxj"]
+script = ExtResource("2_75a0d")
+text = "'Debe usar una base de datos PostgreSQL' en una historia de usuario es:"
+wires = Array[String](["Una restricción técnica, no una necesidad del usuario", "Una buena historia", "Un criterio de aceptación"])
+
+[sub_resource type="Resource" id="Resource_f1xjv"]
+script = ExtResource("1_ynvyw")
+id = 11
+difficulty = 2
+questions = Array[ExtResource("2_75a0d")]([SubResource("Resource_smd6o"), SubResource("Resource_2r8v6"), SubResource("Resource_pulxj")])
+
+[sub_resource type="Resource" id="Resource_r7744"]
+script = ExtResource("2_75a0d")
+text = "¿Qué es la trazabilidad de requisitos?"
+wires = Array[String](["Contar los defectos", "Medir la velocidad del equipo", "Relacionar cada requisito con su diseño, código y pruebas"])
+correct_wire_index = 2
+
+[sub_resource type="Resource" id="Resource_6qxqg"]
+script = ExtResource("2_75a0d")
+text = "¿Qué propiedad INVEST falla si una historia depende de otra?"
+wires = Array[String](["Valiosa", "Pequeña", "Independiente"])
+correct_wire_index = 2
+
+[sub_resource type="Resource" id="Resource_dfg23"]
+script = ExtResource("2_75a0d")
+text = "¿Qué técnica reúne a varios interesados para definir requisitos juntos?"
+wires = Array[String](["Taller (JAD)", "Cuestionario", "Observación"])
+
+[sub_resource type="Resource" id="Resource_d3h5w"]
+script = ExtResource("1_ynvyw")
+id = 12
+difficulty = 2
+questions = Array[ExtResource("2_75a0d")]([SubResource("Resource_r7744"), SubResource("Resource_6qxqg"), SubResource("Resource_dfg23")])
+
+[sub_resource type="Resource" id="Resource_86bq8"]
+script = ExtResource("2_75a0d")
+text = "¿Cuál versión de 'fácil de usar' es verificable?"
+wires = Array[String](["La app debe ser intuitiva", "La app debe gustar", "Un usuario nuevo compra en menos de 3 minutos sin ayuda"])
+correct_wire_index = 2
+
+[sub_resource type="Resource" id="Resource_by16i"]
+script = ExtResource("2_75a0d")
+text = "¿Qué son los requisitos tácitos?"
+wires = Array[String](["Requisitos ya implementados", "Requisitos escritos en el contrato", "Necesidades que el cliente da por obvias y no menciona"])
+correct_wire_index = 2
+
+[sub_resource type="Resource" id="Resource_yos5e"]
+script = ExtResource("2_75a0d")
+text = "¿Qué permite la matriz de trazabilidad cuando cambia un requisito?"
+wires = Array[String](["Borrar el requisito viejo", "Ver qué diseño, código y pruebas se afectan", "Generar el código"])
+correct_wire_index = 1
+
+[sub_resource type="Resource" id="Resource_i3lpn"]
+script = ExtResource("1_ynvyw")
+id = 13
+difficulty = 3
+questions = Array[ExtResource("2_75a0d")]([SubResource("Resource_86bq8"), SubResource("Resource_by16i"), SubResource("Resource_yos5e")])
+
+[sub_resource type="Resource" id="Resource_hadrl"]
+script = ExtResource("2_75a0d")
+text = "'Quiero pedir mi café desde el celular' y 'El sistema imprime el pedido en la cocina' se relacionan así:"
+wires = Array[String](["Se contradicen", "El de sistema realiza al de usuario", "Son el mismo requisito"])
+correct_wire_index = 1
+
+[sub_resource type="Resource" id="Resource_512mf"]
+script = ExtResource("2_75a0d")
+text = "¿Por qué 'emocional' no es un tipo de requisito válido?"
+wires = Array[String](["Porque no describe una necesidad verificable del sistema", "Porque es un requisito de negocio", "Porque es una restricción"])
+
+[sub_resource type="Resource" id="Resource_3i5ax"]
+script = ExtResource("2_75a0d")
+text = "Una historia no cabe en un sprint. ¿Qué haces?"
+wires = Array[String](["Pasarla igual a dos sprints", "Dividirla en historias que aporten valor cada una", "Quitarle los criterios"])
+correct_wire_index = 1
+
+[sub_resource type="Resource" id="Resource_l6epl"]
+script = ExtResource("1_ynvyw")
+id = 14
+difficulty = 3
+questions = Array[ExtResource("2_75a0d")]([SubResource("Resource_hadrl"), SubResource("Resource_512mf"), SubResource("Resource_3i5ax")])
+
+[sub_resource type="Resource" id="Resource_qx5ys"]
+script = ExtResource("2_75a0d")
+text = "Un caso de uso dice 'el usuario hace clic en el botón azul'. ¿Qué defecto tiene?"
+wires = Array[String](["Es un requisito no funcional", "Depende de la interfaz; debería decir la intención", "Le falta un actor"])
+correct_wire_index = 1
+
+[sub_resource type="Resource" id="Resource_lnk32"]
+script = ExtResource("2_75a0d")
+text = "¿Qué criterio de aceptación es correcto para 'pausar el minijuego'?"
+wires = Array[String](["La pausa debe ser bonita", "El botón debe ser azul", "Al reanudar, el tiempo restante es el mismo que al pausar"])
+correct_wire_index = 2
+
+[sub_resource type="Resource" id="Resource_k63rq"]
+script = ExtResource("2_75a0d")
+text = "¿Qué distingue a la verificación de la validación de requisitos?"
+wires = Array[String](["Verificar es del cliente y validar del equipo", "Verificar: bien escritos; validar: los correctos para el cliente", "Son sinónimos"])
+correct_wire_index = 1
+
+[sub_resource type="Resource" id="Resource_pnngu"]
+script = ExtResource("1_ynvyw")
+id = 15
+difficulty = 3
+questions = Array[ExtResource("2_75a0d")]([SubResource("Resource_qx5ys"), SubResource("Resource_lnk32"), SubResource("Resource_k63rq")])
+
+[sub_resource type="Resource" id="Resource_5wcmo"]
+script = ExtResource("2_75a0d")
+text = "¿Qué riesgo trae un requisito 'gold plating'?"
+wires = Array[String](["Que el cliente no pague", "Que falten pruebas unitarias", "Agregar funciones que nadie pidió y gastan tiempo"])
+correct_wire_index = 2
+
+[sub_resource type="Resource" id="Resource_udfbj"]
+script = ExtResource("2_75a0d")
+text = "¿Qué hace un buen requisito además de ser verificable?"
+wires = Array[String](["Es largo y detallado en la interfaz", "Menciona la tecnología a usar", "Es necesario, claro y no ambiguo"])
+correct_wire_index = 2
+
+[sub_resource type="Resource" id="Resource_hl878"]
+script = ExtResource("2_75a0d")
+text = "¿Qué técnica conviene si el usuario no sabe explicar lo que quiere?"
+wires = Array[String](["Leer el código", "Cuestionario cerrado", "Prototipo para que reaccione a algo concreto"])
+correct_wire_index = 2
+
+[sub_resource type="Resource" id="Resource_imfmc"]
+script = ExtResource("1_ynvyw")
+id = 16
+difficulty = 3
+questions = Array[ExtResource("2_75a0d")]([SubResource("Resource_5wcmo"), SubResource("Resource_udfbj"), SubResource("Resource_hl878")])
+
+[resource]
+script = ExtResource("3_0wruo")
+bombs = Array[ExtResource("1_ynvyw")]([SubResource("Resource_y5whr"), SubResource("Resource_pl20s"), SubResource("Resource_8y3ry"), SubResource("Resource_e46xx"), SubResource("Resource_w138s"), SubResource("Resource_h60gq"), SubResource("Resource_tgo54"), SubResource("Resource_x26ca"), SubResource("Resource_fv1ly"), SubResource("Resource_f7nsa"), SubResource("Resource_f1xjv"), SubResource("Resource_d3h5w"), SubResource("Resource_i3lpn"), SubResource("Resource_l6epl"), SubResource("Resource_pnngu"), SubResource("Resource_imfmc")])

@@ -29,6 +29,8 @@ class NarrativeScenario {
   -options: List<String>
   -skin: SkinType
   -difficulty: Difficulty
+  -good_ending: String
+  -bad_ending: String
   --
   +get_blanks(): List<Blank>
   +get_options(): List<String>
@@ -54,6 +56,8 @@ note left of NarrativeScenario
     - El usuario SOLO elige de aquí → no hay input libre.
     - get_correct_answers() devuelve lista ordenada por Blank.index
       (computada desde blanks, no almacenada → imposible desincronizar).
+  good_ending / bad_ending: diálogo de cierre (UC-09.8),
+    final bueno si acierta, final malo si se agotan los intentos.
   skin: indicador visual de intentos (UC-09.2):
     CREDIBILITY = estrellas/reputación, BUDGET = dinero, SPRINT_TIME = días.
   department: campo directo (sin NarrativeCategory), según spec pool.

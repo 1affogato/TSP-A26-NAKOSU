@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="QuizQuestion" format=3]
+
+[ext_resource type="Script" path="res://core/db/models/quiz_question.gd" id="1_bcmck"]
+
+[resource]
+script = ExtResource("1_bcmck")
+id = 125
+department = 2
+title = "Despliegue"
+description = "¿Qué significa desplegar un sistema?"
+responses = Array[String](["Hacer la entrevista inicial", "Escribir su primer prototipo", "Ponerlo a disposición de los usuarios en su entorno real", "Borrar el código viejo"])
+correct_response_index = 2

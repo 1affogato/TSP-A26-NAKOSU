@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="QuizQuestion" format=3]
+
+[ext_resource type="Script" path="res://core/db/models/quiz_question.gd" id="1_rc0xa"]
+
+[resource]
+script = ExtResource("1_rc0xa")
+id = 141
+department = 3
+title = "Conceptos básicos de programación"
+description = "¿Qué es una función en programación?"
+responses = Array[String](["Un tipo de variable que guarda texto", "Un bloque de código con nombre que se puede reutilizar", "Un error del compilador", "Una carpeta del proyecto"])
+correct_response_index = 1

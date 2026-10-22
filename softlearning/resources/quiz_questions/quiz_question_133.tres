@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="QuizQuestion" format=3]
+
+[ext_resource type="Script" path="res://core/db/models/quiz_question.gd" id="1_kgnvy"]
+
+[resource]
+script = ExtResource("1_kgnvy")
+id = 133
+department = 2
+title = "Metodologías de desarrollo"
+description = "¿Qué es la Definition of Done en Scrum?"
+responses = Array[String](["El rol que cierra el sprint", "Los criterios que debe cumplir un incremento para considerarse terminado", "La lista de defectos aceptados", "La fecha de entrega del proyecto"])
+correct_response_index = 1
+difficulty = 2

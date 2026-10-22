@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="QuizQuestion" format=3]
+
+[ext_resource type="Script" path="res://core/db/models/quiz_question.gd" id="1_68evt"]
+
+[resource]
+script = ExtResource("1_68evt")
+id = 156
+department = 3
+title = "Programación funcional"
+description = "¿Qué es la currificación (currying)?"
+responses = Array[String](["Evaluar una función solo cuando se necesita su valor", "Guardar el resultado de una función para reutilizarlo", "Ordenar una lista con una función de comparación", "Transformar una función de varios argumentos en una cadena de funciones de un argumento"])
+correct_response_index = 3
+difficulty = 3

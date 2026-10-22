@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="QuizQuestion" format=3]
+
+[ext_resource type="Script" path="res://core/db/models/quiz_question.gd" id="1_rlgc4"]
+
+[resource]
+script = ExtResource("1_rlgc4")
+id = 99
+title = "Árboles"
+description = "¿Qué estructura conviene para autocompletar palabras por prefijo de forma eficiente?"
+responses = Array[String](["Cola de prioridad", "Lista doblemente enlazada", "Trie (árbol de prefijos)", "Montículo de máximos"])
+correct_response_index = 2
+difficulty = 3

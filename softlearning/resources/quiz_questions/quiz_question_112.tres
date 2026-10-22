@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="QuizQuestion" format=3]
+
+[ext_resource type="Script" path="res://core/db/models/quiz_question.gd" id="1_n03ub"]
+
+[resource]
+script = ExtResource("1_n03ub")
+id = 112
+department = 1
+title = "Restricciones"
+description = "'El sistema debe desarrollarse en Godot y desplegarse en web' es un ejemplo de:"
+responses = Array[String](["Restricción", "Atributo de usabilidad", "Requisito de usuario", "Requisito funcional"])
+difficulty = 2

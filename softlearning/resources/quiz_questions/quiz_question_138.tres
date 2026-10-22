@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="QuizQuestion" format=3]
+
+[ext_resource type="Script" path="res://core/db/models/quiz_question.gd" id="1_nxr3h"]
+
+[resource]
+script = ExtResource("1_nxr3h")
+id = 138
+department = 2
+title = "Metodologías de desarrollo"
+description = "¿Qué indica la velocidad (velocity) de un equipo Scrum?"
+responses = Array[String](["Qué tan rápido responde el sistema", "Cuántas líneas de código escribe por hora", "Cuántos defectos corrige por día", "Cuántos puntos de historia completa en promedio por sprint"])
+correct_response_index = 3
+difficulty = 3

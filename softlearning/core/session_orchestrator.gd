@@ -12,11 +12,14 @@ extends Node
 ##
 ## One step differs from the UC-02 sequence diagram: after a result it waits
 ## for next() before launching the following minigame, so the player can read
-## the feedback ("Siguiente Pregunta" in the mockup) instead of losing it on the
+## the feedback ("Siguiente minijuego" in the mockups) instead of losing it on the
 ## same frame.
 
 ## UC-02.4: `minigame` exists and is about to start; the view binds to it now.
 signal minigame_started(minigame: Minigame)
+## UC-02.6: the ELO moved by `delta` and is now `elo`. Lets the view show the
+## change next to the feedback, so the player can follow the calculation.
+signal elo_updated(delta: float, elo: float)
 ## UC-02.4.a1.1
 signal paused
 ## UC-02.4.a1.4
@@ -35,8 +38,8 @@ const SEQUENCE_LENGTH := 10
 @export var pause_time_limit := 300.0
 
 var department: Enums.Department
-## Minigames playable in every department (the quiz pool covers all four).
-var generic_minigames: Array[String] = [QuizMinigame.TYPE]
+## Minigames playable in every department (their pools cover all four).
+var generic_minigames: Array[String] = [QuizMinigame.TYPE, SwipeMinigame.TYPE, NarrativeMinigame.TYPE]
 var sequence: Array[String] = []
 var current_index := 0
 var current_minigame: Minigame
@@ -132,6 +135,14 @@ func _create_minigame(type: String) -> Minigame:
 	match type:
 		QuizMinigame.TYPE:
 			minigame = QuizMinigame.new()
+		SwipeMinigame.TYPE:
+			minigame = SwipeMinigame.new()
+		NarrativeMinigame.TYPE:
+			minigame = NarrativeMinigame.new()
+		TrainMinigame.TYPE:
+			minigame = TrainMinigame.new()
+		BombMinigame.TYPE:
+			minigame = BombMinigame.new()
 	minigame.finished.connect(_on_minigame_finished)
 	add_child(minigame)
 	return minigame
@@ -140,8 +151,11 @@ func _create_minigame(type: String) -> Minigame:
 ## UC-02.5 / UC-02.6
 func _on_minigame_finished(result: MinigameResult) -> void:
 	results.append(result)
+	var elo_before := DepartmentManager.get_elo(result.department)
 	DepartmentManager.update_elo(result)
 	StatisticsTracker.register_result(result)
+	var elo_after := DepartmentManager.get_elo(result.department)
+	elo_updated.emit(elo_after - elo_before, elo_after)
 	current_index += 1
 	_drop_minigame()
 

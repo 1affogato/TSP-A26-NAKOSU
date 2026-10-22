@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="QuizQuestion" format=3]
+
+[ext_resource type="Script" path="res://core/db/models/quiz_question.gd" id="1_u2vhf"]
+
+[resource]
+script = ExtResource("1_u2vhf")
+id = 85
+title = "Árboles"
+description = "En un árbol, ¿cómo se llama el nodo que no tiene padre?"
+responses = Array[String](["Subárbol", "Hermano", "Raíz", "Hoja"])
+correct_response_index = 2

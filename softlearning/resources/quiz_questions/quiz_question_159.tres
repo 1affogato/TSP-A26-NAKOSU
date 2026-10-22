@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="QuizQuestion" format=3]
+
+[ext_resource type="Script" path="res://core/db/models/quiz_question.gd" id="1_1q7uw"]
+
+[resource]
+script = ExtResource("1_1q7uw")
+id = 159
+department = 3
+title = "Paradigmas de programación"
+description = "¿Qué ventaja tiene la inmutabilidad en programas concurrentes?"
+responses = Array[String](["Varios hilos pueden leer los datos sin riesgo de que otro los cambie", "Evita tener que escribir funciones", "Permite modificar datos sin copiarlos", "Hace que el programa use menos memoria siempre"])
+difficulty = 3

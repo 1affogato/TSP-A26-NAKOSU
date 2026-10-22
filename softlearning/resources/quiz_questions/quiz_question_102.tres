@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="QuizQuestion" format=3]
+
+[ext_resource type="Script" path="res://core/db/models/quiz_question.gd" id="1_gjcty"]
+
+[resource]
+script = ExtResource("1_gjcty")
+id = 102
+department = 1
+title = "Tipos de requisitos"
+description = "¿Cuál de estos es un requisito no funcional?"
+responses = Array[String](["El sistema envía un correo de confirmación", "El cliente puede cancelar un pedido", "El usuario puede registrar una cuenta", "La página debe cargar en menos de 2 segundos"])
+correct_response_index = 3

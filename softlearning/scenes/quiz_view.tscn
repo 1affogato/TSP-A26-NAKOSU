@@ -335,7 +335,7 @@ unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"Muted"
 theme_override_font_sizes/font_size = 13
-text = "Pregunta 4 de 10"
+text = "Minijuego 4 de 10"
 
 [node name="FeedbackQuestion" type="Label" parent="FeedbackScreen/Layout/Card/Content"]
 unique_name_in_owner = true
@@ -399,14 +399,14 @@ alignment = 1
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_font_sizes/font_size = 18
-text = "Volver al Inicio"
+text = "Volver al departamento"
 underline = 1
 
 [node name="NextButton" type="LinkButton" parent="FeedbackScreen/Layout/Actions"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_font_sizes/font_size = 18
-text = "Siguiente Pregunta →"
+text = "Siguiente minijuego →"
 underline = 1
 
 [connection signal="pressed" from="QuestionScreen/Card/Content/ConfirmButton" to="." method="_on_confirm_pressed"]

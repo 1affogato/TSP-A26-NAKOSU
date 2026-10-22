@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="QuizQuestion" format=3]
+
+[ext_resource type="Script" path="res://core/db/models/quiz_question.gd" id="1_jti4v"]
+
+[resource]
+script = ExtResource("1_jti4v")
+id = 94
+title = "Tablas hash"
+description = "¿Qué técnica resuelve colisiones guardando en cada casilla una lista con todos los elementos que caen ahí?"
+responses = Array[String](["Encadenamiento", "Rehash doble", "Sondeo lineal", "Búsqueda binaria"])
+difficulty = 2

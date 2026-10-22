@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="QuizQuestion" format=3]
+
+[ext_resource type="Script" path="res://core/db/models/quiz_question.gd" id="1_xvmc3"]
+
+[resource]
+script = ExtResource("1_xvmc3")
+id = 142
+department = 3
+title = "Conceptos básicos de programación"
+description = "¿Qué tipo de dato guarda los valores verdadero o falso?"
+responses = Array[String](["Booleano", "Cadena", "Flotante", "Entero"])
