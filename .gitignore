@@ -1,4 +1,6 @@
-softlearning/
-.godot/
+softlearning/.godot/
 .opencode/
+tags
+.tags
+TAGS
 
