@@ -16,13 +16,41 @@ const GREEN_BG := Color(0.941, 0.992, 0.957)
 const RED := Color(0.863, 0.149, 0.149)
 const RED_BG := Color(0.996, 0.949, 0.949)
 
+## Gap between the card and the two links (the separation of Layout).
+const LINKS_GAP := 12.0
+
 var _is_correct := false
+var _fit_queued := false
 
 
 func _ready() -> void:
 	%HomeButton.pressed.connect(home_pressed.emit)
 	%NextButton.pressed.connect(next_pressed.emit)
 	%Mark.draw.connect(_draw_mark)
+	resized.connect(_queue_fit)
+	visibility_changed.connect(_queue_fit)
+	%Rows.child_order_changed.connect(_queue_fit)
+
+
+## A result taller than the screen (the bomb lists its 3 locks) must not push
+## the links off it: the badge, the title and the card scroll in the room left
+## above the links, which stay in view. When everything fits it looks as before.
+func _queue_fit() -> void:
+	if _fit_queued or not is_inside_tree():
+		return
+	_fit_queued = true
+	# One frame later the old rows (queue_free) are gone and the sizes are real.
+	await get_tree().process_frame
+	_fit_queued = false
+	_fit()
+
+
+func _fit() -> void:
+	if not is_visible_in_tree():
+		return
+	var room: float = size.y - get_theme_constant("margin_top") - get_theme_constant("margin_bottom") \
+			- %Actions.get_combined_minimum_size().y - LINKS_GAP
+	%Scroll.custom_minimum_size.y = clampf(%Content.get_combined_minimum_size().y, 0.0, maxf(room, 0.0))
 
 
 ## Empties the card and sets the badge, the title and the subtitle pill.
