@@ -149,6 +149,7 @@ func _make_blank(index: int) -> Control:
 	box.add_theme_constant_override("separation", 0)
 	var button := Button.new()
 	button.theme_type_variation = &"Option"
+	_center_text(button)
 	button.toggle_mode = true
 	button.custom_minimum_size = Vector2(170, 34)
 	var answer: String = _answers.get(index, "")
@@ -182,6 +183,7 @@ func _build_options() -> void:
 		var button := Button.new()
 		button.text = text
 		button.theme_type_variation = &"Option"
+		_center_text(button)
 		button.toggle_mode = true
 		button.button_pressed = text == _held or used.has(text)
 		button.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
@@ -242,10 +244,21 @@ func _on_blank_cleared(blank_index: int) -> void:
 	minigame.clear_blank(blank_index)
 
 
+## The "Option" style keeps 64 px on the left for the quiz's A-D badge. Here
+## there is no badge, so the text would sit off-center: same style, even margins.
+func _center_text(button: Button) -> void:
+	for state in ["normal", "hover", "pressed", "hover_pressed"]:
+		var box := ThemeDB.get_project_theme().get_stylebox(state, &"Option").duplicate() as StyleBoxFlat
+		box.content_margin_left = 16.0
+		box.content_margin_right = 16.0
+		button.add_theme_stylebox_override(state, box)
+
+
 func _preview(text: String) -> Control:
 	var label := Button.new()
 	label.text = text
 	label.theme_type_variation = &"Option"
+	_center_text(label)
 	label.modulate.a = 0.85
 	return label
 

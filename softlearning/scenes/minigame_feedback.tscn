@@ -19,26 +19,38 @@ layout_mode = 2
 theme_override_constants/separation = 12
 alignment = 1
 
-[node name="ResultBadge" type="PanelContainer" parent="Layout"]
+[node name="Scroll" type="ScrollContainer" parent="Layout"]
+unique_name_in_owner = true
+layout_mode = 2
+horizontal_scroll_mode = 0
+theme_override_constants/scrollbar_h_separation = 14
+
+[node name="Content" type="VBoxContainer" parent="Layout/Scroll"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 12
+
+[node name="ResultBadge" type="PanelContainer" parent="Layout/Scroll/Content"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(80, 80)
 layout_mode = 2
 size_flags_horizontal = 4
 theme_type_variation = &"WrongBadge"
 
-[node name="Mark" type="Control" parent="Layout/ResultBadge"]
+[node name="Mark" type="Control" parent="Layout/Scroll/Content/ResultBadge"]
 unique_name_in_owner = true
 layout_mode = 2
 mouse_filter = 2
 
-[node name="ResultTitle" type="Label" parent="Layout"]
+[node name="ResultTitle" type="Label" parent="Layout/Scroll/Content"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"WrongTitle"
 text = "Incorrecto"
 horizontal_alignment = 1
 
-[node name="Subtitle" type="Label" parent="Layout"]
+[node name="Subtitle" type="Label" parent="Layout/Scroll/Content"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
@@ -46,16 +58,17 @@ theme_override_font_sizes/font_size = 14
 text = "El ejemplo pertenece a otra categoría."
 horizontal_alignment = 1
 
-[node name="Card" type="PanelContainer" parent="Layout"]
+[node name="Card" type="PanelContainer" parent="Layout/Scroll/Content"]
 layout_mode = 2
 theme_type_variation = &"Frame"
 
-[node name="Rows" type="VBoxContainer" parent="Layout/Card"]
+[node name="Rows" type="VBoxContainer" parent="Layout/Scroll/Content/Card"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_constants/separation = 12
 
 [node name="Actions" type="HBoxContainer" parent="Layout"]
+unique_name_in_owner = true
 layout_mode = 2
 theme_override_constants/separation = 96
 alignment = 1

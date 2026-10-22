@@ -59,6 +59,7 @@ theme_type_variation = &"Frame"
 [node name="Scroll" type="ScrollContainer" parent="PlayScreen/Card"]
 layout_mode = 2
 horizontal_scroll_mode = 0
+theme_override_constants/scrollbar_h_separation = 14
 
 [node name="Content" type="VBoxContainer" parent="PlayScreen/Card/Scroll"]
 layout_mode = 2
