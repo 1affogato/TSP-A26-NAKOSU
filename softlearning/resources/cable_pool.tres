@@ -11,6 +11,62 @@ difficulty = 0
 concepts = Array[String](["Pila", "Cola", "Arreglo", "Lista enlazada"])
 examples = Array[String](["El último en entrar es el primero en salir", "El primero en entrar es el primero en salir", "Casillas numeradas de acceso directo", "Nodos unidos por punteros"])
 
+[sub_resource type="Resource" id="Resource_cable_02"]
+script = ExtResource("2_board")
+id = 2
+department = 0
+difficulty = 0
+concepts = Array[String](["Búsqueda binaria", "Recursión", "Variable", "Bucle"])
+examples = Array[String](["Partir el arreglo ordenado a la mitad", "Una función que se llama a sí misma", "Un nombre que guarda un valor", "Repite instrucciones mientras se cumpla una condición"])
+
+[sub_resource type="Resource" id="Resource_cable_03"]
+script = ExtResource("2_board")
+id = 3
+department = 0
+difficulty = 1
+concepts = Array[String](["Tabla hash", "Árbol binario", "Pila de llamadas", "Cola de prioridad"])
+examples = Array[String](["Convierte una llave en un índice", "Cada nodo tiene hasta dos hijos", "Guarda las funciones a medio ejecutar", "Saca primero el elemento más importante"])
+
+[sub_resource type="Resource" id="Resource_cable_04"]
+script = ExtResource("2_board")
+id = 4
+department = 0
+difficulty = 1
+concepts = Array[String](["Recorrido en profundidad", "Recorrido en amplitud", "Lista doblemente enlazada", "Árbol de búsqueda"])
+examples = Array[String](["Baja por una rama antes de retroceder", "Visita los vecinos nivel por nivel", "Cada nodo apunta al anterior y al siguiente", "Izquierda menor, derecha mayor"])
+
+[sub_resource type="Resource" id="Resource_cable_05"]
+script = ExtResource("2_board")
+id = 5
+department = 0
+difficulty = 2
+concepts = Array[String](["Grafo dirigido", "Montículo mínimo", "Árbol balanceado", "Colisión hash"])
+examples = Array[String](["Las aristas tienen una sola dirección", "La raíz siempre es el valor más pequeño", "Su altura crece de forma logarítmica", "Dos llaves caen en el mismo índice"])
+
+[sub_resource type="Resource" id="Resource_cable_06"]
+script = ExtResource("2_board")
+id = 6
+department = 0
+difficulty = 2
+concepts = Array[String](["Grafo ponderado", "Árbol de expansión mínima", "Memoización", "Lista circular"])
+examples = Array[String](["Cada arista lleva un costo", "Conecta todo con el menor costo total", "Guarda resultados ya calculados", "El último nodo apunta al primero"])
+
+[sub_resource type="Resource" id="Resource_cable_07"]
+script = ExtResource("2_board")
+id = 7
+department = 0
+difficulty = 3
+concepts = Array[String](["Complejidad O(log n)", "Complejidad O(n²)", "Costo amortizado", "Factor de carga"])
+examples = Array[String](["El trabajo crece con el logaritmo del tamaño", "Dos bucles anidados sobre los datos", "Un costo alto se reparte entre muchas operaciones", "Elementos guardados entre el total de casillas"])
+
+[sub_resource type="Resource" id="Resource_cable_08"]
+script = ExtResource("2_board")
+id = 8
+department = 0
+difficulty = 3
+concepts = Array[String](["Árbol AVL", "Trie", "Union-Find", "Deque"])
+examples = Array[String](["Se rebalancea con rotaciones al insertar", "Guarda palabras carácter por carácter", "Agrupa conjuntos y detecta ciclos", "Se inserta y se saca por ambos extremos"])
+
 [sub_resource type="Resource" id="Resource_cable_09"]
 script = ExtResource("2_board")
 id = 9
@@ -18,6 +74,62 @@ department = 1
 difficulty = 0
 concepts = Array[String](["Requisito funcional", "Requisito no funcional", "Actor", "Interesado"])
 examples = Array[String](["Lo que el sistema debe hacer", "Qué tan bien lo debe hacer", "Quien interactúa con el sistema", "Quien se ve afectado por el sistema"])
+
+[sub_resource type="Resource" id="Resource_cable_10"]
+script = ExtResource("2_board")
+id = 10
+department = 1
+difficulty = 0
+concepts = Array[String](["Entrevista", "Cuestionario", "Observación", "Prototipo"])
+examples = Array[String](["Preguntar directamente al cliente", "Preguntas escritas a muchas personas", "Mirar cómo trabaja el usuario", "Una versión de prueba para opinar"])
+
+[sub_resource type="Resource" id="Resource_cable_11"]
+script = ExtResource("2_board")
+id = 11
+department = 1
+difficulty = 1
+concepts = Array[String](["Historia de usuario", "Criterio de aceptación", "Caso de uso", "Regla de negocio"])
+examples = Array[String](["Como rol quiero algo para obtener un beneficio", "Condición que debe cumplirse para darla por hecha", "Pasos entre un actor y el sistema", "Política que el sistema debe respetar"])
+
+[sub_resource type="Resource" id="Resource_cable_12"]
+script = ExtResource("2_board")
+id = 12
+department = 1
+difficulty = 1
+concepts = Array[String](["Requisito ambiguo", "Requisito verificable", "Requisito de usuario", "Restricción"])
+examples = Array[String](["Admite más de una interpretación", "Se puede comprobar con una prueba", "Necesidad expresada por quien usa el sistema", "Límite impuesto que no se puede cambiar"])
+
+[sub_resource type="Resource" id="Resource_cable_13"]
+script = ExtResource("2_board")
+id = 13
+department = 1
+difficulty = 2
+concepts = Array[String](["Elicitación", "Validación de requisitos", "Trazabilidad", "Priorización"])
+examples = Array[String](["Descubrir las necesidades de los interesados", "Confirmar que se construye lo correcto", "Seguir cada requisito hasta su implementación", "Decidir qué se hace primero por valor"])
+
+[sub_resource type="Resource" id="Resource_cable_14"]
+script = ExtResource("2_board")
+id = 14
+department = 1
+difficulty = 2
+concepts = Array[String](["Requisito de sistema", "Requisito de negocio", "Atributo de calidad", "Escenario de calidad"])
+examples = Array[String](["Describe el comportamiento del software", "Objetivo de la organización", "Rendimiento, seguridad o usabilidad", "Estímulo, respuesta y medida esperada"])
+
+[sub_resource type="Resource" id="Resource_cable_15"]
+script = ExtResource("2_board")
+id = 15
+department = 1
+difficulty = 3
+concepts = Array[String](["Análisis de interesados", "MoSCoW", "Conflicto de requisitos", "Línea base de requisitos"])
+examples = Array[String](["Poder e interés de cada afectado", "Debe, debería, podría, no tendrá", "Dos interesados piden cosas incompatibles", "Versión acordada y congelada del alcance"])
+
+[sub_resource type="Resource" id="Resource_cable_16"]
+script = ExtResource("2_board")
+id = 16
+department = 1
+difficulty = 3
+concepts = Array[String](["Prototipo desechable", "Trazabilidad inversa", "Requisito emergente", "Impacto de un cambio"])
+examples = Array[String](["Se construye para aprender y se tira", "De cada requisito a su origen", "Aparece cuando el usuario ve el sistema", "Qué se afecta si el requisito cambia"])
 
 [sub_resource type="Resource" id="Resource_cable_17"]
 script = ExtResource("2_board")
@@ -27,6 +139,62 @@ difficulty = 0
 concepts = Array[String](["Sprint", "Backlog", "Product Owner", "Scrum Master"])
 examples = Array[String](["Periodo corto de trabajo con un objetivo", "Lista priorizada de trabajo pendiente", "Decide qué se construye y por qué", "Facilita el proceso y quita obstáculos"])
 
+[sub_resource type="Resource" id="Resource_cable_18"]
+script = ExtResource("2_board")
+id = 18
+department = 2
+difficulty = 0
+concepts = Array[String](["Análisis", "Diseño", "Pruebas", "Mantenimiento"])
+examples = Array[String](["Primera fase del ciclo de vida", "Fase que define la estructura", "Fase que verifica el resultado", "Fase que corrige y mejora lo entregado"])
+
+[sub_resource type="Resource" id="Resource_cable_19"]
+script = ExtResource("2_board")
+id = 19
+department = 2
+difficulty = 1
+concepts = Array[String](["Integración continua", "Entrega continua", "Prueba unitaria", "Prueba de regresión"])
+examples = Array[String](["Cada commit se compila y se prueba", "Todo lo validado queda listo para publicar", "Verifica una pieza aislada", "Revisa que nada viejo se rompió"])
+
+[sub_resource type="Resource" id="Resource_cable_20"]
+script = ExtResource("2_board")
+id = 20
+department = 2
+difficulty = 1
+concepts = Array[String](["Rama de trabajo", "Pull request", "Revisión de código", "Fusión"])
+examples = Array[String](["Línea separada de cambios en el repositorio", "Propuesta de cambios para revisión", "Otro desarrollador lee tu cambio", "Integrar la rama al tronco principal"])
+
+[sub_resource type="Resource" id="Resource_cable_21"]
+script = ExtResource("2_board")
+id = 21
+department = 2
+difficulty = 2
+concepts = Array[String](["Deuda técnica", "Refactorización", "Riesgo del proyecto", "Hito"])
+examples = Array[String](["Atajos que hoy cobran intereses", "Mejorar el diseño sin cambiar el comportamiento", "Probabilidad por impacto de un problema", "Punto de control con entregable concreto"])
+
+[sub_resource type="Resource" id="Resource_cable_22"]
+script = ExtResource("2_board")
+id = 22
+department = 2
+difficulty = 2
+concepts = Array[String](["Kanban", "Modelo en cascada", "Modelo en espiral", "TDD"])
+examples = Array[String](["Flujo continuo con límite de trabajo en curso", "Una fase tras otra sin retroceder", "Vueltas con análisis de riesgos", "Prueba que falla, código y refactor"])
+
+[sub_resource type="Resource" id="Resource_cable_23"]
+script = ExtResource("2_board")
+id = 23
+department = 2
+difficulty = 3
+concepts = Array[String](["Historias INVEST", "Velocity", "Burn down", "Estimación por puntos"])
+examples = Array[String](["Independiente, negociable, valiosa y estimable", "Puntos completados por iteración", "Trabajo restante día a día", "Tamaño relativo de una historia"])
+
+[sub_resource type="Resource" id="Resource_cable_24"]
+script = ExtResource("2_board")
+id = 24
+department = 2
+difficulty = 3
+concepts = Array[String](["Convención de commits", "Versionado semántico", "Contenedor", "Orquestador de despliegue"])
+examples = Array[String](["Formato acordado para los mensajes", "Mayor, menor y parche en la versión", "Empaqueta la app con sus dependencias", "Reparte y reinicia servicios en el clúster"])
+
 [sub_resource type="Resource" id="Resource_cable_25"]
 script = ExtResource("2_board")
 id = 25
@@ -35,6 +203,62 @@ difficulty = 0
 concepts = Array[String](["Variable", "Función", "Condicional", "Comentario"])
 examples = Array[String](["Guarda un valor con un nombre", "Bloque de código con entrada y salida", "Elige entre dos caminos", "Texto que explica el código al lector"])
 
+[sub_resource type="Resource" id="Resource_cable_26"]
+script = ExtResource("2_board")
+id = 26
+department = 3
+difficulty = 0
+concepts = Array[String](["Nombre descriptivo", "Clase", "Objeto", "Método"])
+examples = Array[String](["Dice qué contiene sin explicarlo", "Molde del que salen objetos", "Instancia concreta de una clase", "Operación que sabe hacer un objeto"])
+
+[sub_resource type="Resource" id="Resource_cable_27"]
+script = ExtResource("2_board")
+id = 27
+department = 3
+difficulty = 1
+concepts = Array[String](["Herencia", "Composición", "Encapsulamiento", "Polimorfismo"])
+examples = Array[String](["Una clase toma lo común de otra", "Un objeto contiene a otro", "Oculta el estado detrás de métodos", "El mismo mensaje, respuestas distintas"])
+
+[sub_resource type="Resource" id="Resource_cable_28"]
+script = ExtResource("2_board")
+id = 28
+department = 3
+difficulty = 1
+concepts = Array[String](["Función pura", "Efecto secundario", "Excepción", "Paso por referencia"])
+examples = Array[String](["Mismo resultado sin tocar nada fuera", "Cambia algo ajeno a la función", "Rompe el flujo normal ante un error", "Comparte el original, no una copia"])
+
+[sub_resource type="Resource" id="Resource_cable_29"]
+script = ExtResource("2_board")
+id = 29
+department = 3
+difficulty = 2
+concepts = Array[String](["Responsabilidad única", "Abierto/cerrado", "Sustitución de Liskov", "Inversión de dependencias"])
+examples = Array[String](["Una clase, una sola razón para cambiar", "Se extiende sin modificar lo existente", "El hijo debe servir donde sirve el padre", "Depende de la interfaz, no del detalle"])
+
+[sub_resource type="Resource" id="Resource_cable_30"]
+script = ExtResource("2_board")
+id = 30
+department = 3
+difficulty = 2
+concepts = Array[String](["Patrón Singleton", "Patrón Fábrica", "Patrón Observador", "Patrón Estrategia"])
+examples = Array[String](["Una sola instancia para todo el programa", "Crea objetos sin fijar la clase exacta", "Avisa a todos cuando algo cambia", "Cambia el algoritmo en tiempo de ejecución"])
+
+[sub_resource type="Resource" id="Resource_cable_31"]
+script = ExtResource("2_board")
+id = 31
+department = 3
+difficulty = 3
+concepts = Array[String](["Inmutabilidad", "Código muerto", "Complejidad ciclomática", "Acoplamiento"])
+examples = Array[String](["El valor no cambia después de creado", "Nada lo llama y nada lo alcanza", "Cuenta los caminos posibles del código", "Cuánto depende un módulo de otro"])
+
+[sub_resource type="Resource" id="Resource_cable_32"]
+script = ExtResource("2_board")
+id = 32
+department = 3
+difficulty = 3
+concepts = Array[String](["Interfaces segregadas", "Estado compartido", "Refactor con pruebas verdes", "Diseño por contratos"])
+examples = Array[String](["Varias interfaces pequeñas, no una grande", "Datos que silenciosamente afectan a todos", "Reordenar el código sin romper ninguna prueba", "Precondiciones y poscondiciones explícitas"])
+
 [resource]
 script = ExtResource("1_pool")
-boards = Array[ExtResource("2_board")]([SubResource("Resource_cable_01"), SubResource("Resource_cable_09"), SubResource("Resource_cable_17"), SubResource("Resource_cable_25")])
+boards = Array[ExtResource("2_board")]([SubResource("Resource_cable_01"), SubResource("Resource_cable_02"), SubResource("Resource_cable_03"), SubResource("Resource_cable_04"), SubResource("Resource_cable_05"), SubResource("Resource_cable_06"), SubResource("Resource_cable_07"), SubResource("Resource_cable_08"), SubResource("Resource_cable_09"), SubResource("Resource_cable_10"), SubResource("Resource_cable_11"), SubResource("Resource_cable_12"), SubResource("Resource_cable_13"), SubResource("Resource_cable_14"), SubResource("Resource_cable_15"), SubResource("Resource_cable_16"), SubResource("Resource_cable_17"), SubResource("Resource_cable_18"), SubResource("Resource_cable_19"), SubResource("Resource_cable_20"), SubResource("Resource_cable_21"), SubResource("Resource_cable_22"), SubResource("Resource_cable_23"), SubResource("Resource_cable_24"), SubResource("Resource_cable_25"), SubResource("Resource_cable_26"), SubResource("Resource_cable_27"), SubResource("Resource_cable_28"), SubResource("Resource_cable_29"), SubResource("Resource_cable_30"), SubResource("Resource_cable_31"), SubResource("Resource_cable_32")])
