@@ -4,9 +4,9 @@ extends Resource
 ## and the draw of one item without repeating it.
 ##
 ## Each concrete pool (MinigamePool for the quiz, SwipePool, NarrativePool,
-## TrainPool, BombPool) holds its own list of items and exposes the getter of
-## its diagram (get_question, get_card, ...), which only calls _pick(). Every
-## item has `id`, `department` and `difficulty`.
+## CablePool, TrainPool, BombPool) holds its own list of items and exposes the
+## getter of its diagram (get_question, get_card, ...), which only calls _pick().
+## Every item has `id`, `department` and `difficulty`.
 ##
 ## No repeats: items of one department and difficulty are handed out like a
 ## shuffled deck. An item comes back only after every other item of that group

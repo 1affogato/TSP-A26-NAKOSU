@@ -29,6 +29,7 @@ const MINIGAME_LABELS := {
 	QuizMinigame.TYPE: "Quiz",
 	SwipeMinigame.TYPE: "Swipe",
 	NarrativeMinigame.TYPE: "Narrativa",
+	CableMinigame.TYPE: "Conecta los cables",
 	TrainMinigame.TYPE: "Ordena el tren",
 	BombMinigame.TYPE: "Desactivar bomba",
 }

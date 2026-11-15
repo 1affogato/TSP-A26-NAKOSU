@@ -39,7 +39,9 @@ const SEQUENCE_LENGTH := 10
 
 var department: Enums.Department
 ## Minigames playable in every department (their pools cover all four).
-var generic_minigames: Array[String] = [QuizMinigame.TYPE, SwipeMinigame.TYPE, NarrativeMinigame.TYPE]
+var generic_minigames: Array[String] = [
+	QuizMinigame.TYPE, SwipeMinigame.TYPE, NarrativeMinigame.TYPE, CableMinigame.TYPE
+]
 var sequence: Array[String] = []
 var current_index := 0
 var current_minigame: Minigame
@@ -139,6 +141,8 @@ func _create_minigame(type: String) -> Minigame:
 			minigame = SwipeMinigame.new()
 		NarrativeMinigame.TYPE:
 			minigame = NarrativeMinigame.new()
+		CableMinigame.TYPE:
+			minigame = CableMinigame.new()
 		TrainMinigame.TYPE:
 			minigame = TrainMinigame.new()
 		BombMinigame.TYPE:
