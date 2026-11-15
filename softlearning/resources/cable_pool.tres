@@ -1,0 +1,40 @@
+[gd_resource type="Resource" script_class="CablePool" format=3]
+
+[ext_resource type="Script" path="res://core/cable_pool.gd" id="1_pool"]
+[ext_resource type="Script" path="res://core/db/models/cable_board.gd" id="2_board"]
+
+[sub_resource type="Resource" id="Resource_cable_01"]
+script = ExtResource("2_board")
+id = 1
+department = 0
+difficulty = 0
+concepts = Array[String](["Pila", "Cola", "Arreglo", "Lista enlazada"])
+examples = Array[String](["El último en entrar es el primero en salir", "El primero en entrar es el primero en salir", "Casillas numeradas de acceso directo", "Nodos unidos por punteros"])
+
+[sub_resource type="Resource" id="Resource_cable_09"]
+script = ExtResource("2_board")
+id = 9
+department = 1
+difficulty = 0
+concepts = Array[String](["Requisito funcional", "Requisito no funcional", "Actor", "Interesado"])
+examples = Array[String](["Lo que el sistema debe hacer", "Qué tan bien lo debe hacer", "Quien interactúa con el sistema", "Quien se ve afectado por el sistema"])
+
+[sub_resource type="Resource" id="Resource_cable_17"]
+script = ExtResource("2_board")
+id = 17
+department = 2
+difficulty = 0
+concepts = Array[String](["Sprint", "Backlog", "Product Owner", "Scrum Master"])
+examples = Array[String](["Periodo corto de trabajo con un objetivo", "Lista priorizada de trabajo pendiente", "Decide qué se construye y por qué", "Facilita el proceso y quita obstáculos"])
+
+[sub_resource type="Resource" id="Resource_cable_25"]
+script = ExtResource("2_board")
+id = 25
+department = 3
+difficulty = 0
+concepts = Array[String](["Variable", "Función", "Condicional", "Comentario"])
+examples = Array[String](["Guarda un valor con un nombre", "Bloque de código con entrada y salida", "Elige entre dos caminos", "Texto que explica el código al lector"])
+
+[resource]
+script = ExtResource("1_pool")
+boards = Array[ExtResource("2_board")]([SubResource("Resource_cable_01"), SubResource("Resource_cable_09"), SubResource("Resource_cable_17"), SubResource("Resource_cable_25")])
