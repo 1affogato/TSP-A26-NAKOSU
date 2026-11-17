@@ -1,0 +1,335 @@
+@startuml UC06_stack_puzzle
+title UC-06: Play Stack Puzzle Minigame - Diagrama de clases
+
+skinparam classAttributeIconSize 0
+skinparam packageStyle rectangle
+skinparam shadowing false
+skinparam nodesep 60
+skinparam ranksep 70
+
+' ============================================================
+package "Presentación" {
+
+  class StackPuzzleView {
+    -minigame: StackPuzzleMinigame
+    -puzzle: StackPuzzle
+    -selected_index: int
+    --
+    +show_puzzle(puzzle: StackPuzzle, attempts_left: int): void
+    +update_editor(operations: List<StackOperation>, can_execute: bool): void
+    +update_simulation(step: SimulationStep, index: int, total: int): void
+    +show_invalid_operation(index: int, cause: String, attempts_left: int): void
+    +show_output_mismatch(produced: List<int>, target: List<int>, attempts_left: int): void
+    +show_feedback(produced: List<int>, target: List<int>, solution: List<StackOperation>, explanation: String): void
+    -on_push_pressed(end: DequeEnd): void
+    -on_pop_pressed(): void
+    -on_operation_selected(index: int): void
+    -on_remove_pressed(): void
+    -on_move_pressed(to_index: int): void
+    -on_clear_pressed(): void
+    -on_execute_pressed(): void
+    -on_step_pressed(delta: int): void
+  }
+
+  note right of StackPuzzleView
+    Se suscribe a las señales de StackPuzzleMinigame:
+    puzzle_ready       -> show_puzzle            (UC-06.3)
+    editor_changed     -> update_editor          (UC-06.4/06.5)
+    simulation_ready   -> update_simulation      (UC-06.7)
+    step_shown         -> update_simulation      (UC-06.7.a2)
+    simulation_invalid -> show_invalid_operation (UC-06.7.a1)
+    output_mismatch    -> show_output_mismatch   (UC-06.8.a1)
+    feedback_ready     -> show_feedback          (UC-06.9)
+
+    La vista solo mueve la selección y llama hacia
+    abajo; nunca decide si la secuencia es correcta.
+    La navegación de pasos (Anterior/Siguiente) está
+    disponible tras cualquier ejecución, válida o no.
+    La lógica no conoce a la vista.
+  end note
+}
+
+' ============================================================
+package "Lógica" {
+
+  abstract class Minigame <<Contrato B3>> {
+    #department: Department
+    #elo: float
+    #paused: bool
+    --
+    +{abstract} start(department: Department, elo: float): void
+    +{abstract} pause(): void
+    +{abstract} resume(): void
+    +{abstract} abort(): void
+    +{abstract} get_result(): MinigameResult
+    .. señales ..
+    +finished(result: MinigameResult)
+  }
+
+  note left of Minigame
+    Contrato de minijuego (B3): el orquestador (B4)
+    solo conoce esta interfaz.
+    Entrada: department + elo.
+    Salida: MinigameResult, entregado con la señal finished.
+    abort() = terminar sin resultado (salida anticipada).
+    pause()/resume() preservan la secuencia editada,
+    el run, el paso mostrado y los intentos.
+  end note
+
+  class StackPuzzleMinigame {
+    -puzzle: StackPuzzle
+    -operations: List<StackOperation>
+    -attempts_left: int
+    -max_attempts: int
+    -run: SimulationRun
+    -step_index: int
+    -is_correct: bool
+    -_waiting: bool
+    --
+    +start(department: Department, elo: float): void
+    +pause(): void
+    +resume(): void
+    +abort(): void
+    +get_result(): MinigameResult
+    +insert_operation(index: int, kind: OperationKind, end: DequeEnd): void
+    +remove_operation(index: int): void
+    +move_operation(from_index: int, to_index: int): void
+    +clear_operations(): void
+    +can_execute(): bool
+    +execute(): void
+    +next_step(): void
+    +previous_step(): void
+    -_finish(): void
+    -_emit_editor(): void
+    .. señales ..
+    +puzzle_ready(puzzle: StackPuzzle, attempts_left: int)
+    +editor_changed(operations: List<StackOperation>, can_execute: bool)
+    +simulation_ready(run: SimulationRun)
+    +step_shown(step: SimulationStep, index: int, total: int)
+    +simulation_invalid(index: int, cause: String, attempts_left: int)
+    +output_mismatch(produced: List<int>, target: List<int>, attempts_left: int)
+    +feedback_ready(produced: List<int>, target: List<int>, solution: List<StackOperation>, explanation: String)
+  }
+
+  note right of StackPuzzleMinigame
+    start(): pide el puzzle a StackPuzzlePool (UC-06.1),
+    inicializa entrada/Stack/salida e intentos (UC-06.2)
+    y emite puzzle_ready (UC-06.3).
+    ----
+    insert/remove/move/clear (UC-06.4.a1, a3, a4, a5, a6)
+    reescriben la lista sin penalización y emiten
+    editor_changed; can_execute() es true desde la
+    primera operación (UC-06.5).
+    ----
+    execute() (UC-06.6) reemplaza el run, reinicia
+    step_index y delega la simulación en PuzzleSimulator:
+    - operación inválida -> descuenta intento (UC-06.7.a1)
+    - salida != objetivo -> descuenta intento (UC-06.8.a1)
+    - sin intentos -> is_correct = false (UC-06.7.a1.4 / UC-06.8.a2)
+    La revisión de pasos (next_step/previous_step) está
+    disponible para cualquier run, válido o no, y no
+    altera los intentos ni el resultado (UC-06.7.a2).
+    _finish() emite feedback_ready (UC-06.9) y luego
+    finished(result) (UC-06.10 -> UC-02.5).
+    ----
+    Solo se acepta la secuencia que produce exactamente
+    la salida objetivo; puede haber varias válidas.
+    Al editar la secuencia se descarta el run anterior.
+  end note
+
+  class PuzzleSimulator {
+    --
+    +simulate(puzzle: StackPuzzle, operations: List<StackOperation>): SimulationRun
+    -_apply(puzzle: StackPuzzle, run: SimulationRun, operation: StackOperation): String
+    -_deliver(puzzle: StackPuzzle, run: SimulationRun, end: DequeEnd): int
+  }
+
+  note bottom of PuzzleSimulator
+    Simulación pura: parte del estado inicial y aplica las
+    operaciones en el orden del editor hasta la primera
+    operación inválida (UC-06.7).
+    _deliver() resuelve la variante de nivel:
+    QUEUE -> frente; DEQUE -> extremo de la operación;
+    PRIORITY_QUEUE -> mayor o menor según priority_mode.
+    Devuelve la causa del error ("" si la operación es
+    válida), para que la vista la muestre sin revelar
+    una secuencia válida (UC-06.7.a1.2).
+  end note
+
+  class SimulationRun {
+    -steps: List<SimulationStep>
+    -produced: List<int>
+    -valid: bool
+    -invalid_index: int
+    --
+    +get_last_step(): SimulationStep
+    +get_step(index: int): SimulationStep
+    +size(): int
+    +matches(target: List<int>): bool
+  }
+
+  note right of SimulationRun
+    steps contiene un SimulationStep por operación
+    ejecutada. Si el run es inválido, el último paso
+    es la operación inválida y no hay posteriores;
+    size() es el total que usa la navegación (UC-06.7.a2).
+  end note
+
+  class SimulationStep {
+    -index: int
+    -operation: StackOperation
+    -input_state: List<int>
+    -stack_state: List<int>
+    -produced_state: List<int>
+    -valid: bool
+    -cause: String
+  }
+
+  note right of SimulationStep
+    Instantánea del estado después de cada operación
+    (UC-06.7): lo que la vista pinta al avanzar o
+    retroceder un paso. index es 1-based. En un run
+    inválido, el último paso queda marcado con su causa.
+  end note
+
+  class StackOperation {
+    -kind: OperationKind
+    -deque_end: DequeEnd
+    --
+    +to_text(): String
+    +is_pop(): bool
+  }
+
+  note left of StackOperation
+    Operación del editor. En niveles Deque, un PUSH
+    guarda el extremo elegido (UC-06.4.a2.3 /
+    UC-06.4.a2.a1.2). En el resto, deque_end = NONE.
+  end note
+
+  class MinigameResult {
+    -type: String
+    -success: bool
+    -level: Difficulty
+    -department: Department
+  }
+
+  enum OperationKind {
+    PUSH
+    POP
+  }
+
+  enum DequeEnd {
+    NONE
+    FRONT
+    REAR
+  }
+}
+
+' ============================================================
+package "Datos (Resources)" {
+
+  class StackPuzzlePool <<Pool B2>> {
+    -puzzles: List<StackPuzzle>
+    --
+    +get_puzzle(department: Department, elo: float): StackPuzzle
+    -select_difficulty(elo: float): Difficulty
+  }
+
+  note left of StackPuzzlePool
+    Selección ponderada (B2): a mayor ELO,
+    mayor probabilidad de elegir un puzzle
+    de dificultad más alta.
+    Queue es el nivel introductorio; Deque y
+    Priority Queue son más difíciles.
+  end note
+
+  class StackPuzzle {
+    -id: int
+    -department: Department
+    -difficulty: Difficulty
+    -input_structure: InputStructure
+    -priority_mode: PriorityMode
+    -input_sequence: List<int>
+    -target_output: List<int>
+    -max_attempts: int
+    -valid_sequence: List<StackOperation>
+    -explanation: String
+    --
+    +get_input_structure(): InputStructure
+    +get_priority_mode(): PriorityMode
+    +get_input_sequence(): List<int>
+    +get_target_output(): List<int>
+    +get_max_attempts(): int
+    +get_valid_sequence(): List<StackOperation>
+    +get_explanation(): String
+    +get_delivery_rule(): String
+    +is_deque_level(): bool
+  }
+
+  note bottom of StackPuzzle
+    Un StackPuzzle define secuencia de entrada, salida
+    objetivo, estructura de entrada, intentos iniciales
+    y al menos una secuencia de operaciones válida
+    (UC-06.1). Vive en StackPuzzlePool.
+    ----
+    explanation: texto corto de cómo la estructura de
+    entrada y el Stack producen la salida objetivo; se
+    muestra en el feedback (UC-06.9).
+    ----
+    priority_mode solo aplica a PRIORITY_QUEUE:
+    en estos niveles cada entero es elemento y prioridad.
+  end note
+
+  enum InputStructure {
+    QUEUE
+    DEQUE
+    PRIORITY_QUEUE
+  }
+
+  enum PriorityMode {
+    NONE
+    MAX
+    MIN
+  }
+
+  enum Department {
+    DATA_STRUCTURES
+    REQUIREMENTS
+    SOFTWARE_DEV
+    CODING
+  }
+
+  enum Difficulty {
+    FACIL
+    MEDIO
+    DIFICIL
+    MUY_DIFICIL
+  }
+}
+
+' ============================================================
+' Relaciones
+StackPuzzleView "1" --> "1" StackPuzzleMinigame : minigame
+Minigame <|-- StackPuzzleMinigame
+Minigame ..> MinigameResult : produce
+StackPuzzleMinigame "1" o-- "1" StackPuzzle : puzzle actual
+StackPuzzleMinigame "1" *-- "*" StackOperation : secuencia del editor
+StackPuzzleMinigame ..> StackPuzzlePool : pide ítem\n(department + elo)
+StackPuzzleMinigame ..> PuzzleSimulator : simula la secuencia
+StackPuzzleMinigame "1" o-- "0..1" SimulationRun : última ejecución
+PuzzleSimulator ..> SimulationRun : <<create>>
+SimulationRun "1" *-- "*" SimulationStep : steps
+SimulationStep --> StackOperation : operation
+StackPuzzlePool "1" *-- "1..*" StackPuzzle : contiene
+StackPuzzle "1" *-- "1..*" StackOperation : solución de referencia
+StackPuzzle "*" --> "1" InputStructure : estructura de entrada
+StackPuzzle "*" --> "1" PriorityMode : modo de prioridad
+StackPuzzle "*" --> "1" Department
+StackPuzzle "*" --> "1" Difficulty
+StackOperation "*" --> "1" OperationKind : kind
+StackOperation "*" --> "1" DequeEnd : deque_end
+Department -[hidden]right- Difficulty
+InputStructure -[hidden]right- PriorityMode
+StackPuzzleView -[hidden]down- StackPuzzlePool
+
+@enduml
