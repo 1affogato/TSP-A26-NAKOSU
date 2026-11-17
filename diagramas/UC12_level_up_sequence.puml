@@ -1,0 +1,104 @@
+@startuml UC12_level_up_sequence
+title UC-12: Level Up - Diagrama de secuencia
+
+skinparam shadowing false
+skinparam responseMessageBelowArrow true
+skinparam sequenceGroupBodyBackGroundColor transparent
+hide footbox
+
+actor "Player" as P
+
+box "Presentación" #F4F4F4
+  participant ":DepartmentView" as DV
+  participant ":SessionView" as SV
+end box
+
+box "Lógica" #EAF2FB
+  participant ":SessionOrchestrator" as SO
+end box
+
+box "Datos (Resources)" #FBF6E6
+  participant ":DepartmentManager" as DM
+  participant ":LevelUpPool" as LP
+  participant ":PersistenceService" as PS
+end box
+
+note over P, DM
+  Precondiciones: ELO sobre el umbral del
+  siguiente nivel, level < 4 y sin subida
+  diaria usada.
+end note
+
+== UC-12.1 / UC-12.2: Detección y oferta ==
+
+P -> DV : selecciona un departamento
+DV -> DM : is_level_up_available(department)
+DM -> DM : can_level_up() &&\n!progress.is_level_up_used_today()
+DM --> DV : available
+
+opt available
+  DV -> P : muestra "Subir nivel"
+end
+
+== UC-12.3 / UC-12.4: Cargar la sesión ==
+
+P -> DV : pulsa "Subir nivel"
+DV -> SV : open_level_up(department)
+SV -> SO : start_level_up_session(department)
+SO -> DM : get_state(department)
+DM --> SO : state
+SO -> LP : get_session(department, state.level + 1)
+
+alt UC-12.4.e1: no hay sesión scripted
+  LP --> SO : null
+  SO --> SV : level_up_unavailable(reason)
+  SV -> DV : vuelve con UNAVAILABLE
+  DV -> P : reporta el fallo y cancela
+else sesión disponible
+  LP --> SO : level_up_session
+  SO -> DM : snapshot(department)
+  DM --> SO : snapshot
+
+  ref over SO, DM
+    UC-02: sesión scripted.
+    Sin ELO por resultado: solo se cuentan
+    los minijuegos fallados. Si se interrumpe,
+    completed = false (UC-12.5.a2).
+  end ref
+
+  == UC-12.5: Evaluar ==
+
+  SO -> DM : resolve_level_up(department,\n results, completed)
+
+  alt aprobada (fallos <= 1)
+    DM -> DM : level += 1\ny marca la subida diaria
+    DM --> SO : SUCCESS
+  else fallo (>= 2 fallos o interrumpida)
+    DM -> DM : elo -= 25
+    DM --> SO : FAILED
+    note right of DM
+      El nivel no cambia y la subida diaria
+      no se marca como usada (UC-12.5.a1).
+    end note
+  end
+
+  == UC-12.9: Guardar ==
+
+  SO -> PS : save_progress(data)
+
+  alt UC-12.9.e1: fallo al guardar
+    PS --> SO : false
+    SO -> DM : rollback(snapshot)
+    SO --> SV : save_failed
+    SV -> DV : vuelve con CANCELLED
+    DV -> P : reporta el fallo y cancela
+  else guardado correcto
+    PS --> SO : true
+    SO --> SV : session_ended(outcome, new_level)
+    SV -> DV : resume_after_session(outcome, new_level)
+    DV -> DV : show_office(level)\nshow_level_up_result(outcome)
+    DV -> P : muestra el resultado
+  end
+end
+
+@enduml

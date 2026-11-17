@@ -1,0 +1,115 @@
+@startuml UC01_start_tutorial_sequence
+title UC-01: Start with Tutorial - Diagrama de secuencia
+
+skinparam shadowing false
+skinparam responseMessageBelowArrow true
+skinparam sequenceGroupBodyBackGroundColor transparent
+hide footbox
+
+actor "Player" as P
+
+box "Presentación" #F4F4F4
+  participant ":DepartmentView" as DV
+  participant ":TutorialOverlay" as TV
+  participant ":SessionView" as SV
+end box
+
+box "Lógica" #EAF2FB
+  participant ":TutorialController" as TC
+  participant ":SessionOrchestrator" as SO
+end box
+
+box "Datos (Resources)" #FBF6E6
+  participant ":DepartmentManager" as DM
+  participant ":PersistenceService" as PS
+end box
+
+note over P, DM
+  Primer arranque y
+  PlayerProgress.tutorial_completed = false.
+  El tutorial es obligatorio. Si se cierra la app,
+  empieza de nuevo (UC-01.2.a1).
+end note
+
+== UC-01.2: Detectar el tutorial ==
+
+P -> DV : abre la app
+DV -> TC ** : «create»
+DV -> TC : start_if_pending()
+TC -> DM : is_tutorial_completed()
+DM --> TC : false
+TC -> TC : step = DEPARTMENTS
+TC ->> DV : «signal» step_changed(DEPARTMENTS)
+DV -> TV : show_step(DEPARTMENTS)
+
+== UC-01.3 / UC-01.4: Elegir departamento ==
+
+P -> TV : clic en un elemento
+alt UC-01.4.a1: no es el elemento resaltado
+  TV -> TV : ignora el clic
+else departamento resaltado
+  TV -> DV : department_chosen(department)
+  DV -> DV : select_department(department)
+  DV -> TC : on_department_selected(department)
+  TC -> TC : step = ELO
+  TC ->> DV : «signal» step_changed(ELO)
+  DV -> TV : show_step(ELO)
+end
+
+== UC-01.5 / UC-01.6: Introducir el ELO ==
+
+P -> TV : clic en cualquier parte
+TV -> DV : screen_clicked()
+DV -> TC : on_elo_step_confirmed()
+TC -> TC : step = PLAY
+TC ->> DV : «signal» step_changed(PLAY)
+DV -> TV : show_step(PLAY)
+
+== UC-01.7 / UC-01.8 / UC-01.9: Sesión guiada ==
+
+P -> DV : pulsa "Comenzar partida"
+DV -> TC : on_play_pressed()
+DV -> SV : open_tutorial(department)
+SV -> SO : start_tutorial_session(department)
+SO -> DM : get_elo(department)
+DM --> SO : elo_before
+
+ref over SO, DM
+  UC-02: sesión de 10 minijuegos.
+  Por cada resultado, B1.update_elo(result,
+  weight) con weight = 10, 9, ... 1
+  (UC-01.9).
+end ref
+
+SO -> SO : elo_delta = elo_after - elo_before
+SO ->> SV : «signal» session_ended(elo_delta)
+SV -> DV : resume_after_session(elo_delta)
+DV -> TC : resume_after_session(elo_delta)
+TC -> TC : step = FINAL
+TC ->> DV : «signal» step_changed(FINAL)
+DV -> TV : show_final_message(elo_delta)
+
+== UC-01.10 / UC-01.11: Mensaje final y cierre ==
+
+TV -> P : cambio de ELO + despedida
+P -> TV : clic en cualquier parte
+TV -> DV : final_confirmed()
+DV -> TC : complete()
+TC -> DM : complete_tutorial()
+TC -> PS : save_progress(data)
+
+alt UC-01.11.e1: fallo al guardar
+  PS --> TC : false
+  TC -> DM : set_tutorial_completed(false)
+  TC ->> DV : «signal» save_failed()
+  DV -> TV : show_save_error()
+  TV -> P : el tutorial se repetirá\nen el próximo arranque
+else guardado correcto
+  PS --> TC : true
+  TC -> TC : step = DONE
+  TC ->> DV : «signal» tutorial_finished()
+  DV -> TV : hide_overlay()
+  DV -> P : control devuelto al jugador
+end
+
+@enduml

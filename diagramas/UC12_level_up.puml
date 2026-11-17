@@ -1,0 +1,133 @@
+@startuml UC12_level_up
+title UC-12: Level Up - Diagrama de clases
+
+skinparam classAttributeIconSize 0
+skinparam packageStyle rectangle
+skinparam shadowing false
+skinparam nodesep 50
+skinparam ranksep 60
+
+package "Presentación" {
+
+  class DepartmentView {
+    --
+    +show_upgrade_option(): void
+    +show_level_up_result(outcome: LevelUpOutcome): void
+    +show_office(level: int): void
+    -on_upgrade_pressed(): void
+  }
+
+  note right of DepartmentView
+    show_upgrade_option() solo si B1 devuelve
+    is_level_up_available(): umbral alcanzado,
+    level < 4 y sin subida hoy (UC-12.2).
+  end note
+}
+
+package "Lógica" {
+
+  class SessionOrchestrator <<B4>> {
+    -level_up_session: LevelUpSession
+    -snapshot: LevelUpSnapshot
+    --
+    +start_level_up_session(department): bool
+    -on_minigame_finished(result): void
+    -resolve_and_save(): void
+    .. señales ..
+    +level_up_unavailable(reason: String)
+    +session_ended(outcome: LevelUpOutcome, new_level: int)
+  }
+
+  note bottom of SessionOrchestrator
+    No actualiza ELO por resultado: solo cuenta
+    fallos. Al cerrar pide a B1 resolver la subida
+    y guarda; si el guardado falla, revierte con
+    el snapshot (UC-12.9.e1).
+  end note
+
+  enum LevelUpOutcome {
+    SUCCESS
+    FAILED
+    UNAVAILABLE
+    CANCELLED
+  }
+}
+
+package "Datos (Resources)" {
+
+  class LevelUpPool <<B2>> {
+    --
+    +get_session(department, target_level): LevelUpSession
+  }
+
+  note left of LevelUpPool
+    Devuelve la secuencia scripted del nivel o
+    null si no existe (UC-12.4.e1).
+  end note
+
+  class LevelUpSession {
+    -department: Department
+    -target_level: int
+    -sequence: List<String>
+  }
+
+  note bottom of LevelUpSession
+    sequence es el orden fijo de minijuegos
+    ("QUIZ", "SWIPE", ...). Es dato de autoría.
+  end note
+
+  class DepartmentManager <<B1>> {
+    -progress: PlayerProgress
+    --
+    +can_level_up(department): bool
+    +is_level_up_available(department): bool
+    +resolve_level_up(department, results, completed): LevelUpOutcome
+    +get_company_level(): int
+    +snapshot(department): LevelUpSnapshot
+    +rollback(snapshot): void
+  }
+
+  note bottom of DepartmentManager
+    Niveles 0..4 y umbrales 1100/1600/2100/2600.
+    Si aprueba (fallos <= 1): level += 1 y marca
+    la subida diaria. Si falla: resta 25 de ELO y
+    conserva el nivel.
+  end note
+
+  class PlayerProgress {
+    -last_level_up_date: String
+    --
+    +is_level_up_used_today(today): bool
+    +mark_level_up_used(today): void
+  }
+
+  note bottom of PlayerProgress
+    El límite es global: una subida por día entre
+    todos los departamentos.
+  end note
+
+  class LevelUpSnapshot {
+    -level: int
+    -elo: float
+    -last_level_up_date: String
+  }
+
+  class PersistenceService <<B7>> {
+    +save_progress(data): bool
+    .. señales ..
+    +save_failed(reason: String)
+  }
+}
+
+' ============================================================
+' Relaciones
+DepartmentView ..> DepartmentManager : consulta disponibilidad
+DepartmentView ..> SessionOrchestrator : inicia subida de nivel\n(a través de SessionView)
+SessionOrchestrator ..> LevelUpPool : pide sesión scripted
+SessionOrchestrator ..> DepartmentManager : resuelve subida\n/ snapshot / rollback
+SessionOrchestrator ..> PersistenceService : guarda progreso
+LevelUpPool "1" *-- "*" LevelUpSession : contiene
+DepartmentManager "1" --> "1" PlayerProgress : progress
+DepartmentManager ..> LevelUpSnapshot : <<create>>
+
+@enduml
