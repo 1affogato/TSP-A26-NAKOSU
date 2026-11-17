@@ -1,0 +1,193 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scenes/puzzle_view.gd" id="1_puzzle"]
+[ext_resource type="PackedScene" path="res://scenes/minigame_feedback.tscn" id="2_feedback"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBox_fail"]
+content_margin_left = 12.0
+content_margin_top = 6.0
+content_margin_right = 12.0
+content_margin_bottom = 6.0
+bg_color = Color(0.996, 0.949, 0.949, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBox_tray"]
+content_margin_left = 16.0
+content_margin_top = 10.0
+content_margin_right = 16.0
+content_margin_bottom = 14.0
+bg_color = Color(1, 1, 1, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.886, 0.91, 0.941, 1)
+corner_radius_top_left = 14
+corner_radius_top_right = 14
+corner_radius_bottom_right = 14
+corner_radius_bottom_left = 14
+
+[node name="PuzzleView" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_puzzle")
+
+[node name="PlayScreen" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 56
+theme_override_constants/margin_top = 64
+theme_override_constants/margin_right = 56
+theme_override_constants/margin_bottom = 24
+
+[node name="Card" type="PanelContainer" parent="PlayScreen"]
+layout_mode = 2
+theme_type_variation = &"Frame"
+
+[node name="Layout" type="VBoxContainer" parent="PlayScreen/Card"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Scroll" type="ScrollContainer" parent="PlayScreen/Card/Layout"]
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+theme_override_constants/scrollbar_h_separation = 14
+
+[node name="Content" type="VBoxContainer" parent="PlayScreen/Card/Layout/Scroll"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 8
+
+[node name="Header" type="HBoxContainer" parent="PlayScreen/Card/Layout/Scroll/Content"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="DepartmentTag" type="Label" parent="PlayScreen/Card/Layout/Scroll/Content/Header"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"Tag"
+text = "Programación"
+vertical_alignment = 1
+
+[node name="GameTag" type="Label" parent="PlayScreen/Card/Layout/Scroll/Content/Header"]
+layout_mode = 2
+theme_type_variation = &"Tag"
+text = "Rompecabezas de conceptos"
+vertical_alignment = 1
+
+[node name="Progress" type="Label" parent="PlayScreen/Card/Layout/Scroll/Content/Header"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"Muted"
+theme_override_font_sizes/font_size = 13
+text = "Minijuego 1 de 10"
+vertical_alignment = 1
+
+[node name="Spacer" type="Control" parent="PlayScreen/Card/Layout/Scroll/Content/Header"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="ChecksCaption" type="Label" parent="PlayScreen/Card/Layout/Scroll/Content/Header"]
+layout_mode = 2
+theme_type_variation = &"Muted"
+theme_override_font_sizes/font_size = 13
+text = "Intentos"
+vertical_alignment = 1
+
+[node name="Checks" type="Control" parent="PlayScreen/Card/Layout/Scroll/Content/Header"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(54, 16)
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="Instruction" type="Label" parent="PlayScreen/Card/Layout/Scroll/Content"]
+layout_mode = 2
+theme_type_variation = &"QuestionText"
+text = "Coloca cada pieza en la categoría a la que pertenece."
+autowrap_mode = 3
+
+[node name="Rules" type="Label" parent="PlayScreen/Card/Layout/Scroll/Content"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"Muted"
+theme_override_font_sizes/font_size = 13
+text = "Arrastra cada pieza a un espacio de su categoría, o haz clic en ella y después en el espacio."
+autowrap_mode = 3
+
+[node name="FailBanner" type="Label" parent="PlayScreen/Card/Layout/Scroll/Content"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_colors/font_color = Color(0.6, 0.106, 0.106, 1)
+theme_override_font_sizes/font_size = 14
+theme_override_styles/normal = SubResource("StyleBox_fail")
+text = "2 piezas no iban ahí y regresaron a la bandeja. Te quedan 2 intentos."
+
+[node name="Board" type="HBoxContainer" parent="PlayScreen/Card/Layout/Scroll/Content"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="TrayPanel" type="PanelContainer" parent="PlayScreen/Card/Layout/Scroll/Content"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBox_tray")
+
+[node name="TrayBox" type="VBoxContainer" parent="PlayScreen/Card/Layout/Scroll/Content/TrayPanel"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 8
+
+[node name="TrayCaption" type="Label" parent="PlayScreen/Card/Layout/Scroll/Content/TrayPanel/TrayBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"Muted"
+theme_override_font_sizes/font_size = 13
+text = "Bandeja"
+
+[node name="Tray" type="HFlowContainer" parent="PlayScreen/Card/Layout/Scroll/Content/TrayPanel/TrayBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/h_separation = 10
+theme_override_constants/v_separation = 10
+
+[node name="Footer" type="HBoxContainer" parent="PlayScreen/Card/Layout"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Hint" type="Label" parent="PlayScreen/Card/Layout/Footer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"Muted"
+theme_override_font_sizes/font_size = 13
+text = "0 de 6 espacios llenos · sin límite de tiempo"
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="CheckButton" type="Button" parent="PlayScreen/Card/Layout/Footer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"PrimaryButton"
+theme_override_font_sizes/font_size = 18
+disabled = true
+text = "Revisar"
+
+[node name="Feedback" parent="." instance=ExtResource("2_feedback")]
+visible = false
+layout_mode = 1

@@ -1,0 +1,255 @@
+[gd_resource type="Resource" script_class="PuzzlePool" format=3]
+
+[ext_resource type="Script" path="res://core/puzzle_pool.gd" id="1_pool"]
+[ext_resource type="Script" path="res://core/db/models/concept_puzzle.gd" id="2_puzzle"]
+[ext_resource type="Script" path="res://core/db/models/puzzle_category.gd" id="3_category"]
+
+[sub_resource type="Resource" id="Category_1_1"]
+script = ExtResource("3_category")
+name = "Orientado a objetos"
+pieces = Array[String](["Clase", "Objeto con estado", "Método"])
+
+[sub_resource type="Resource" id="Category_1_2"]
+script = ExtResource("3_category")
+name = "Funcional"
+pieces = Array[String](["Función pura", "Inmutabilidad", "Función de orden superior"])
+
+[sub_resource type="Resource" id="Puzzle_1"]
+script = ExtResource("2_puzzle")
+id = 1
+department = 3
+difficulty = 0
+categories = Array[ExtResource("3_category")]([SubResource("Category_1_1"), SubResource("Category_1_2")])
+decoys = Array[String]([])
+
+[sub_resource type="Resource" id="Category_2_1"]
+script = ExtResource("3_category")
+name = "Función pura"
+pieces = Array[String](["suma(a, b) = a + b", "len(lista)", "max(a, b)"])
+
+[sub_resource type="Resource" id="Category_2_2"]
+script = ExtResource("3_category")
+name = "Con efecto secundario"
+pieces = Array[String](["print(\"hola\")", "lista.append(x)", "guardar_en_archivo(d)"])
+
+[sub_resource type="Resource" id="Puzzle_2"]
+script = ExtResource("2_puzzle")
+id = 2
+department = 3
+difficulty = 0
+categories = Array[ExtResource("3_category")]([SubResource("Category_2_1"), SubResource("Category_2_2")])
+decoys = Array[String]([])
+
+[sub_resource type="Resource" id="Category_3_1"]
+script = ExtResource("3_category")
+name = "Imperativo"
+pieces = Array[String](["for i in range(n): ...", "x = x + 1", "while not fin: ..."])
+
+[sub_resource type="Resource" id="Category_3_2"]
+script = ExtResource("3_category")
+name = "Declarativo"
+pieces = Array[String](["SELECT nombre FROM alumnos", "<h1>Título</h1>", "padre(juan, ana)."])
+
+[sub_resource type="Resource" id="Puzzle_3"]
+script = ExtResource("2_puzzle")
+id = 3
+department = 3
+difficulty = 1
+categories = Array[ExtResource("3_category")]([SubResource("Category_3_1"), SubResource("Category_3_2")])
+decoys = Array[String](["Compilador"])
+
+[sub_resource type="Resource" id="Category_4_1"]
+script = ExtResource("3_category")
+name = "Orientado a objetos"
+pieces = Array[String](["class Perro(Animal):", "self.nombre = n", "obj.metodo()"])
+
+[sub_resource type="Resource" id="Category_4_2"]
+script = ExtResource("3_category")
+name = "Funcional"
+pieces = Array[String](["lambda x: x * 2", "reduce(suma, lista)", "filter(es_par, xs)"])
+
+[sub_resource type="Resource" id="Puzzle_4"]
+script = ExtResource("2_puzzle")
+id = 4
+department = 3
+difficulty = 1
+categories = Array[ExtResource("3_category")]([SubResource("Category_4_1"), SubResource("Category_4_2")])
+decoys = Array[String](["Base de datos"])
+
+[sub_resource type="Resource" id="Category_5_1"]
+script = ExtResource("3_category")
+name = "Encapsulamiento"
+pieces = Array[String](["Atributo privado", "Getter y setter", "Ocultar el estado interno"])
+
+[sub_resource type="Resource" id="Category_5_2"]
+script = ExtResource("3_category")
+name = "Herencia"
+pieces = Array[String](["class Gato(Animal):", "super().__init__()", "Reutilizar código del padre"])
+
+[sub_resource type="Resource" id="Category_5_3"]
+script = ExtResource("3_category")
+name = "Polimorfismo"
+pieces = Array[String](["Sobrescribir un método", "Misma llamada, distinto efecto", "Interfaz con varias clases"])
+
+[sub_resource type="Resource" id="Puzzle_5"]
+script = ExtResource("2_puzzle")
+id = 5
+department = 3
+difficulty = 2
+categories = Array[ExtResource("3_category")]([SubResource("Category_5_1"), SubResource("Category_5_2"), SubResource("Category_5_3")])
+decoys = Array[String](["Recursión", "Variable global"])
+
+[sub_resource type="Resource" id="Category_6_1"]
+script = ExtResource("3_category")
+name = "Lógico"
+pieces = Array[String](["Hechos y reglas", "Prolog", "Unificación"])
+
+[sub_resource type="Resource" id="Category_6_2"]
+script = ExtResource("3_category")
+name = "Funcional"
+pieces = Array[String](["Haskell", "Composición de funciones", "Sin estado mutable"])
+
+[sub_resource type="Resource" id="Category_6_3"]
+script = ExtResource("3_category")
+name = "Orientado a objetos"
+pieces = Array[String](["Java", "Clases y objetos", "Paso de mensajes"])
+
+[sub_resource type="Resource" id="Puzzle_6"]
+script = ExtResource("2_puzzle")
+id = 6
+department = 3
+difficulty = 2
+categories = Array[ExtResource("3_category")]([SubResource("Category_6_1"), SubResource("Category_6_2"), SubResource("Category_6_3")])
+decoys = Array[String](["HTML", "Modelo en cascada"])
+
+[sub_resource type="Resource" id="Category_7_1"]
+script = ExtResource("3_category")
+name = "Responsabilidad única"
+pieces = Array[String](["Una razón para cambiar", "Separar Reporte de Impresora", "Clases pequeñas y enfocadas"])
+
+[sub_resource type="Resource" id="Category_7_2"]
+script = ExtResource("3_category")
+name = "Abierto/cerrado"
+pieces = Array[String](["Extender sin modificar", "Nueva clase para un nuevo caso", "Evitar un if por cada tipo"])
+
+[sub_resource type="Resource" id="Category_7_3"]
+script = ExtResource("3_category")
+name = "Inversión de dependencias"
+pieces = Array[String](["Depender de abstracciones", "Inyectar dependencias", "Interfaz entre alto y bajo nivel"])
+
+[sub_resource type="Resource" id="Puzzle_7"]
+script = ExtResource("2_puzzle")
+id = 7
+department = 3
+difficulty = 3
+categories = Array[ExtResource("3_category")]([SubResource("Category_7_1"), SubResource("Category_7_2"), SubResource("Category_7_3")])
+decoys = Array[String](["Sobrecarga de operadores", "Variable global", "Copiar y pegar código"])
+
+[sub_resource type="Resource" id="Category_8_1"]
+script = ExtResource("3_category")
+name = "Composición"
+pieces = Array[String](["Coche tiene un Motor", "Delegar en otro objeto", "Relación \"tiene un\""])
+
+[sub_resource type="Resource" id="Category_8_2"]
+script = ExtResource("3_category")
+name = "Herencia"
+pieces = Array[String](["Perro es un Animal", "Relación \"es un\"", "Subclase extiende la base"])
+
+[sub_resource type="Resource" id="Category_8_3"]
+script = ExtResource("3_category")
+name = "Polimorfismo"
+pieces = Array[String](["Método abstracto", "Duck typing", "Sobrescribir to_string()"])
+
+[sub_resource type="Resource" id="Puzzle_8"]
+script = ExtResource("2_puzzle")
+id = 8
+department = 3
+difficulty = 3
+categories = Array[ExtResource("3_category")]([SubResource("Category_8_1"), SubResource("Category_8_2"), SubResource("Category_8_3")])
+decoys = Array[String](["Recursión de cola", "Compilación", "Puntero nulo"])
+
+[sub_resource type="Resource" id="Category_9_1"]
+script = ExtResource("3_category")
+name = "Buena práctica"
+pieces = Array[String](["Nombres descriptivos", "Funciones cortas", "Comentar el porqué"])
+
+[sub_resource type="Resource" id="Category_9_2"]
+script = ExtResource("3_category")
+name = "Mala práctica"
+pieces = Array[String](["Variables llamadas x1, x2, x3", "Copiar y pegar código", "Funciones de 500 líneas"])
+
+[sub_resource type="Resource" id="Puzzle_9"]
+script = ExtResource("2_puzzle")
+id = 9
+department = 3
+difficulty = 0
+categories = Array[ExtResource("3_category")]([SubResource("Category_9_1"), SubResource("Category_9_2")])
+decoys = Array[String]([])
+
+[sub_resource type="Resource" id="Category_10_1"]
+script = ExtResource("3_category")
+name = "Patrón creacional"
+pieces = Array[String](["Singleton", "Factory Method", "Builder"])
+
+[sub_resource type="Resource" id="Category_10_2"]
+script = ExtResource("3_category")
+name = "Patrón estructural"
+pieces = Array[String](["Adapter", "Decorator", "Facade"])
+
+[sub_resource type="Resource" id="Puzzle_10"]
+script = ExtResource("2_puzzle")
+id = 10
+department = 3
+difficulty = 1
+categories = Array[ExtResource("3_category")]([SubResource("Category_10_1"), SubResource("Category_10_2")])
+decoys = Array[String](["Observer"])
+
+[sub_resource type="Resource" id="Category_11_1"]
+script = ExtResource("3_category")
+name = "Map (transformar)"
+pieces = Array[String](["map(str.upper, nombres)", "[x * 2 for x in xs]", "map(len, palabras)"])
+
+[sub_resource type="Resource" id="Category_11_2"]
+script = ExtResource("3_category")
+name = "Filter (filtrar)"
+pieces = Array[String](["filter(es_par, xs)", "[x for x in xs if x > 0]", "filter(None, datos)"])
+
+[sub_resource type="Resource" id="Category_11_3"]
+script = ExtResource("3_category")
+name = "Reduce (reducir)"
+pieces = Array[String](["reduce(suma, xs)", "sum(precios)", "reduce(max, xs)"])
+
+[sub_resource type="Resource" id="Puzzle_11"]
+script = ExtResource("2_puzzle")
+id = 11
+department = 3
+difficulty = 2
+categories = Array[ExtResource("3_category")]([SubResource("Category_11_1"), SubResource("Category_11_2"), SubResource("Category_11_3")])
+decoys = Array[String](["print(xs)", "xs.sort()"])
+
+[sub_resource type="Resource" id="Category_12_1"]
+script = ExtResource("3_category")
+name = "DRY (no te repitas)"
+pieces = Array[String](["Extraer código duplicado a una función", "Una sola fuente de verdad", "Reutilizar en vez de copiar y pegar"])
+
+[sub_resource type="Resource" id="Category_12_2"]
+script = ExtResource("3_category")
+name = "KISS (mantenlo simple)"
+pieces = Array[String](["La solución más simple que funcione", "Evitar código ingenioso difícil de leer", "Preferir lo obvio a lo complicado"])
+
+[sub_resource type="Resource" id="Category_12_3"]
+script = ExtResource("3_category")
+name = "YAGNI (no lo vas a necesitar)"
+pieces = Array[String](["No programar para un futuro incierto", "Implementar solo lo que se pide hoy", "No agregar funciones por si acaso"])
+
+[sub_resource type="Resource" id="Puzzle_12"]
+script = ExtResource("2_puzzle")
+id = 12
+department = 3
+difficulty = 3
+categories = Array[ExtResource("3_category")]([SubResource("Category_12_1"), SubResource("Category_12_2"), SubResource("Category_12_3")])
+decoys = Array[String](["Sustitución de Liskov", "Ley de Deméter", "Notación húngara"])
+
+[resource]
+script = ExtResource("1_pool")
+puzzles = Array[ExtResource("2_puzzle")]([SubResource("Puzzle_1"), SubResource("Puzzle_2"), SubResource("Puzzle_3"), SubResource("Puzzle_4"), SubResource("Puzzle_5"), SubResource("Puzzle_6"), SubResource("Puzzle_7"), SubResource("Puzzle_8"), SubResource("Puzzle_9"), SubResource("Puzzle_10"), SubResource("Puzzle_11"), SubResource("Puzzle_12")])

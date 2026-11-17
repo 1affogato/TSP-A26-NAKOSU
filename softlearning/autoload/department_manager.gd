@@ -28,12 +28,12 @@ var department_names: Dictionary[Enums.Department, String] = {
 ## añade el orquestador (B4) al armar la secuencia (UC-02.2). Quiz, Swipe! y
 ## Narrativa son genéricos (sus pools cubren los cuatro departamentos). Cada
 ## valor es la clave TYPE del motor: "BOMB" = BombMinigame (UC-04),
-## "TRAIN" = TrainMinigame (UC-03).
+## "TRAIN" = TrainMinigame (UC-03), "PUZZLE" = PuzzleMinigame (UC-05).
 var enabled_minigames: Dictionary[Enums.Department, Array] = {
 	Enums.Department.DATA_STRUCTURES: [],
 	Enums.Department.REQUIREMENTS: ["BOMB"],
 	Enums.Department.SOFTWARE_DEV: ["TRAIN"],
-	Enums.Department.CODING: [],
+	Enums.Department.CODING: ["PUZZLE"],
 }
 
 ## DATOS DE AUTORÍA — ELO a partir del cual el departamento puede subir de nivel
