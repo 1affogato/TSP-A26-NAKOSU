@@ -17,6 +17,7 @@ const VIEWS := {
 	"NARRATIVE": preload("res://scenes/narrative_view.tscn"),
 	"TRAIN": preload("res://scenes/train_view.tscn"),
 	"BOMB": preload("res://scenes/bomb_view.tscn"),
+	"PUZZLE": preload("res://scenes/puzzle_view.tscn"),
 }
 
 @onready var session: SessionOrchestrator = $SessionOrchestrator
