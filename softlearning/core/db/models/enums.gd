@@ -34,6 +34,18 @@ enum StatType {
 	OVER_TIME,
 }
 
+## Pasos del tutorial de primera vez (UC-01). El orden es el del flujo: cada
+## paso se completa al pulsar el elemento resaltado, salvo SESSION y DONE, que
+## no muestran capa.
+enum TutorialStep {
+	DEPARTMENTS,
+	ELO,
+	PLAY,
+	SESSION,
+	FINAL,
+	DONE,
+}
+
 static func difficulty_to_elo(difficulty: Enums.Difficulty) -> float:
 	match difficulty:
 		Difficulty.FACIL:

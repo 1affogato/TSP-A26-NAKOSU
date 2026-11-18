@@ -26,18 +26,26 @@ signal paused
 signal resumed
 ## UC-02.8.e1
 signal save_failed
-## UC-02.9
-signal session_ended(department: Enums.Department)
+## UC-02.9: the session ended, with the total ELO change it produced. UC-01 uses
+## the delta for the final tutorial message.
+signal session_ended(department: Enums.Department, elo_delta: float)
 
 enum SessionState { ACTIVE, PAUSED, ENDED }
+## UC-01 turns a session into a guided one without changing the rest of UC-02.
+enum SessionMode { NORMAL, TUTORIAL, LEVEL_UP }
 
 ## Minigames per session (the mockup shows "Pregunta 4 de 10").
 const SEQUENCE_LENGTH := 10
+## UC-01.9: the first result of the tutorial counts 10 times, then 9, … down to 1.
+const TUTORIAL_PLACEMENT_WEIGHT := 10.0
 
 ## UC-02.4.a1.3.a1: seconds a pause may last before the session ends by itself.
 @export var pause_time_limit := 300.0
 
 var department: Enums.Department
+var mode := SessionMode.NORMAL
+## ELO when the session started, so `session_ended` can report the net change.
+var elo_at_session_start := 0.0
 ## Minigames playable in every department (their pools cover all four).
 var generic_minigames: Array[String] = [QuizMinigame.TYPE, SwipeMinigame.TYPE, NarrativeMinigame.TYPE]
 var sequence: Array[String] = []
@@ -51,12 +59,31 @@ var pause_time_left := 0.0
 
 ## UC-02.1 / UC-02.2
 func start_session(new_department: Enums.Department) -> void:
+	mode = SessionMode.NORMAL
+	_begin(new_department)
+
+
+## UC-01.8: the guided session behaves like UC-02, but each result is weighted
+## by `placement_weight()` before B1/B6 see it (UC-01.9).
+func start_tutorial_session(new_department: Enums.Department) -> void:
+	mode = SessionMode.TUTORIAL
+	_begin(new_department)
+
+
+func _begin(new_department: Enums.Department) -> void:
 	department = new_department
+	elo_at_session_start = DepartmentManager.get_elo(department)
 	_build_sequence()
 	current_index = 0
 	results.clear()
 	state = SessionState.ACTIVE
 	_launch_next()
+
+
+## UC-01.9: 10 for the first result of the tutorial, 9 for the second, … and 1
+## from the tenth on.
+func placement_weight(index: int) -> float:
+	return maxf(1.0, TUTORIAL_PLACEMENT_WEIGHT - float(index))
 
 
 ## UC-02.4.a1
@@ -148,12 +175,13 @@ func _create_minigame(type: String) -> Minigame:
 	return minigame
 
 
-## UC-02.5 / UC-02.6
+## UC-02.5 / UC-02.6, with the UC-01.9 placement weight when in tutorial mode.
 func _on_minigame_finished(result: MinigameResult) -> void:
 	results.append(result)
+	var weight := placement_weight(current_index) if mode == SessionMode.TUTORIAL else 1.0
 	var elo_before := DepartmentManager.get_elo(result.department)
-	DepartmentManager.update_elo(result)
-	StatisticsTracker.register_result(result)
+	DepartmentManager.update_elo(result, weight)
+	StatisticsTracker.register_result(result, weight)
 	var elo_after := DepartmentManager.get_elo(result.department)
 	elo_updated.emit(elo_after - elo_before, elo_after)
 	current_index += 1
@@ -177,7 +205,8 @@ func _save_progress() -> void:
 ## UC-02.9
 func _end_session() -> void:
 	state = SessionState.ENDED
-	session_ended.emit(department)
+	var elo_delta := DepartmentManager.get_elo(department) - elo_at_session_start
+	session_ended.emit(department, elo_delta)
 
 
 func _drop_minigame() -> void:

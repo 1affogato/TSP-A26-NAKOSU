@@ -28,6 +28,12 @@ func open(department: Enums.Department) -> void:
 	session.start_session(department)
 
 
+## UC-01.8: the same session, started in tutorial mode so B4 applies the
+## placement weights (UC-01.9) and the department view gets the final ELO delta.
+func open_tutorial(department: Enums.Department) -> void:
+	session.start_tutorial_session(department)
+
+
 ## UC-02.4: replaces the previous view with the one of the minigame that is
 ## about to start. The view is placed under the progress bar, the pause button
 ## and the menus, so the pause menu covers it (UC-02.4.a1).
@@ -71,10 +77,14 @@ func show_save_error() -> void:
 
 
 ## UC-02.9. After a save error (UC-02.8.e1) it first waits for the player to
-## press "Volver a departamentos".
-func return_to_department(department: Enums.Department) -> void:
+## press "Volver a departamentos". A tutorial session returns through
+## `resume_after_session()` so the final UC-01 message can show the ELO delta.
+func return_to_department(department: Enums.Department, elo_delta: float) -> void:
 	if $SaveError.visible:
 		await $SaveError/Center/Layout/BackButton.pressed
 	var view: Node = load("res://scenes/department_view.tscn").instantiate()
-	view.ready.connect(view.select_department.bind(department))
+	if session.mode == SessionOrchestrator.SessionMode.TUTORIAL:
+		view.ready.connect(view.resume_after_session.bind(department, elo_delta))
+	else:
+		view.ready.connect(view.select_department.bind(department))
 	get_tree().change_scene_to_node(view)

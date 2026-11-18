@@ -46,7 +46,7 @@ softlearning/        Proyecto de Godot (se abre con project.godot)
   scenes/            Pantallas (edificio/departamento, sesión y cada minijuego)
   resources/         Contenido editable (*.tres) y tema visual
   assets/            Imágenes
-  tests/             Autoverificación (uc02_check.gd)
+  tests/             Autoverificación (uc01_check.gd, uc02_check.gd)
   softlearning/ y softlearning.zip   Export web anterior guardado en el repo (no lo usa Docker)
 deploy/              Despliegue: Dockerfile, docker-compose.yml, nginx.conf (+ web/ generado, no versionado)
 arquitectura/        Arquitectura general (7 bloques) y guía de conversión de diseño a Godot
@@ -135,6 +135,9 @@ Contenido de la carpeta de guardado (archivos legibles):
 
 - `department_state_<DEPARTAMENTO>.tres`: ELO y estado de cada uno de los 4 departamentos.
 - `result_history.jsonl`: una línea JSON por resultado de minijuego (de aquí salen las estadísticas y la gráfica del histórico).
+- `player_progress.tres`: progreso fuera de los departamentos; hoy guarda si el tutorial de primera vez (UC-01) ya se completó.
+
+El tutorial (UC-01) aparece la primera vez que se abre el juego y no se puede saltar. Para volver a verlo, borra `player_progress.tres` (o toda la carpeta de guardado).
 
 Respaldo y traslado: copiar la carpeta completa. El nombre de cada archivo `department_state_*` determina a qué departamento pertenece, así que se puede mover entre equipos. Un archivo ilegible no detiene el juego: ese departamento arranca desde cero y el archivo se deja intacto en disco.
 
@@ -166,14 +169,16 @@ Valores que se ajustan en el código (se recomienda dejarlos como están salvo d
 | Tiempo del Quiz / Ordena el tren / Bomba | 30 s / 60 s / 60 s | `time_limit` en cada `core/*_minigame.gd` |
 | Intentos de Narrativa | 2 | `max_attempts` en `core/narrative_minigame.gd` |
 | ELO inicial y factor K | 1000 y 32 | `core/db/models/department_state.gd`, `autoload/department_manager.gd` |
+| Peso del ELO en el tutorial | 10, 9, … 1 por resultado | `TUTORIAL_PLACEMENT_WEIGHT` en `core/session_orchestrator.gd` |
 | ELO para poder subir de nivel | 1500 | `level_up_thresholds` en `autoload/department_manager.gd` |
 | Minijuegos propios de cada departamento | Requerimientos: Bomba; Desarrollo de Software: Tren | `enabled_minigames` en `autoload/department_manager.gd` |
 
 ## 10. Verificación
 
-Autoverificación del repo (reglas de ELO y pausa del Quiz), desde `softlearning/`. No guarda nada; debe terminar con `uc02_check: OK`:
+Autoverificación del repo (reglas del tutorial, multiplicador de ELO, ELO y pausa del Quiz), desde `softlearning/`. No guarda nada; cada script debe terminar con `uc01_check: OK` y `uc02_check: OK`:
 
 ```
+godot --headless --path . -s res://tests/uc01_check.gd
 godot --headless --path . -s res://tests/uc02_check.gd
 ```
 
@@ -202,6 +207,6 @@ Prueba manual tras publicar: abrir el link, entrar a un departamento, jugar un m
 
 - [`arquitectura/NAKOSU - GENERAL ARQUITECTURE.md`](arquitectura/NAKOSU%20-%20GENERAL%20ARQUITECTURE.md): los 7 bloques del sistema.
 - [`arquitectura/GUIA CONVERSION DISEÑO A GODOT.md`](arquitectura/GUIA%20CONVERSION%20DISE%C3%91O%20A%20GODOT.md): cómo se traduce el diseño a Godot.
-- [`uc_specs/`](uc_specs/): especificaciones de UC-02, UC-07 y UC-11. [`diagramas/`](diagramas/): diagramas PlantUML.
+- [`uc_specs/`](uc_specs/): especificaciones de los casos de uso (UC-01 a UC-12). [`diagramas/`](diagramas/): diagramas PlantUML.
 - [`deploy/README.md`](deploy/README.md): notas breves de despliegue.
 - Manual de usuario con capturas (cómo se juega): documento *NAKOSU - Manual de operaciones* del Sprint 2, que se entrega aparte del repositorio.

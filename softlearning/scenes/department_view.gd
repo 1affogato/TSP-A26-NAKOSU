@@ -90,10 +90,16 @@ var department: Enums.Department = Enums.Department.DATA_STRUCTURES
 @onready var _accuracy_column: VBoxContainer = $DetailScreen/Layout/BottomRow/StatsPanel/Content/Scroll/Columns/Accuracy
 @onready var _chart_card: PanelContainer = $DetailScreen/Layout/BottomRow/StatsPanel/Content/ChartCard
 @onready var _elo_chart: EloChart = $DetailScreen/Layout/BottomRow/StatsPanel/Content/ChartCard/Content/EloChart
+@onready var _overlay: TutorialOverlay = $TutorialOverlay
+
+## UC-01: the tutorial flow, a child of this view as the class diagram shows.
+## Its cross-scene state lives in `TutorialRun`.
+var _tutorial: TutorialController
 
 
 func _ready() -> void:
 	_refresh_floors()
+	_setup_tutorial()
 
 
 # ------------------------------------------------------------------- UC-11.1
@@ -114,6 +120,12 @@ func select_department(selected: Enums.Department) -> void:
 
 	# Se abre con la primera pestaña, como en el mockup.
 	_on_stat_selected(Enums.StatType.BY_MINIGAME)
+
+	# UC-01.4: inside the tutorial this call comes from the highlighted floor,
+	# so it also advances the first step. Returning from a session keeps the
+	# current tutorial step (SESSION) and does not advance it.
+	if _tutorial != null and _tutorial.step == Enums.TutorialStep.DEPARTMENTS:
+		_tutorial.on_department_selected(selected)
 
 
 # --------------------------------------------------------- UC-11.2 / UC-11.3
@@ -190,10 +202,24 @@ func _on_upgrade_pressed() -> void:
 
 ## UC-02.1: abre SessionView con el departamento elegido. Su orquestador (B4)
 ## arranca la sesión y, al terminar, vuelve aquí con select_department() (UC-02.9).
+## UC-01.8: si el tutorial está en el paso PLAY, la sesión es la guiada.
 func _on_play_pressed() -> void:
+	var tutorial_session := _tutorial != null and _tutorial.on_play_pressed()
 	var session_view: Node = load("res://scenes/session_view.tscn").instantiate()
-	session_view.ready.connect(session_view.open.bind(department))
+	if tutorial_session:
+		session_view.ready.connect(session_view.open_tutorial.bind(department))
+	else:
+		session_view.ready.connect(session_view.open.bind(department))
 	get_tree().change_scene_to_node(session_view)
+
+
+## UC-01.10: SessionView returns here after the guided session, with the total
+## ELO change. The department detail is restored first, then the final message
+## is shown over it.
+func resume_after_session(selected: Enums.Department, elo_delta: float) -> void:
+	select_department(selected)
+	if _tutorial != null:
+		_tutorial.resume_after_session(elo_delta)
 
 
 func _show_select() -> void:
@@ -201,6 +227,78 @@ func _show_select() -> void:
 	_select_screen.show()
 	# Al volver de una partida el ELO ha cambiado, así que las barras se rehacen.
 	_refresh_floors()
+
+
+# -------------------------------------------------------------------- UC-01
+
+## Creates the B4 flow and wires the overlay. The controller is a child of the
+## view (as the class diagram says); `TutorialRun` carries its state across the
+## session scene change.
+func _setup_tutorial() -> void:
+	_tutorial = TutorialController.new()
+	_tutorial.name = "TutorialController"
+	add_child(_tutorial)
+	_tutorial.step_changed.connect(_on_tutorial_step)
+	_tutorial.save_failed.connect(_on_tutorial_save_failed)
+	_tutorial.tutorial_finished.connect(_on_tutorial_finished)
+
+	var buttons := {}
+	for floor_name in FLOOR_DEPARTMENTS:
+		buttons[FLOOR_DEPARTMENTS[floor_name]] = _floors.get_node(floor_name)
+	_overlay.configure(_floors, buttons, _chart_card, _start_button)
+	_overlay.department_chosen.connect(_on_tutorial_department_chosen)
+	_overlay.screen_clicked.connect(_on_tutorial_screen_clicked)
+	_overlay.play_requested.connect(_on_tutorial_play_requested)
+	_overlay.final_confirmed.connect(_on_tutorial_final_confirmed)
+
+	_tutorial.start_if_pending()
+
+
+func _on_tutorial_step(step: Enums.TutorialStep) -> void:
+	match step:
+		Enums.TutorialStep.DEPARTMENTS:
+			if _detail_screen.visible:
+				_show_select()
+			_overlay.show_step(step)
+		Enums.TutorialStep.ELO:
+			# UC-01.5: the highlighted graph lives in the "Tu histórico" tab.
+			_on_stat_selected(Enums.StatType.OVER_TIME)
+			_overlay.show_step(step)
+		Enums.TutorialStep.PLAY:
+			_overlay.show_step(step)
+		Enums.TutorialStep.SESSION:
+			_overlay.hide_overlay()
+		Enums.TutorialStep.FINAL:
+			# A restored final step (save failure) needs the detail screen back.
+			if not _detail_screen.visible:
+				select_department(TutorialRun.department)
+			_overlay.show_final_message(TutorialRun.elo_delta)
+		Enums.TutorialStep.DONE:
+			_overlay.hide_overlay()
+
+
+func _on_tutorial_department_chosen(selected: Enums.Department) -> void:
+	select_department(selected)
+
+
+func _on_tutorial_screen_clicked() -> void:
+	_tutorial.on_elo_step_confirmed()
+
+
+func _on_tutorial_play_requested() -> void:
+	_on_play_pressed()
+
+
+func _on_tutorial_final_confirmed() -> void:
+	_tutorial.complete()
+
+
+func _on_tutorial_finished() -> void:
+	_overlay.hide_overlay()
+
+
+func _on_tutorial_save_failed(reason: String) -> void:
+	_overlay.show_save_error(reason)
 
 
 # ---------------------------------------------------------------- internals

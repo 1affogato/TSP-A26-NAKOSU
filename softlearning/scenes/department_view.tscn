@@ -9,6 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://208urhte3xmy" path="res://assets/star icon.png" id="7_star"]
 [ext_resource type="Texture2D" uid="uid://b26b5kmpxh44e" path="res://assets/play icon.svg" id="8_play"]
 [ext_resource type="Script" uid="uid://js3o1vu5qkpy" path="res://scenes/elo_chart.gd" id="9_chart"]
+[ext_resource type="PackedScene" path="res://scenes/tutorial_overlay.tscn" id="10_tutorial"]
 
 [sub_resource type="ButtonGroup" id="ButtonGroup_tabs"]
 
@@ -543,6 +544,8 @@ text = "ELO histórico"
 layout_mode = 2
 size_flags_vertical = 3
 script = ExtResource("9_chart")
+
+[node name="TutorialOverlay" parent="." instance=ExtResource("10_tutorial")]
 
 [connection signal="pressed" from="SelectScreen/Layout/Body/Floors/Floor4" to="." method="select_department" binds= [2]]
 [connection signal="pressed" from="SelectScreen/Layout/Body/Floors/Floor3" to="." method="select_department" binds= [3]]

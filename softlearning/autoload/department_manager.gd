@@ -46,12 +46,15 @@ var level_up_thresholds: Dictionary[Enums.Department, float] = {
 }
 
 var states: Dictionary[Enums.Department, DepartmentState] = {}
+## Flags that are not tied to one department (UC-01, and later UC-12).
+var player_progress: PlayerProgress
 
 
 func _ready() -> void:
 	states.clear()
 	for state in PersistenceService.load_department_states():
 		states[state.department] = state
+	player_progress = PersistenceService.load_player_progress()
 
 
 # -------------------------------------------------------------------- read
@@ -113,6 +116,29 @@ func get_all_states() -> Array[DepartmentState]:
 	return all
 
 
+## UC-01: the progress stored outside any one department.
+func get_player_progress() -> PlayerProgress:
+	if player_progress == null:
+		player_progress = PlayerProgress.create()
+	return player_progress
+
+
+## UC-01.2: whether the first-run tutorial was already completed.
+func is_tutorial_completed() -> bool:
+	return get_player_progress().tutorial_completed
+
+
+## UC-01.11: marks the tutorial as completed in memory. B4 stores it afterwards
+## through `PersistenceService.save_player_progress()`.
+func complete_tutorial() -> void:
+	set_tutorial_completed(true)
+
+
+## UC-01.11.e1: lets B4 roll the flag back when the save fails.
+func set_tutorial_completed(completed: bool) -> void:
+	get_player_progress().tutorial_completed = completed
+
+
 ## UC-11 "evolución en el tiempo": the ELO before the first of `records` and
 ## after each one, oldest first, replaying the same rule update_elo() applies.
 ## B6 hands it the records of one department.
@@ -122,17 +148,21 @@ func get_elo_curve(records: Array[ResultRecord]) -> PackedFloat32Array:
 	var elo := DepartmentState.STARTING_ELO
 	var curve := PackedFloat32Array([elo])
 	for record in records:
-		elo = maxf(0.0, elo + _compute_elo_delta(elo, record.level, record.success))
+		var delta := _compute_elo_delta(elo, record.level, record.success)
+		elo = maxf(0.0, elo + delta * record.multiplier)
 		curve.append(elo)
 	return curve
 
 
 # ------------------------------------------------------------------- write
 
-## UC-02.6: applies the ELO adjustment of one finished minigame.
-func update_elo(result: MinigameResult) -> void:
+## UC-02.6: applies the ELO adjustment of one finished minigame. UC-01.9 passes
+## the placement multiplier (10, 9, … 1) while the tutorial is running; every
+## other session uses the default 1.0.
+func update_elo(result: MinigameResult, multiplier: float = 1.0) -> void:
 	var state := get_state(result.department)
-	state.elo = maxf(0.0, state.elo + _compute_elo_delta(state.elo, result.level, result.success))
+	var delta := _compute_elo_delta(state.elo, result.level, result.success)
+	state.elo = maxf(0.0, state.elo + delta * maxf(0.0, multiplier))
 
 
 # ---------------------------------------------------------------- internals

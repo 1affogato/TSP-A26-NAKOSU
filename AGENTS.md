@@ -12,10 +12,11 @@ The repo is mostly docs: `arquitectura/` (7-block architecture), `uc_specs/` (UC
 cd softlearning
 godot --path .                                 # run the game
 godot --headless --path . --quit               # import + parse check (no test output)
-godot --headless --path . -s res://tests/uc02_check.gd   # only test suite
+godot --headless --path . -s res://tests/uc02_check.gd   # UC-02 rules
+godot --headless --path . -s res://tests/uc01_check.gd   # tutorial rules
 ```
 
-There is no test framework, lint, typecheck, or CI. `tests/uc02_check.gd` is a standalone `SceneTree` script that exits nonzero on failure. Run from `softlearning/` so autoloads load.
+There is no test framework, lint, typecheck, or CI. `tests/uc01_check.gd` and `tests/uc02_check.gd` are standalone `SceneTree` scripts that exit nonzero on failure. Run from `softlearning/` so autoloads load.
 
 ## Architecture
 
@@ -31,7 +32,7 @@ Convention: views call logic downward (`start()`, `answer()`, `pause()`); logic 
 
 ## Persistence and content gotchas
 
-- Saves go under `user://save/`: one `department_state_<KEY>.tres` per department plus append-only `result_history.jsonl`. The architecture guide still recommends JSON for department states, but the code actually uses `.tres` (see `persistent_service.gd`); follow the code.
+- Saves go under `user://save/`: one `department_state_<KEY>.tres` per department, append-only `result_history.jsonl`, and `player_progress.tres` for flags outside a department (UC-01 tutorial). The architecture guide still recommends JSON for department states, but the code actually uses `.tres` (see `persistent_service.gd`); follow the code.
 - `.tres` files store `department`/`difficulty` as raw enum ints (`result_history.jsonl` uses names). Append new enum values; never insert or reorder `Enums.Department`/`Difficulty` or existing saves and quiz questions silently change meaning.
 - Quiz questions are Resources in `resources/quiz_questions/`. Adding one requires both the new `.tres` **and** an `ext_resource` plus an entry in the `questions` array of `resources/quiz_pool.tres`.
 - In a question `.tres`, omitted `department`/`difficulty` silently default to `DATA_STRUCTURES`/`FACIL` (enum value 0). Always set them explicitly.
