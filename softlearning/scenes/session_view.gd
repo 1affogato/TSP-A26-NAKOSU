@@ -17,6 +17,7 @@ const VIEWS := {
 	"NARRATIVE": preload("res://scenes/narrative_view.tscn"),
 	"TRAIN": preload("res://scenes/train_view.tscn"),
 	"BOMB": preload("res://scenes/bomb_view.tscn"),
+	"PUZZLE": preload("res://scenes/puzzle_view.tscn"),
 }
 
 @onready var session: SessionOrchestrator = $SessionOrchestrator
@@ -56,10 +57,12 @@ func show_minigame(minigame: Minigame) -> void:
 	%PauseNote.text = _view.pause_note
 
 
-## UC-02.6: "ELO 1016 (+16)" while the feedback is on screen.
+## UC-02.6: "ELO 1016 (+16)" while the feedback is on screen. A change under
+## half a point rounds to 0 and reads "±0", never "−0".
 func show_elo_change(delta: float, elo: float) -> void:
-	var symbol := "+" if delta >= 0.0 else "−"
-	$EloChange.text = "ELO %d  (%s%d)" % [roundi(elo), symbol, absi(roundi(delta))]
+	var change := roundi(delta)
+	var symbol := "±" if change == 0 else ("+" if change > 0 else "−")
+	$EloChange.text = "ELO %d  (%s%d)" % [roundi(elo), symbol, absi(change)]
 	$EloChange.theme_type_variation = &"RightAnswer" if delta >= 0.0 else &"WrongAnswer"
 	$EloChange.show()
 

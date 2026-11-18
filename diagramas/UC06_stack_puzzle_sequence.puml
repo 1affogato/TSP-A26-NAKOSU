@@ -1,0 +1,243 @@
+@startuml UC06_stack_puzzle_sequence
+title UC-06: Play Stack Puzzle Minigame - Diagrama de secuencia
+
+skinparam shadowing false
+skinparam responseMessageBelowArrow true
+skinparam sequenceGroupBodyBackGroundColor transparent
+hide footbox
+
+actor "Player" as P
+
+box "Presentación" #F4F4F4
+  participant ":StackPuzzleView" as SPV
+end box
+
+box "Lógica" #EAF2FB
+  participant ":Orquestador de sesión\n(B4)" as ORQ
+  participant ":StackPuzzleMinigame" as SPM
+  participant ":PuzzleSimulator" as SIM
+  participant ":MinigameResult" as MR
+end box
+
+box "Datos (Resources)" #FBF6E6
+  participant ":StackPuzzlePool" as SPP
+  participant "puzzle\n:StackPuzzle" as PZ
+end box
+
+note over ORQ, SPM
+  Precondición: el Stack Puzzle fue seleccionado en la sesión
+  (UC-02.4) y el departamento es Estructuras de Datos y Algoritmos.
+  B4 solo conoce a StackPuzzleMinigame a través del contrato Minigame.
+end note
+
+ORQ -> SPM ++ : start(department, elo)
+
+== UC-06.1: Selección del puzzle ==
+
+SPM -> SPP ++ : get_puzzle(department, elo)
+SPP -> SPP : select_difficulty(elo): Difficulty
+note right of SPP
+  Selección ponderada (B2):
+  a mayor ELO, más probable
+  una dificultad alta.
+end note
+SPP -> SPP : elige un puzzle del department\ncon esa dificultad
+SPP --> SPM -- : puzzle
+
+== UC-06.2: Inicialización del puzzle ==
+
+SPM -> PZ ++ : get_input_sequence(), get_target_output(),\nget_input_structure(), get_max_attempts()
+PZ --> SPM -- : secuencias, estructura e intentos
+SPM -> SPM : carga la entrada en la estructura\nvacía el Stack y la salida producida\nattempts_left = max_attempts
+
+== UC-06.3: Presentación del puzzle ==
+
+SPM ->> SPV ++ : «signal» puzzle_ready(puzzle, attempts_left)
+SPV -> SPV : show_puzzle(puzzle, attempts_left)
+SPV -> PZ ++ : get_input_sequence(), get_target_output(),\nget_delivery_rule()
+PZ --> SPV -- : contenido y regla de entrega
+SPV -> P : muestra entrada, salida objetivo, Stack,\nsalida producida, editor e intentos
+deactivate SPV
+
+== UC-06.4: Construcción de la secuencia de operaciones ==
+
+alt nivel Deque: añade un PUSH y elige extremo\n(UC-06.4.a1, UC-06.4.a2)
+  P -> SPV : + PUSH en la posición elegida
+  SPV -> SPV : on_push_pressed(end)
+  SPV -> P : ofrece tomar del frente o del final
+  P -> SPV : elige el frente (UC-06.4.a2.1)
+  note right of SPV
+    UC-06.4.a2.a1: la misma opción
+    existe para el final (REAR).
+  end note
+  SPV -> SPM : insert_operation(index, PUSH, FRONT)
+else nivel Queue o Priority Queue\n(UC-06.4.a1)
+  P -> SPV : + PUSH en la posición elegida
+  SPV -> SPV : on_push_pressed(NONE)
+  SPV -> SPM : insert_operation(index, PUSH, NONE)
+end
+
+P -> SPV : + POP en la posición elegida (UC-06.4.a3)
+SPV -> SPV : on_pop_pressed()
+SPV -> SPM : insert_operation(index, POP, NONE)
+
+opt UC-06.4.a4: el jugador elimina una operación
+  P -> SPV : Eliminar
+  SPV -> SPM : remove_operation(index)
+  note right of SPM : cierra el hueco en la secuencia
+end
+
+opt UC-06.4.a5: el jugador mueve una operación
+  P -> SPV : arrastra la operación a otra posición
+  SPV -> SPM : move_operation(from_index, to_index)
+end
+
+opt UC-06.4.a6: el jugador limpia la secuencia
+  P -> SPV : Limpiar
+  SPV -> SPM : clear_operations()
+end
+
+SPM -> SPM : operaciones actualizadas\nsin penalización
+
+== UC-06.5: Habilitar la ejecución ==
+
+SPM -> SPM : can_execute() =\noperations.size() > 0
+SPM ->> SPV : «signal» editor_changed(operations, can_execute)
+SPV -> SPV : update_editor(operations, can_execute)
+SPV -> P : pinta la secuencia y habilita Ejecutar
+
+opt el jugador pausa la sesión (UC-02.4.a1)
+  note right of ORQ
+    La pausa puede ocurrir en cualquier
+    fase: edición, simulación o feedback.
+  end note
+  ORQ -> SPM : pause()
+  SPM -> SPM : conserva la secuencia, el run,\nel paso mostrado y los intentos
+  ...
+  ORQ -> SPM : resume()
+  SPM -> SPM : restaura el estado conservado
+end
+
+opt el jugador sale de la sesión (UC-02.4.a2)
+  note right of ORQ
+    La salida también puede ocurrir
+    durante la simulación o el feedback.
+  end note
+  ORQ -> SPM : abort()
+  SPM -> SPM : termina sin resultado
+end
+
+== UC-06.6 / UC-06.7: Ejecución y simulación paso a paso ==
+
+P -> SPV : Ejecutar
+SPV -> SPV : on_execute_pressed()
+SPV -> SPM : execute()
+SPM -> SPM : is_correct = false\nstep_index = 1
+SPM -> SIM ++ : simulate(puzzle, operations)
+SIM -> SIM : parte del estado inicial\n(entrada cargada, Stack y salida vacíos)
+note right of SIM
+  Recorre las operaciones en el orden del editor
+  y se detiene en la primera operación inválida:
+  ese paso es el último del run.
+end note
+
+loop por cada operación, en el orden del editor
+  SIM -> SIM : _deliver(): frente (Queue),\nextremo elegido (Deque) o\nprioridad máx/mín (Priority Queue)
+  SIM -> SIM : _apply(): PUSH apila, POP desapila\ny anexa a la salida
+  SIM -> SIM : registra el SimulationStep
+  break la operación es inválida (UC-06.7.a1)
+    SIM -> SIM : marca el paso inválido y\ndetiene la simulación
+  end
+end
+
+SIM --> SPM -- : run(steps, produced, valid, invalid_index)
+SPM -> SPM : run = la nueva ejecución
+
+SPM ->> SPV ++ : «signal» simulation_ready(run)
+SPV -> SPV : update_simulation(step 1, 1, total)
+SPV -> P : muestra el paso 1 y habilita\nAnterior / Siguiente
+deactivate SPV
+
+alt la ejecución contiene una operación inválida (UC-06.7.a1)
+  note over SPM
+    PUSH sobre la estructura de entrada vacía
+    o POP sobre el Stack vacío.
+  end note
+  SPM -> SPM : attempts_left -= 1
+  SPM ->> SPV ++ : «signal» simulation_invalid(index, cause, attempts_left)
+  SPV -> SPV : show_invalid_operation(index, cause, attempts_left)
+  SPV -> P : marca la operación inválida y su causa\nsin revelar una secuencia válida
+  deactivate SPV
+
+else la salida producida no coincide (UC-06.8.a1)
+  SPM -> SPM : attempts_left -= 1
+  SPM ->> SPV ++ : «signal» output_mismatch(produced, target, attempts_left)
+  SPV -> SPV : show_output_mismatch(produced, target, attempts_left)
+  SPV -> P : muestra la salida producida\nsin revelar una secuencia válida
+  deactivate SPV
+
+else la salida producida coincide (UC-06.8)
+  SPM -> SPM : is_correct = true
+end
+
+== UC-06.7: Revisión paso a paso de la ejecución ==
+
+note over SPV, SPM
+  La revisión está disponible en los tres casos:
+  secuencia correcta, salida distinta u operación
+  inválida. Avanzar o retroceder solo inspecciona
+  el run: no reescribe la secuencia, no descuenta
+  intentos y no cambia el resultado (UC-06.7.a2).
+end note
+
+loop mientras el jugador revisa los pasos (UC-06.7)
+  P -> SPV : Siguiente / Anterior
+  SPV -> SPV : on_step_pressed(delta)
+  SPV -> SPM : next_step() | previous_step()
+  SPM -> SPM : step_index = acota(step_index + delta,\n1, run.size())
+  SPM ->> SPV : «signal» step_shown(step, index, total)
+  SPV -> SPV : update_simulation(step, index, total)
+  SPV -> P : pinta el estado del paso
+end
+
+note right of SPM
+  En una ejecución inválida, run.size()
+  termina en la operación inválida: no
+  existen pasos posteriores que mostrar.
+end note
+
+alt error y quedan intentos\n(UC-06.7.a1.3 / UC-06.8.a1.3)
+  SPM -> SPM : conserva operations y el estado\ndel puzzle; descarta el run al editar
+  note over SPM, SPV
+    Vuelve a UC-06.4: el jugador corrige
+    la secuencia y puede ejecutar de nuevo.
+  end note
+
+else el juego termina (UC-06.8 / UC-06.7.a1.4 / UC-06.8.a2)
+  == UC-06.9: Pantalla de retroalimentación ==
+
+  SPM -> SPM : _finish()
+  SPM -> PZ ++ : get_valid_sequence(), get_explanation()
+  PZ --> SPM -- : solución de referencia y explicación
+  SPM ->> SPV ++ : «signal» feedback_ready(produced, target,\nsolution, explanation)
+  SPV -> SPV : show_feedback(produced, target,\nsolution, explanation)
+  SPV -> P : muestra salida producida, salida objetivo,\nuna secuencia válida y la explicación
+  deactivate SPV
+
+  == UC-06.10: Fin del minijuego ==
+
+  SPM -> PZ ++ : get_difficulty()
+  PZ --> SPM -- : difficulty
+  SPM -> MR ** : «create»("STACK_PUZZLE", is_correct,\ndifficulty, department)
+  SPM ->> ORQ : «signal» finished(result)
+  deactivate SPM
+
+  note over ORQ
+    Continúa en UC-02.5:
+    solo se devuelve el resultado
+    (correcto o incorrecto); actualiza el ELO
+    y registra la estadística.
+  end note
+end
+
+@enduml

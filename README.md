@@ -152,12 +152,14 @@ Todo el contenido está en `softlearning/resources/` y se edita desde el editor 
 | `narrative_pool.tres` | Escenarios de Narrativa (historia con huecos, banco de opciones, finales) |
 | `train_pool.tres` | Secuencias de Ordena el tren |
 | `bomb_pool.tres` | Bombas de Desactivar bomba |
+| `puzzle_pool.tres` | Rompecabezas de conceptos de Programación (categorías con 3 piezas cada una y piezas trampa) |
 
 Reglas para agregar contenido:
 
 - Cada elemento tiene `id` (**único dentro de su pool**), `department` y `difficulty`. El `id` se usa para no repetir elementos en una misma sesión.
 - Cada pregunta/tarjeta/escenario debe tener una dificultad y un departamento: el juego elige la dificultad según el ELO del jugador y, si no hay elementos de esa dificultad, usa la más cercana.
-- Cada departamento debe tener elementos en los pools de Quiz, Swipe! y Narrativa (se usan en los 4), y en el de Ordena el tren / Desactivar bomba si es su departamento. Un pool vacío para un departamento rompe sus partidas.
+- Cada departamento debe tener elementos en los pools de Quiz, Swipe! y Narrativa (se usan en los 4), y en el de Ordena el tren / Desactivar bomba / Rompecabezas de conceptos si es su departamento. Un pool vacío para un departamento rompe sus partidas.
+- Un rompecabezas lleva 2 categorías en Fácil y Medio y 3 en Difícil y Muy difícil, 3 piezas por categoría, 0/1/2/3 piezas trampa según la dificultad y textos de 40 caracteres o menos que no se repiten. `godot --headless --path . -s res://tests/uc05_check.gd` revisa que todos cumplan.
 - Después de editar, prueba el juego en local (sección 4) y vuelve a exportar (sección 5).
 
 Valores que se ajustan en el código (se recomienda dejarlos como están salvo decisión del equipo):

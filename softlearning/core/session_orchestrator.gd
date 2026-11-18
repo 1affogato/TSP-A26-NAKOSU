@@ -170,6 +170,8 @@ func _create_minigame(type: String) -> Minigame:
 			minigame = TrainMinigame.new()
 		BombMinigame.TYPE:
 			minigame = BombMinigame.new()
+		PuzzleMinigame.TYPE:
+			minigame = PuzzleMinigame.new()
 	minigame.finished.connect(_on_minigame_finished)
 	add_child(minigame)
 	return minigame

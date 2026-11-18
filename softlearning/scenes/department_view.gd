@@ -31,6 +31,7 @@ const MINIGAME_LABELS := {
 	NarrativeMinigame.TYPE: "Narrativa",
 	TrainMinigame.TYPE: "Ordena el tren",
 	BombMinigame.TYPE: "Desactivar bomba",
+	PuzzleMinigame.TYPE: "Rompecabezas",
 }
 
 ## Descripción de cada departamento: texto de presentación de la vista (sale del
