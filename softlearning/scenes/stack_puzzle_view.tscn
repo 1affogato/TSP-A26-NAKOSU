@@ -1,0 +1,503 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scenes/stack_puzzle_view.gd" id="1_stack"]
+[ext_resource type="PackedScene" path="res://scenes/minigame_feedback.tscn" id="2_feedback"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBox_alert"]
+content_margin_left = 12.0
+content_margin_top = 6.0
+content_margin_right = 12.0
+content_margin_bottom = 6.0
+bg_color = Color(0.992, 0.929, 0.929, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.949, 0.749, 0.749, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBox_input"]
+content_margin_left = 14.0
+content_margin_top = 10.0
+content_margin_right = 14.0
+content_margin_bottom = 10.0
+bg_color = Color(0.969, 0.976, 0.992, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.89, 0.914, 0.957, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBox_editor"]
+content_margin_left = 9.0
+content_margin_top = 6.0
+content_margin_right = 9.0
+content_margin_bottom = 6.0
+bg_color = Color(1, 1, 1, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.906, 0.933, 0.984, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBox_mini"]
+content_margin_left = 10.0
+content_margin_top = 5.0
+content_margin_right = 10.0
+content_margin_bottom = 5.0
+bg_color = Color(1, 1, 1, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.827, 0.863, 0.925, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBox_mini_hover"]
+content_margin_left = 10.0
+content_margin_top = 5.0
+content_margin_right = 10.0
+content_margin_bottom = 5.0
+bg_color = Color(0.957, 0.973, 1, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.725, 0.796, 0.914, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBox_mini_pressed"]
+content_margin_left = 10.0
+content_margin_top = 5.0
+content_margin_right = 10.0
+content_margin_bottom = 5.0
+bg_color = Color(0.918, 0.945, 1, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.145, 0.388, 0.922, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[node name="StackPuzzleView" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_stack")
+
+[node name="PlayScreen" type="MarginContainer" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 56
+theme_override_constants/margin_top = 64
+theme_override_constants/margin_right = 56
+theme_override_constants/margin_bottom = 24
+
+[node name="Card" type="PanelContainer" parent="PlayScreen"]
+layout_mode = 2
+theme_type_variation = &"Frame"
+
+[node name="Layout" type="VBoxContainer" parent="PlayScreen/Card"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Scroll" type="ScrollContainer" parent="PlayScreen/Card/Layout"]
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+theme_override_constants/scrollbar_h_separation = 14
+
+[node name="Content" type="VBoxContainer" parent="PlayScreen/Card/Layout/Scroll"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 8
+
+[node name="Header" type="HBoxContainer" parent="PlayScreen/Card/Layout/Scroll/Content"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="DepartmentTag" type="Label" parent="PlayScreen/Card/Layout/Scroll/Content/Header"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"Tag"
+text = "Estructuras de datos"
+vertical_alignment = 1
+
+[node name="GameTag" type="Label" parent="PlayScreen/Card/Layout/Scroll/Content/Header"]
+layout_mode = 2
+theme_type_variation = &"Tag"
+text = "Stack Puzzle"
+vertical_alignment = 1
+
+[node name="Progress" type="Label" parent="PlayScreen/Card/Layout/Scroll/Content/Header"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"Muted"
+theme_override_font_sizes/font_size = 13
+text = "Minijuego 1 de 10"
+vertical_alignment = 1
+
+[node name="Spacer" type="Control" parent="PlayScreen/Card/Layout/Scroll/Content/Header"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="AttemptsCaption" type="Label" parent="PlayScreen/Card/Layout/Scroll/Content/Header"]
+layout_mode = 2
+theme_type_variation = &"Muted"
+theme_override_font_sizes/font_size = 13
+text = "Intentos"
+vertical_alignment = 1
+
+[node name="Attempts" type="Control" parent="PlayScreen/Card/Layout/Scroll/Content/Header"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(60, 16)
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="Instruction" type="Label" parent="PlayScreen/Card/Layout/Scroll/Content"]
+layout_mode = 2
+theme_type_variation = &"QuestionText"
+text = "Diseña la secuencia de PUSH y POP que produzca la salida objetivo."
+autowrap_mode = 3
+
+[node name="Rules" type="Label" parent="PlayScreen/Card/Layout/Scroll/Content"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"Muted"
+theme_override_font_sizes/font_size = 13
+text = "Añade operaciones con + PUSH y + POP. Selecciona una para eliminarla o moverla. Los intentos solo se gastan al ejecutar."
+autowrap_mode = 3
+
+[node name="AlertBanner" type="Label" parent="PlayScreen/Card/Layout/Scroll/Content"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_override_colors/font_color = Color(0.651, 0.169, 0.169, 1)
+theme_override_font_sizes/font_size = 14
+theme_override_styles/normal = SubResource("StyleBox_alert")
+text = "Operación 3 inválida. POP sobre un Stack vacío; la simulación se detuvo en ese paso."
+autowrap_mode = 3
+
+[node name="Board" type="HBoxContainer" parent="PlayScreen/Card/Layout/Scroll/Content"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="InputPanel" type="PanelContainer" parent="PlayScreen/Card/Layout/Scroll/Content/Board"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 1.05
+theme_override_styles/panel = SubResource("StyleBox_input")
+
+[node name="InputBox" type="VBoxContainer" parent="PlayScreen/Card/Layout/Scroll/Content/Board/InputPanel"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="InputCaption" type="Label" parent="PlayScreen/Card/Layout/Scroll/Content/Board/InputPanel/InputBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"Muted"
+theme_override_font_sizes/font_size = 13
+text = "Entrada · Queue"
+
+[node name="InputFlow" type="HFlowContainer" parent="PlayScreen/Card/Layout/Scroll/Content/Board/InputPanel/InputBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 34)
+layout_mode = 2
+theme_override_constants/h_separation = 8
+theme_override_constants/v_separation = 8
+
+[node name="InputNote" type="Label" parent="PlayScreen/Card/Layout/Scroll/Content/Board/InputPanel/InputBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"Muted"
+theme_override_font_sizes/font_size = 13
+text = "FIFO · el PUSH toma el elemento del frente · 3 de 3 en la entrada"
+autowrap_mode = 3
+
+[node name="StackPanel" type="VBoxContainer" parent="PlayScreen/Card/Layout/Scroll/Content/Board"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.9
+theme_override_constants/separation = 6
+
+[node name="StackCaption" type="Label" parent="PlayScreen/Card/Layout/Scroll/Content/Board/StackPanel"]
+layout_mode = 2
+theme_type_variation = &"Muted"
+theme_override_font_sizes/font_size = 13
+text = "Stack"
+
+[node name="StackBox" type="VBoxContainer" parent="PlayScreen/Card/Layout/Scroll/Content/Board/StackPanel"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 3
+
+[node name="StackNote" type="Label" parent="PlayScreen/Card/Layout/Scroll/Content/Board/StackPanel"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"Muted"
+theme_override_font_sizes/font_size = 13
+text = "vacío · 0"
+
+[node name="OutputPanel" type="VBoxContainer" parent="PlayScreen/Card/Layout/Scroll/Content/Board"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 1.15
+theme_override_constants/separation = 6
+
+[node name="TargetCaption" type="Label" parent="PlayScreen/Card/Layout/Scroll/Content/Board/OutputPanel"]
+layout_mode = 2
+theme_type_variation = &"Muted"
+theme_override_font_sizes/font_size = 13
+text = "Salida objetivo"
+
+[node name="TargetFlow" type="HFlowContainer" parent="PlayScreen/Card/Layout/Scroll/Content/Board/OutputPanel"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 34)
+layout_mode = 2
+theme_override_constants/h_separation = 8
+theme_override_constants/v_separation = 8
+
+[node name="ProducedCaption" type="Label" parent="PlayScreen/Card/Layout/Scroll/Content/Board/OutputPanel"]
+layout_mode = 2
+theme_type_variation = &"Muted"
+theme_override_font_sizes/font_size = 13
+text = "Salida producida"
+
+[node name="ProducedFlow" type="HFlowContainer" parent="PlayScreen/Card/Layout/Scroll/Content/Board/OutputPanel"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 34)
+layout_mode = 2
+theme_override_constants/h_separation = 8
+theme_override_constants/v_separation = 8
+
+[node name="OutputNote" type="Label" parent="PlayScreen/Card/Layout/Scroll/Content/Board/OutputPanel"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"Muted"
+theme_override_font_sizes/font_size = 13
+text = "0 de 3"
+
+[node name="EditorPanel" type="PanelContainer" parent="PlayScreen/Card/Layout/Scroll/Content"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBox_editor")
+
+[node name="EditorBox" type="VBoxContainer" parent="PlayScreen/Card/Layout/Scroll/Content/EditorPanel"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="EditorHead" type="HBoxContainer" parent="PlayScreen/Card/Layout/Scroll/Content/EditorPanel/EditorBox"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="EditorTitle" type="Label" parent="PlayScreen/Card/Layout/Scroll/Content/EditorPanel/EditorBox/EditorHead"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "Secuencia de operaciones"
+
+[node name="Spacer" type="Control" parent="PlayScreen/Card/Layout/Scroll/Content/EditorPanel/EditorBox/EditorHead"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="EditorHint" type="Label" parent="PlayScreen/Card/Layout/Scroll/Content/EditorPanel/EditorBox/EditorHead"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"Muted"
+theme_override_font_sizes/font_size = 13
+text = "0 operaciones"
+
+[node name="OpsFlow" type="HFlowContainer" parent="PlayScreen/Card/Layout/Scroll/Content/EditorPanel/EditorBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/h_separation = 8
+theme_override_constants/v_separation = 8
+
+[node name="EditorActions" type="HBoxContainer" parent="PlayScreen/Card/Layout/Scroll/Content/EditorPanel/EditorBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="PushButton" type="Button" parent="PlayScreen/Card/Layout/Scroll/Content/EditorPanel/EditorBox/EditorActions"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"Option"
+theme_override_font_sizes/font_size = 13
+theme_override_styles/normal = SubResource("StyleBox_mini")
+theme_override_styles/hover = SubResource("StyleBox_mini_hover")
+theme_override_styles/pressed = SubResource("StyleBox_mini_pressed")
+theme_override_styles/hover_pressed = SubResource("StyleBox_mini_pressed")
+text = "+ PUSH"
+
+[node name="PopButton" type="Button" parent="PlayScreen/Card/Layout/Scroll/Content/EditorPanel/EditorBox/EditorActions"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"Option"
+theme_override_font_sizes/font_size = 13
+theme_override_styles/normal = SubResource("StyleBox_mini")
+theme_override_styles/hover = SubResource("StyleBox_mini_hover")
+theme_override_styles/pressed = SubResource("StyleBox_mini_pressed")
+theme_override_styles/hover_pressed = SubResource("StyleBox_mini_pressed")
+text = "+ POP"
+
+[node name="EndPicker" type="HBoxContainer" parent="PlayScreen/Card/Layout/Scroll/Content/EditorPanel/EditorBox/EditorActions"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="EndLabel" type="Label" parent="PlayScreen/Card/Layout/Scroll/Content/EditorPanel/EditorBox/EditorActions/EndPicker"]
+layout_mode = 2
+theme_type_variation = &"Muted"
+theme_override_font_sizes/font_size = 13
+text = "Extremo"
+vertical_alignment = 1
+
+[node name="FrontButton" type="Button" parent="PlayScreen/Card/Layout/Scroll/Content/EditorPanel/EditorBox/EditorActions/EndPicker"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"Option"
+theme_override_font_sizes/font_size = 13
+theme_override_styles/normal = SubResource("StyleBox_mini")
+theme_override_styles/hover = SubResource("StyleBox_mini_hover")
+theme_override_styles/pressed = SubResource("StyleBox_mini_pressed")
+theme_override_styles/hover_pressed = SubResource("StyleBox_mini_pressed")
+toggle_mode = true
+button_pressed = true
+text = "Frente"
+
+[node name="RearButton" type="Button" parent="PlayScreen/Card/Layout/Scroll/Content/EditorPanel/EditorBox/EditorActions/EndPicker"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"Option"
+theme_override_font_sizes/font_size = 13
+theme_override_styles/normal = SubResource("StyleBox_mini")
+theme_override_styles/hover = SubResource("StyleBox_mini_hover")
+theme_override_styles/pressed = SubResource("StyleBox_mini_pressed")
+theme_override_styles/hover_pressed = SubResource("StyleBox_mini_pressed")
+toggle_mode = true
+text = "Final"
+
+[node name="Sep" type="VSeparator" parent="PlayScreen/Card/Layout/Scroll/Content/EditorPanel/EditorBox/EditorActions"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="RemoveButton" type="Button" parent="PlayScreen/Card/Layout/Scroll/Content/EditorPanel/EditorBox/EditorActions"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"Option"
+theme_override_font_sizes/font_size = 13
+theme_override_styles/normal = SubResource("StyleBox_mini")
+theme_override_styles/hover = SubResource("StyleBox_mini_hover")
+theme_override_styles/pressed = SubResource("StyleBox_mini_pressed")
+theme_override_styles/hover_pressed = SubResource("StyleBox_mini_pressed")
+text = "Eliminar"
+
+[node name="LeftButton" type="Button" parent="PlayScreen/Card/Layout/Scroll/Content/EditorPanel/EditorBox/EditorActions"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(42, 0)
+layout_mode = 2
+theme_type_variation = &"Option"
+theme_override_font_sizes/font_size = 13
+theme_override_styles/normal = SubResource("StyleBox_mini")
+theme_override_styles/hover = SubResource("StyleBox_mini_hover")
+theme_override_styles/pressed = SubResource("StyleBox_mini_pressed")
+theme_override_styles/hover_pressed = SubResource("StyleBox_mini_pressed")
+text = "←"
+
+[node name="RightButton" type="Button" parent="PlayScreen/Card/Layout/Scroll/Content/EditorPanel/EditorBox/EditorActions"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(42, 0)
+layout_mode = 2
+theme_type_variation = &"Option"
+theme_override_font_sizes/font_size = 13
+theme_override_styles/normal = SubResource("StyleBox_mini")
+theme_override_styles/hover = SubResource("StyleBox_mini_hover")
+theme_override_styles/pressed = SubResource("StyleBox_mini_pressed")
+theme_override_styles/hover_pressed = SubResource("StyleBox_mini_pressed")
+text = "→"
+
+[node name="ClearButton" type="Button" parent="PlayScreen/Card/Layout/Scroll/Content/EditorPanel/EditorBox/EditorActions"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"Option"
+theme_override_font_sizes/font_size = 13
+theme_override_styles/normal = SubResource("StyleBox_mini")
+theme_override_styles/hover = SubResource("StyleBox_mini_hover")
+theme_override_styles/pressed = SubResource("StyleBox_mini_pressed")
+theme_override_styles/hover_pressed = SubResource("StyleBox_mini_pressed")
+text = "Limpiar"
+
+[node name="Footer" type="HBoxContainer" parent="PlayScreen/Card/Layout"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Hint" type="Label" parent="PlayScreen/Card/Layout/Footer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"Muted"
+theme_override_font_sizes/font_size = 13
+text = "Sin límite de tiempo. Revisa el estado de la entrada, el Stack y la salida."
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="PrevButton" type="Button" parent="PlayScreen/Card/Layout/Footer"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+text = "Anterior"
+
+[node name="NextStepButton" type="Button" parent="PlayScreen/Card/Layout/Footer"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+text = "Siguiente"
+
+[node name="ResultButton" type="Button" parent="PlayScreen/Card/Layout/Footer"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_type_variation = &"PrimaryButton"
+theme_override_font_sizes/font_size = 18
+text = "Ver resultado"
+
+[node name="ExecuteButton" type="Button" parent="PlayScreen/Card/Layout/Footer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"PrimaryButton"
+theme_override_font_sizes/font_size = 18
+disabled = true
+text = "Ejecutar"
+
+[node name="Feedback" parent="." instance=ExtResource("2_feedback")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1

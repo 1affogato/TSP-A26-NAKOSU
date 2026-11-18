@@ -235,6 +235,8 @@ func _create_minigame(type: String) -> Minigame:
 			minigame = BombMinigame.new()
 		"PUZZLE":
 			minigame = PuzzleMinigame.new()
+		"STACK_PUZZLE":
+			minigame = StackPuzzleMinigame.new()
 	minigame.finished.connect(_on_minigame_finished)
 	add_child(minigame)
 	return minigame

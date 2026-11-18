@@ -32,6 +32,7 @@ const MINIGAME_LABELS := {
 	"TRAIN": "Ordena el tren",
 	"BOMB": "Desactivar bomba",
 	"PUZZLE": "Rompecabezas",
+	"STACK_PUZZLE": "Stack Puzzle",
 }
 
 ## Descripción de cada departamento: texto de presentación de la vista (sale del
