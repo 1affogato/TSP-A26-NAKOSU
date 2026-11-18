@@ -63,11 +63,11 @@ const OFFICE_IMAGES := {
 }
 
 ## UC-12.6: sprite de la oficina por nivel general de la empresa. Sólo cambia
-## con una subida de nivel general, no con la de un departamento. Todavía no hay
-## arte por nivel: si el archivo no existe se usa la imagen del departamento, así
-## que basta con dejar aquí el PNG de cada nivel para que la vista lo use.
+## con una subida de nivel general, no con la de un departamento. El nivel 0 usa
+## stage0.jpeg como oficina base; los niveles 1-4 esperan sus propios archivos
+## (office_level_1..4.png) y caen al nivel anterior si no existen.
 const OFFICES_BY_LEVEL := {
-	0: "res://assets/office_level_0.png",
+	0: "res://assets/office_level_0.jpeg",
 	1: "res://assets/office_level_1.png",
 	2: "res://assets/office_level_2.png",
 	3: "res://assets/office_level_3.png",
