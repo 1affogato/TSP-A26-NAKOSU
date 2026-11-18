@@ -215,7 +215,7 @@ func _check_department_view_integration(manager) -> void:
 	_check_equal_step(controller.step, Enums.TutorialStep.FINAL, "the session return opens FINAL")
 	_check(overlay.visible, "the final message is visible")
 	var title: Label = overlay.get_node("Callout/Content/Title")
-	_check(title.text.contains("NAKOSU"), "the final message welcomes the player")
+	_check(title.text.contains("Softlearning"), "the final message welcomes the player")
 	_check_callout_fits(overlay, view, "the final message")
 
 	view.queue_free()

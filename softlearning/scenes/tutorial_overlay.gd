@@ -93,7 +93,7 @@ func show_final_message(elo_delta: float) -> void:
 	grab_focus()
 	var sign_text := "+" if elo_delta >= 0.0 else "−"
 	_set_copy(
-		"¡Bienvenido a NAKOSU!",
+		"¡Bienvenido a Softlearning!",
 		"Tu primera sesión ha cambiado tu ELO en %s%d puntos.\n\nA partir de ahora puedes elegir cualquier departamento y jugar a tu ritmo. ¡Mucha suerte!"
 			% [sign_text, absi(roundi(elo_delta))]
 	)
