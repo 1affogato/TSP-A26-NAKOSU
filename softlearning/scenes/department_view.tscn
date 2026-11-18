@@ -352,6 +352,12 @@ theme_type_variation = &"PrimaryButton"
 disabled = true
 text = "Subir nivel"
 
+[node name="LevelUpResult" type="Label" parent="DetailScreen/Layout/TopRow/Actions" unique_id=1496217854]
+visible = false
+layout_mode = 2
+theme_type_variation = &"Muted"
+autowrap_mode = 3
+
 [node name="BottomRow" type="HBoxContainer" parent="DetailScreen/Layout" unique_id=1811442281]
 layout_mode = 2
 size_flags_vertical = 3

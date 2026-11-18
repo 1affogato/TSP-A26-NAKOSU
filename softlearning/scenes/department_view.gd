@@ -23,15 +23,15 @@ const DIFFICULTY_LABELS := {
 	"MUY_DIFICIL": "muy difíciles",
 }
 
-## Lo mismo para las filas por minijuego: B6 agrupa por la clave del motor
-## (`QuizMinigame.TYPE`), y aquí se pasa a texto del mockup.
+## Lo mismo para las filas por minijuego: B6 agrupa por la clave TYPE del motor
+## (p.ej. "QUIZ"), y aquí se pasa a texto del mockup.
 const MINIGAME_LABELS := {
-	QuizMinigame.TYPE: "Quiz",
-	SwipeMinigame.TYPE: "Swipe",
-	NarrativeMinigame.TYPE: "Narrativa",
-	TrainMinigame.TYPE: "Ordena el tren",
-	BombMinigame.TYPE: "Desactivar bomba",
-	PuzzleMinigame.TYPE: "Rompecabezas",
+	"QUIZ": "Quiz",
+	"SWIPE": "Swipe",
+	"NARRATIVE": "Narrativa",
+	"TRAIN": "Ordena el tren",
+	"BOMB": "Desactivar bomba",
+	"PUZZLE": "Rompecabezas",
 }
 
 ## Descripción de cada departamento: texto de presentación de la vista (sale del
@@ -61,6 +61,18 @@ const OFFICE_IMAGES := {
 	Enums.Department.CODING: "res://assets/coding_paradigms_view.png",
 }
 
+## UC-12.6: sprite de la oficina por nivel general de la empresa. Sólo cambia
+## con una subida de nivel general, no con la de un departamento. Todavía no hay
+## arte por nivel: si el archivo no existe se usa la imagen del departamento, así
+## que basta con dejar aquí el PNG de cada nivel para que la vista lo use.
+const OFFICES_BY_LEVEL := {
+	0: "res://assets/office_level_0.png",
+	1: "res://assets/office_level_1.png",
+	2: "res://assets/office_level_2.png",
+	3: "res://assets/office_level_3.png",
+	4: "res://assets/office_level_4.png",
+}
+
 ## Department shown in DetailScreen, set by the floor that was pressed.
 var department: Enums.Department = Enums.Department.DATA_STRUCTURES
 
@@ -76,6 +88,7 @@ var department: Enums.Department = Enums.Department.DATA_STRUCTURES
 
 @onready var _start_button: Button = $DetailScreen/Layout/TopRow/Actions/StartButton
 @onready var _level_up_button: Button = $DetailScreen/Layout/TopRow/Actions/LevelUpButton
+@onready var _level_up_result: Label = $DetailScreen/Layout/TopRow/Actions/LevelUpResult
 
 @onready var _office_image: TextureRect = $DetailScreen/Layout/BottomRow/OfficeImage
 
@@ -115,7 +128,8 @@ func select_department(selected: Enums.Department) -> void:
 
 	_dept_name.text = DepartmentManager.get_department_name(department)
 	_dept_description.text = String(DESCRIPTIONS.get(department, ""))
-	_office_image.texture = load(OFFICE_IMAGES[department])
+	show_office(DepartmentManager.get_general_level())
+	_level_up_result.hide()
 
 	show_general_stats(StatisticsTracker.get_general_stats(department))
 
@@ -138,16 +152,54 @@ func show_general_stats(stats: GeneralStats) -> void:
 	# El ELO no viaja en GeneralStats: es dato de B1, no de B6.
 	_elo_value.text = "%d" % roundi(DepartmentManager.get_elo(stats.department))
 
-	if stats.upgrade_available:
+	if stats.upgrade_available and DepartmentManager.is_level_up_available(stats.department):
 		show_upgrade_option()
 	else:
 		_level_up_button.disabled = true
 
 
-## UC-11.3.a1: el departamento cumple la condición de subida, así que se ofrece
-## la opción de subir de nivel. Lo que hace ese botón es UC-12.
+## UC-11.3.a1 / UC-12.2: el departamento cumple la condición de subida y todavía
+## no se usó la subida del día, así que se ofrece la opción.
 func show_upgrade_option() -> void:
 	_level_up_button.disabled = false
+
+
+## UC-12.6: pinta la oficina del nivel general de la empresa. Mientras no haya
+## arte por nivel (see OFFICES_BY_LEVEL) se queda la imagen del departamento.
+func show_office(level: int) -> void:
+	var path := String(OFFICES_BY_LEVEL.get(clampi(level, 0, DepartmentState.MAX_LEVEL), ""))
+	if not path.is_empty() and ResourceLoader.exists(path):
+		_office_image.texture = load(path)
+		return
+	_office_image.texture = load(OFFICE_IMAGES[department])
+
+
+## UC-12.10: mensaje del resultado de la subida de nivel, sobre la vista del
+## departamento. El nivel general (y con él la oficina) ya está actualizado.
+## `detail` es el motivo que dio B4 cuando la subida no pudo empezar
+## (UC-12.4.e1); si no llegó, se muestra el mensaje genérico.
+func show_level_up_result(
+	outcome: Enums.LevelUpOutcome, new_level: int, detail: String = ""
+) -> void:
+	match outcome:
+		Enums.LevelUpOutcome.SUCCESS:
+			_level_up_result.text = "¡Departamento en el nivel %d! La empresa llega al nivel general %d." % [
+				new_level, DepartmentManager.get_general_level()
+			]
+			_level_up_result.theme_type_variation = &"RightAnswer"
+		Enums.LevelUpOutcome.FAILED:
+			_level_up_result.text = "La subida de nivel no salió: el departamento pierde %d de ELO y sigue en el nivel %d." % [
+				roundi(DepartmentManager.get_failed_level_up_penalty()), new_level
+			]
+			_level_up_result.theme_type_variation = &"WrongAnswer"
+		Enums.LevelUpOutcome.CANCELLED:
+			_level_up_result.text = "No se pudo guardar la subida de nivel; el departamento queda como estaba."
+			_level_up_result.theme_type_variation = &"WrongAnswer"
+		_:
+			_level_up_result.text = detail if not detail.is_empty() \
+				else "La subida de nivel no está disponible ahora mismo."
+			_level_up_result.theme_type_variation = &"Muted"
+	_level_up_result.show()
 
 
 # ------------------------------------------------------------- UC-11.4 / 11.5
@@ -196,9 +248,14 @@ func _on_stat_selected(type: Enums.StatType) -> void:
 		days[0].label if days else "", days[-1].label if days else "")
 
 
-## UC-11.3.a1.1: inicia UC-12 (Upgrade Department), que todavía no existe.
+## UC-11.3.a1.1 / UC-12.3: inicia una subida de nivel en el departamento.
+## SessionView arranca la sesión scripted (UC-12.4) y vuelve aquí con
+## resume_after_level_up() (UC-12.10); si no se puede jugar, también vuelve aquí,
+## con UNAVAILABLE.
 func _on_upgrade_pressed() -> void:
-	push_warning("UC-12 (Upgrade Department) todavía no está implementado.")
+	var session_view: Node = load("res://scenes/session_view.tscn").instantiate()
+	session_view.ready.connect(session_view.open_level_up.bind(department))
+	get_tree().change_scene_to_node(session_view)
 
 
 ## UC-02.1: abre SessionView con el departamento elegido. Su orquestador (B4)
@@ -221,6 +278,20 @@ func resume_after_session(selected: Enums.Department, elo_delta: float) -> void:
 	select_department(selected)
 	if _tutorial != null:
 		_tutorial.resume_after_session(elo_delta)
+
+
+## UC-12.10: SessionView returns here when the level-up session ends (or could
+## not start). The department detail is restored first — which also refreshes
+## the office of the new general level (UC-12.6/UC-12.7) — and then the result
+## message is shown (UC-12.5.a1, UC-12.9.e1).
+func resume_after_level_up(
+	selected: Enums.Department,
+	outcome: Enums.LevelUpOutcome,
+	new_level: int,
+	detail: String = ""
+) -> void:
+	select_department(selected)
+	show_level_up_result(outcome, new_level, detail)
 
 
 func _show_select() -> void:

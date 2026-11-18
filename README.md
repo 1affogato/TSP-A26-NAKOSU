@@ -153,6 +153,7 @@ Todo el contenido está en `softlearning/resources/` y se edita desde el editor 
 | `train_pool.tres` | Secuencias de Ordena el tren |
 | `bomb_pool.tres` | Bombas de Desactivar bomba |
 | `puzzle_pool.tres` | Rompecabezas de conceptos de Programación (categorías con 3 piezas cada una y piezas trampa) |
+| `level_up_pool.tres` | Secuencias de la subida de nivel (UC-12): una por departamento y nivel objetivo (16 en total), con los 5 minijuegos en el orden en que se juegan |
 
 Reglas para agregar contenido:
 
@@ -172,16 +173,20 @@ Valores que se ajustan en el código (se recomienda dejarlos como están salvo d
 | Intentos de Narrativa | 2 | `max_attempts` en `core/narrative_minigame.gd` |
 | ELO inicial y factor K | 1000 y 32 | `core/db/models/department_state.gd`, `autoload/department_manager.gd` |
 | Peso del ELO en el tutorial | 10, 9, … 1 por resultado | `TUTORIAL_PLACEMENT_WEIGHT` en `core/session_orchestrator.gd` |
-| ELO para poder subir de nivel | 1500 | `level_up_thresholds` en `autoload/department_manager.gd` |
+| ELO para poder subir de nivel | 1100 / 1600 / 2100 / 2600, según el nivel actual del departamento (0 a 4) | `LEVEL_UP_THRESHOLDS` en `autoload/department_manager.gd` |
+| Minijuegos de una subida de nivel | 5, en el orden que fija la secuencia | `resources/level_up_pool.tres` |
+| Fallos que se toleran en una subida de nivel | 1 (con 2 o más, o si se interrumpe, se pierden 25 de ELO) | `MAX_LEVEL_UP_FAILURES` y `FAILED_LEVEL_UP_PENALTY` en `autoload/department_manager.gd` |
 | Minijuegos propios de cada departamento | Requerimientos: Bomba; Desarrollo de Software: Tren | `enabled_minigames` en `autoload/department_manager.gd` |
 
 ## 10. Verificación
 
-Autoverificación del repo (reglas del tutorial, multiplicador de ELO, ELO y pausa del Quiz), desde `softlearning/`. No guarda nada; cada script debe terminar con `uc01_check: OK` y `uc02_check: OK`:
+Autoverificación del repo (tutorial, ELO y reglas de la partida, rompecabezas y subida de nivel), desde `softlearning/`. No guarda nada; cada script debe terminar con su `OK` (`uc01_check: OK`, `uc12_check: OK`, …):
 
 ```
 godot --headless --path . -s res://tests/uc01_check.gd
 godot --headless --path . -s res://tests/uc02_check.gd
+godot --headless --path . -s res://tests/uc05_check.gd
+godot --headless --path . -s res://tests/uc12_check.gd
 ```
 
 Prueba manual tras publicar: abrir el link, entrar a un departamento, jugar un minijuego y pulsar «Salir» desde la pausa; al volver, el contador de «Total de jugados» debe haber aumentado.
@@ -202,7 +207,7 @@ Prueba manual tras publicar: abrir el link, entrar a un departamento, jugar un m
 
 ## Limitaciones conocidas
 
-- **«Subir nivel»** (UC-12) todavía no está implementado: el botón se activa a 1500 de ELO, pero aún no hace nada.
+- **Sprites de la oficina por nivel general** (UC-12.6): la subida de nivel ya cambia el nivel del departamento y el general de la empresa, pero todavía no hay arte por nivel. La vista busca `assets/office_level_<n>.png` y, si el archivo no existe, deja la imagen del departamento; basta con añadir esos PNG para que se vea el cambio.
 - El progreso no se puede consultar ni migrar desde el servidor (solo existe en el equipo de cada jugador).
 
 ## Documentación

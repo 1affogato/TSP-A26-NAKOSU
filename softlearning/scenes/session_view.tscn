@@ -156,6 +156,8 @@ text = "Volver a departamentos"
 [connection signal="resumed" from="SessionOrchestrator" to="." method="hide_pause_menu"]
 [connection signal="save_failed" from="SessionOrchestrator" to="." method="show_save_error"]
 [connection signal="session_ended" from="SessionOrchestrator" to="." method="return_to_department"]
+[connection signal="level_up_ended" from="SessionOrchestrator" to="." method="return_after_level_up"]
+[connection signal="level_up_unavailable" from="SessionOrchestrator" to="." method="set_level_up_unavailable_reason"]
 [connection signal="elo_updated" from="SessionOrchestrator" to="." method="show_elo_change"]
 [connection signal="pressed" from="PauseButton" to="SessionOrchestrator" method="pause"]
 [connection signal="pressed" from="PauseMenu/Center/Buttons/ResumeButton" to="SessionOrchestrator" method="resume"]

@@ -157,6 +157,9 @@ func save_progress(data: SaveData) -> bool:
 		if state != null:
 			all_ok = _save_department_state(state) and all_ok
 	all_ok = _append_new_history(data.history) and all_ok
+	# UC-12.8: the daily level-up mark travels with the session that spent it.
+	if data.player_progress != null:
+		all_ok = _write_player_progress(data.player_progress) and all_ok
 
 	if not all_ok:
 		save_failed.emit(_last_error)
@@ -172,11 +175,9 @@ func save_player_progress(progress: PlayerProgress) -> bool:
 		return _fail("save_player_progress() recibió un PlayerProgress nulo.")
 	if not _ensure_save_dir():
 		return _fail(_last_error)
-
-	var path := _save_path(PLAYER_PROGRESS_FILE)
-	var error := ResourceSaver.save(progress, path)
-	if error != OK:
-		return _fail("No se pudo guardar %s (%s)." % [path, error_string(error)])
+	if not _write_player_progress(progress):
+		save_failed.emit(_last_error)
+		return false
 	return true
 
 
@@ -209,6 +210,19 @@ func _save_department_state(state: DepartmentState) -> bool:
 	state.sanitize()
 	var path := _state_path(state.department)
 	var error := ResourceSaver.save(state, path)
+	if error != OK:
+		_last_error = "No se pudo guardar %s (%s)." % [path, error_string(error)]
+		push_error(_last_error)
+		return false
+	return true
+
+
+## Writes `player_progress.tres` without emitting: the caller decides whether the
+## failure is the only error of the save (`save_progress()`) or it is reported
+## right away (`save_player_progress()`), so the signal is never emitted twice.
+func _write_player_progress(progress: PlayerProgress) -> bool:
+	var path := _save_path(PLAYER_PROGRESS_FILE)
+	var error := ResourceSaver.save(progress, path)
 	if error != OK:
 		_last_error = "No se pudo guardar %s (%s)." % [path, error_string(error)]
 		push_error(_last_error)
