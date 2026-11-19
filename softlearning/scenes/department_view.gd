@@ -85,6 +85,8 @@ var department: Enums.Department = Enums.Department.DATA_STRUCTURES
 
 @onready var _dept_name: Label = $DetailScreen/Layout/TopRow/InfoPanel/Content/Header/Texts/DeptName
 @onready var _dept_description: Label = $DetailScreen/Layout/TopRow/InfoPanel/Content/Header/Texts/DeptDescription
+@onready var _level_label: Label = $DetailScreen/Layout/TopRow/InfoPanel/Content/LevelProgress/LevelLabel
+@onready var _level_progress: ProgressBar = $DetailScreen/Layout/TopRow/InfoPanel/Content/LevelProgress/ProgressBar
 @onready var _played_value: Label = $DetailScreen/Layout/TopRow/InfoPanel/Content/StatCards/PlayedCard/Content/Value
 @onready var _wins_value: Label = $DetailScreen/Layout/TopRow/InfoPanel/Content/StatCards/WinsCard/Content/Value
 @onready var _elo_value: Label = $DetailScreen/Layout/TopRow/InfoPanel/Content/StatCards/EloCard/Content/Value
@@ -133,6 +135,7 @@ func select_department(selected: Enums.Department) -> void:
 	_dept_description.text = String(DESCRIPTIONS.get(department, ""))
 	show_office(DepartmentManager.get_general_level())
 	_level_up_result.hide()
+	update_level_progress()
 
 	show_general_stats(StatisticsTracker.get_general_stats(department))
 
@@ -144,6 +147,22 @@ func select_department(selected: Enums.Department) -> void:
 	# current tutorial step (SESSION) and does not advance it.
 	if _tutorial != null and _tutorial.step == Enums.TutorialStep.DEPARTMENTS:
 		_tutorial.on_department_selected(selected)
+
+
+## Actualiza la barra de progreso de nivel del departamento (ELO vs umbral).
+func update_level_progress() -> void:
+	var state := DepartmentManager.get_state(department)
+	var level := state.level
+	_level_label.text = "Nivel %d" % level
+
+	if state.is_at_max_level():
+		_level_progress.value = 1.0
+		_level_progress.tooltip_text = "Nivel máximo alcanzado"
+	else:
+		_level_progress.value = DepartmentManager.get_level_up_progress(department)
+		var next_threshold := DepartmentManager.get_level_up_threshold(level)
+		var current_elo := roundi(state.elo)
+		_level_progress.tooltip_text = "ELO: %d / %d" % [current_elo, roundi(next_threshold)]
 
 
 # --------------------------------------------------------- UC-11.2 / UC-11.3
