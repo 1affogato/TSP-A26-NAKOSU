@@ -1,0 +1,104 @@
+[gd_resource type="Resource" script_class="LevelUpPool" format=3]
+
+[ext_resource type="Script" path="res://core/level_up_pool.gd" id="1_pool"]
+[ext_resource type="Script" path="res://core/db/models/level_up_session.gd" id="2_session"]
+
+[sub_resource type="Resource" id="Session_0_1"]
+script = ExtResource("2_session")
+department = 0
+target_level = 1
+sequence = Array[String](["QUIZ", "SWIPE", "QUIZ", "NARRATIVE", "SWIPE"])
+
+[sub_resource type="Resource" id="Session_0_2"]
+script = ExtResource("2_session")
+department = 0
+target_level = 2
+sequence = Array[String](["SWIPE", "QUIZ", "NARRATIVE", "QUIZ", "SWIPE"])
+
+[sub_resource type="Resource" id="Session_0_3"]
+script = ExtResource("2_session")
+department = 0
+target_level = 3
+sequence = Array[String](["NARRATIVE", "QUIZ", "SWIPE", "NARRATIVE", "QUIZ"])
+
+[sub_resource type="Resource" id="Session_0_4"]
+script = ExtResource("2_session")
+department = 0
+target_level = 4
+sequence = Array[String](["QUIZ", "NARRATIVE", "SWIPE", "NARRATIVE", "QUIZ"])
+
+[sub_resource type="Resource" id="Session_1_1"]
+script = ExtResource("2_session")
+department = 1
+target_level = 1
+sequence = Array[String](["QUIZ", "BOMB", "SWIPE", "QUIZ", "BOMB"])
+
+[sub_resource type="Resource" id="Session_1_2"]
+script = ExtResource("2_session")
+department = 1
+target_level = 2
+sequence = Array[String](["BOMB", "QUIZ", "SWIPE", "BOMB", "NARRATIVE"])
+
+[sub_resource type="Resource" id="Session_1_3"]
+script = ExtResource("2_session")
+department = 1
+target_level = 3
+sequence = Array[String](["QUIZ", "BOMB", "NARRATIVE", "SWIPE", "BOMB"])
+
+[sub_resource type="Resource" id="Session_1_4"]
+script = ExtResource("2_session")
+department = 1
+target_level = 4
+sequence = Array[String](["BOMB", "NARRATIVE", "BOMB", "QUIZ", "BOMB"])
+
+[sub_resource type="Resource" id="Session_2_1"]
+script = ExtResource("2_session")
+department = 2
+target_level = 1
+sequence = Array[String](["QUIZ", "TRAIN", "SWIPE", "QUIZ", "TRAIN"])
+
+[sub_resource type="Resource" id="Session_2_2"]
+script = ExtResource("2_session")
+department = 2
+target_level = 2
+sequence = Array[String](["TRAIN", "QUIZ", "SWIPE", "TRAIN", "NARRATIVE"])
+
+[sub_resource type="Resource" id="Session_2_3"]
+script = ExtResource("2_session")
+department = 2
+target_level = 3
+sequence = Array[String](["QUIZ", "TRAIN", "NARRATIVE", "SWIPE", "TRAIN"])
+
+[sub_resource type="Resource" id="Session_2_4"]
+script = ExtResource("2_session")
+department = 2
+target_level = 4
+sequence = Array[String](["TRAIN", "NARRATIVE", "TRAIN", "QUIZ", "TRAIN"])
+
+[sub_resource type="Resource" id="Session_3_1"]
+script = ExtResource("2_session")
+department = 3
+target_level = 1
+sequence = Array[String](["QUIZ", "PUZZLE", "SWIPE", "QUIZ", "PUZZLE"])
+
+[sub_resource type="Resource" id="Session_3_2"]
+script = ExtResource("2_session")
+department = 3
+target_level = 2
+sequence = Array[String](["PUZZLE", "QUIZ", "SWIPE", "PUZZLE", "NARRATIVE"])
+
+[sub_resource type="Resource" id="Session_3_3"]
+script = ExtResource("2_session")
+department = 3
+target_level = 3
+sequence = Array[String](["QUIZ", "PUZZLE", "NARRATIVE", "SWIPE", "PUZZLE"])
+
+[sub_resource type="Resource" id="Session_3_4"]
+script = ExtResource("2_session")
+department = 3
+target_level = 4
+sequence = Array[String](["PUZZLE", "NARRATIVE", "PUZZLE", "QUIZ", "PUZZLE"])
+
+[resource]
+script = ExtResource("1_pool")
+sessions = Array[ExtResource("2_session")]([SubResource("Session_0_1"), SubResource("Session_0_2"), SubResource("Session_0_3"), SubResource("Session_0_4"), SubResource("Session_1_1"), SubResource("Session_1_2"), SubResource("Session_1_3"), SubResource("Session_1_4"), SubResource("Session_2_1"), SubResource("Session_2_2"), SubResource("Session_2_3"), SubResource("Session_2_4"), SubResource("Session_3_1"), SubResource("Session_3_2"), SubResource("Session_3_3"), SubResource("Session_3_4")])

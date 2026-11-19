@@ -47,7 +47,7 @@ softlearning/        Proyecto de Godot (se abre con project.godot)
   scenes/            Pantallas (edificio/departamento, sesión y cada minijuego)
   resources/         Contenido editable (*.tres) y tema visual
   assets/            Imágenes
-  tests/             Autoverificación (uc02_check.gd)
+  tests/             Autoverificación (uc01_check.gd, uc02_check.gd)
   softlearning/ y softlearning.zip   Export web anterior guardado en el repo (no lo usa Docker)
 deploy/              Despliegue: Dockerfile, docker-compose.yml, nginx.conf (+ web/ generado, no versionado)
 arquitectura/        Arquitectura general (7 bloques) y guía de conversión de diseño a Godot
@@ -136,6 +136,9 @@ Contenido de la carpeta de guardado (archivos legibles):
 
 - `department_state_<DEPARTAMENTO>.tres`: ELO y estado de cada uno de los 4 departamentos.
 - `result_history.jsonl`: una línea JSON por resultado de minijuego (de aquí salen las estadísticas y la gráfica del histórico).
+- `player_progress.tres`: progreso fuera de los departamentos; hoy guarda si el tutorial de primera vez (UC-01) ya se completó.
+
+El tutorial (UC-01) aparece la primera vez que se abre el juego y no se puede saltar. Para volver a verlo, borra `player_progress.tres` (o toda la carpeta de guardado).
 
 Respaldo y traslado: copiar la carpeta completa. El nombre de cada archivo `department_state_*` determina a qué departamento pertenece, así que se puede mover entre equipos. Un archivo ilegible no detiene el juego: ese departamento arranca desde cero y el archivo se deja intacto en disco.
 
@@ -151,12 +154,15 @@ Todo el contenido está en `softlearning/resources/` y se edita desde el editor 
 | `cable_pool.tres` | Tableros de Conecta los cables (conceptos y su ejemplo) |
 | `train_pool.tres` | Secuencias de Ordena el tren |
 | `bomb_pool.tres` | Bombas de Desactivar bomba |
+| `puzzle_pool.tres` | Rompecabezas de conceptos de Programación (categorías con 3 piezas cada una y piezas trampa) |
+| `level_up_pool.tres` | Secuencias de la subida de nivel (UC-12): una por departamento y nivel objetivo (16 en total), con los 5 minijuegos en el orden en que se juegan |
 
 Reglas para agregar contenido:
 
 - Cada elemento tiene `id` (**único dentro de su pool**), `department` y `difficulty`. El `id` se usa para no repetir elementos en una misma sesión.
 - Cada pregunta/tarjeta/escenario debe tener una dificultad y un departamento: el juego elige la dificultad según el ELO del jugador y, si no hay elementos de esa dificultad, usa la más cercana.
-- Cada departamento debe tener elementos en los pools de Quiz, Swipe!, Narrativa y Conecta los cables (se usan en los 4), y en el de Ordena el tren / Desactivar bomba si es su departamento. Un pool vacío para un departamento rompe sus partidas.
+- Cada departamento debe tener elementos en los pools de Quiz, Swipe!, Narrativa y Conecta los cables (se usan en los 4), y en el de Ordena el tren / Desactivar bomba / Rompecabezas de conceptos si es su departamento. Un pool vacío para un departamento rompe sus partidas.
+- Un rompecabezas lleva 2 categorías en Fácil y Medio y 3 en Difícil y Muy difícil, 3 piezas por categoría, 0/1/2/3 piezas trampa según la dificultad y textos de 40 caracteres o menos que no se repiten. `godot --headless --path . -s res://tests/uc05_check.gd` revisa que todos cumplan.
 - En Conecta los cables cada tablero lleva 3 a 5 conceptos y un ejemplo por concepto, en el mismo orden (el ejemplo de `concepts[i]` es `examples[i]`): esa es la pareja correcta. El juego baraja los ejemplos al mostrarlos.
 - Después de editar, prueba el juego en local (sección 4) y vuelve a exportar (sección 5).
 
@@ -170,16 +176,22 @@ Valores que se ajustan en el código (se recomienda dejarlos como están salvo d
 | Tiempo de Conecta los cables | sin límite, como Swipe! y Narrativa | ese motor no tiene `time_limit` |
 | Intentos de Narrativa | 2 | `max_attempts` en `core/narrative_minigame.gd` |
 | ELO inicial y factor K | 1000 y 32 | `core/db/models/department_state.gd`, `autoload/department_manager.gd` |
-| ELO para poder subir de nivel | 1500 | `level_up_thresholds` en `autoload/department_manager.gd` |
+| Peso del ELO en el tutorial | 10, 9, … 1 por resultado | `TUTORIAL_PLACEMENT_WEIGHT` en `core/session_orchestrator.gd` |
+| ELO para poder subir de nivel | 1100 / 1600 / 2100 / 2600, según el nivel actual del departamento (0 a 4) | `LEVEL_UP_THRESHOLDS` en `autoload/department_manager.gd` |
+| Minijuegos de una subida de nivel | 5, en el orden que fija la secuencia | `resources/level_up_pool.tres` |
+| Fallos que se toleran en una subida de nivel | 1 (con 2 o más, o si se interrumpe, se pierden 25 de ELO) | `MAX_LEVEL_UP_FAILURES` y `FAILED_LEVEL_UP_PENALTY` en `autoload/department_manager.gd` |
 | Minijuegos propios de cada departamento | Requerimientos: Bomba; Desarrollo de Software: Tren | `enabled_minigames` en `autoload/department_manager.gd` |
 
 ## 10. Verificación
 
-Autoverificación del repo, desde `softlearning/`. No guarda nada; cada una debe terminar en `OK`:
+Autoverificación del repo (tutorial, ELO y reglas de la partida, rompecabezas y subida de nivel), desde `softlearning/`. No guarda nada; cada script debe terminar con su `OK` (`uc01_check: OK`, `uc12_check: OK`, …):
 
 ```
+godot --headless --path . -s res://tests/uc01_check.gd
 godot --headless --path . -s res://tests/uc02_check.gd
+godot --headless --path . -s res://tests/uc05_check.gd
 godot --headless --path . -s res://tests/uc10_check.gd
+godot --headless --path . -s res://tests/uc12_check.gd
 ```
 
 - `uc02_check`: reglas de ELO y pausa del Quiz.
@@ -203,7 +215,7 @@ Prueba manual tras publicar: abrir el link, entrar a un departamento, jugar un m
 
 ## Limitaciones conocidas
 
-- **«Subir nivel»** (UC-12) todavía no está implementado: el botón se activa a 1500 de ELO, pero aún no hace nada.
+- **Sprites de la oficina por nivel general** (UC-12.6): la subida de nivel ya cambia el nivel del departamento y el general de la empresa, pero todavía no hay arte por nivel. La vista busca `assets/office_level_<n>.png` y, si el archivo no existe, deja la imagen del departamento; basta con añadir esos PNG para que se vea el cambio.
 - El progreso no se puede consultar ni migrar desde el servidor (solo existe en el equipo de cada jugador).
 
 ## Documentación

@@ -11,22 +11,29 @@ extends Resource
 ## `type` is the key of the concrete minigame engine (B5) that produced the
 ## result, `level` is the difficulty that was played, and `timestamp` is unix
 ## seconds (UTC) of the moment the game ended.
+##
+## `multiplier` is the ELO weight that was applied to that result. It is 1.0 for
+## a normal game and 10…1 during the guided session of UC-01, so replaying the
+## history reproduces the ELO the player actually had.
 
 @export var department: Enums.Department = Enums.Department.DATA_STRUCTURES
 @export var type: String = ""
 @export var level: Enums.Difficulty = Enums.Difficulty.FACIL
 @export var success: bool = false
 @export var timestamp: int = 0
+@export var multiplier: float = 1.0
 
 
 ## Builds the record of a game that just ended. `now_unix` exists so tests can
-## inject a fixed time instead of reading the clock.
+## inject a fixed time instead of reading the clock; `new_multiplier` is the
+## placement weight of UC-01 (1.0 outside the tutorial).
 static func create(
 	minigame_type: String,
 	new_department: Enums.Department,
 	new_level: Enums.Difficulty,
 	was_success: bool,
-	now_unix: int = -1
+	now_unix: int = -1,
+	new_multiplier: float = 1.0
 ) -> ResultRecord:
 	var record := ResultRecord.new()
 	record.type = minigame_type
@@ -34,6 +41,7 @@ static func create(
 	record.level = new_level
 	record.success = was_success
 	record.timestamp = now_unix if now_unix > 0 else int(Time.get_unix_time_from_system())
+	record.multiplier = maxf(0.0, new_multiplier)
 	return record
 
 
@@ -52,6 +60,7 @@ func to_dict() -> Dictionary:
 		"level": Enums.difficulty_to_key(level),
 		"success": success,
 		"timestamp": timestamp,
+		"multiplier": multiplier,
 	}
 
 
@@ -63,6 +72,8 @@ static func from_dict(data: Dictionary) -> ResultRecord:
 	record.level = Enums.difficulty_from_key(JsonUtil.as_string(data.get("level")))
 	record.success = JsonUtil.as_bool(data.get("success"))
 	record.timestamp = maxi(0, JsonUtil.as_int(data.get("timestamp")))
+	# Older logs have no multiplier; they were all normal (1.0) games.
+	record.multiplier = maxf(0.0, JsonUtil.as_float(data.get("multiplier"), 1.0))
 	return record
 
 

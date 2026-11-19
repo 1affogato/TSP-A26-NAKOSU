@@ -23,15 +23,17 @@ const DIFFICULTY_LABELS := {
 	"MUY_DIFICIL": "muy difíciles",
 }
 
-## Lo mismo para las filas por minijuego: B6 agrupa por la clave del motor
-## (`QuizMinigame.TYPE`), y aquí se pasa a texto del mockup.
+## Lo mismo para las filas por minijuego: B6 agrupa por la clave TYPE del motor
+## (p.ej. "QUIZ"), y aquí se pasa a texto del mockup.
 const MINIGAME_LABELS := {
-	QuizMinigame.TYPE: "Quiz",
-	SwipeMinigame.TYPE: "Swipe",
-	NarrativeMinigame.TYPE: "Narrativa",
-	CableMinigame.TYPE: "Conecta los cables",
-	TrainMinigame.TYPE: "Ordena el tren",
-	BombMinigame.TYPE: "Desactivar bomba",
+	"QUIZ": "Quiz",
+	"SWIPE": "Swipe",
+	"NARRATIVE": "Narrativa",
+	"CABLE": "Conecta los cables",
+	"TRAIN": "Ordena el tren",
+	"BOMB": "Desactivar bomba",
+	"PUZZLE": "Rompecabezas",
+	"STACK_PUZZLE": "Stack Puzzle",
 }
 
 ## Descripción de cada departamento: texto de presentación de la vista (sale del
@@ -61,12 +63,25 @@ const OFFICE_IMAGES := {
 	Enums.Department.CODING: "res://assets/coding_paradigms_view.png",
 }
 
+## UC-12.6: sprite de la oficina por nivel general de la empresa. Sólo cambia
+## con una subida de nivel general, no con la de un departamento.
+## 5 visual levels mapped 1:1 to general levels 0..4.
+## Missing files fall back to the department image.
+const OFFICES_BY_LEVEL := {
+	0: "res://assets/office_level_0.jpeg",
+	1: "res://assets/office_level_1.jpeg",
+	2: "res://assets/office_level_2.jpeg",
+	3: "res://assets/office_level_3.jpeg",
+	4: "res://assets/office_level_4.jpeg",
+}
+
 ## Department shown in DetailScreen, set by the floor that was pressed.
 var department: Enums.Department = Enums.Department.DATA_STRUCTURES
 
 @onready var _select_screen: MarginContainer = $SelectScreen
 @onready var _detail_screen: MarginContainer = $DetailScreen
 @onready var _floors: VBoxContainer = $SelectScreen/Layout/Body/Floors
+@onready var _building_image: TextureRect = $SelectScreen/Layout/Body/BuildingImage
 
 @onready var _dept_name: Label = $DetailScreen/Layout/TopRow/InfoPanel/Content/Header/Texts/DeptName
 @onready var _dept_description: Label = $DetailScreen/Layout/TopRow/InfoPanel/Content/Header/Texts/DeptDescription
@@ -76,6 +91,7 @@ var department: Enums.Department = Enums.Department.DATA_STRUCTURES
 
 @onready var _start_button: Button = $DetailScreen/Layout/TopRow/Actions/StartButton
 @onready var _level_up_button: Button = $DetailScreen/Layout/TopRow/Actions/LevelUpButton
+@onready var _level_up_result: Label = $DetailScreen/Layout/TopRow/Actions/LevelUpResult
 
 @onready var _office_image: TextureRect = $DetailScreen/Layout/BottomRow/OfficeImage
 
@@ -91,10 +107,16 @@ var department: Enums.Department = Enums.Department.DATA_STRUCTURES
 @onready var _accuracy_column: VBoxContainer = $DetailScreen/Layout/BottomRow/StatsPanel/Content/Scroll/Columns/Accuracy
 @onready var _chart_card: PanelContainer = $DetailScreen/Layout/BottomRow/StatsPanel/Content/ChartCard
 @onready var _elo_chart: EloChart = $DetailScreen/Layout/BottomRow/StatsPanel/Content/ChartCard/Content/EloChart
+@onready var _overlay: TutorialOverlay = $TutorialOverlay
+
+## UC-01: the tutorial flow, a child of this view as the class diagram shows.
+## Its cross-scene state lives in `TutorialRun`.
+var _tutorial: TutorialController
 
 
 func _ready() -> void:
 	_refresh_floors()
+	_setup_tutorial()
 
 
 # ------------------------------------------------------------------- UC-11.1
@@ -109,12 +131,19 @@ func select_department(selected: Enums.Department) -> void:
 
 	_dept_name.text = DepartmentManager.get_department_name(department)
 	_dept_description.text = String(DESCRIPTIONS.get(department, ""))
-	_office_image.texture = load(OFFICE_IMAGES[department])
+	show_office(DepartmentManager.get_general_level())
+	_level_up_result.hide()
 
 	show_general_stats(StatisticsTracker.get_general_stats(department))
 
 	# Se abre con la primera pestaña, como en el mockup.
 	_on_stat_selected(Enums.StatType.BY_MINIGAME)
+
+	# UC-01.4: inside the tutorial this call comes from the highlighted floor,
+	# so it also advances the first step. Returning from a session keeps the
+	# current tutorial step (SESSION) and does not advance it.
+	if _tutorial != null and _tutorial.step == Enums.TutorialStep.DEPARTMENTS:
+		_tutorial.on_department_selected(selected)
 
 
 # --------------------------------------------------------- UC-11.2 / UC-11.3
@@ -126,16 +155,58 @@ func show_general_stats(stats: GeneralStats) -> void:
 	# El ELO no viaja en GeneralStats: es dato de B1, no de B6.
 	_elo_value.text = "%d" % roundi(DepartmentManager.get_elo(stats.department))
 
-	if stats.upgrade_available:
+	if stats.upgrade_available and DepartmentManager.is_level_up_available(stats.department):
 		show_upgrade_option()
 	else:
 		_level_up_button.disabled = true
 
 
-## UC-11.3.a1: el departamento cumple la condición de subida, así que se ofrece
-## la opción de subir de nivel. Lo que hace ese botón es UC-12.
+## UC-11.3.a1 / UC-12.2: el departamento cumple la condición de subida y todavía
+## no se usó la subida del día, así que se ofrece la opción.
 func show_upgrade_option() -> void:
 	_level_up_button.disabled = false
+
+
+## UC-12.6: pinta la oficina del nivel general de la empresa. Mientras no haya
+## arte por nivel (see OFFICES_BY_LEVEL) se queda la imagen del departamento.
+## 5 visual levels mapped 1:1 to general levels 0..4.
+## Missing files fall back to the department image.
+func show_office(level: int) -> void:
+	var clamped_level := clampi(level, 0, DepartmentState.MAX_LEVEL)
+	var path := String(OFFICES_BY_LEVEL.get(clamped_level, ""))
+	var texture := load(OFFICE_IMAGES[department])
+	if not path.is_empty() and ResourceLoader.exists(path):
+		texture = load(path)
+	_office_image.texture = texture
+	_building_image.texture = texture
+
+
+## UC-12.10: mensaje del resultado de la subida de nivel, sobre la vista del
+## departamento. El nivel general (y con él la oficina) ya está actualizado.
+## `detail` es el motivo que dio B4 cuando la subida no pudo empezar
+## (UC-12.4.e1); si no llegó, se muestra el mensaje genérico.
+func show_level_up_result(
+	outcome: Enums.LevelUpOutcome, new_level: int, detail: String = ""
+) -> void:
+	match outcome:
+		Enums.LevelUpOutcome.SUCCESS:
+			_level_up_result.text = "¡Departamento en el nivel %d! La empresa llega al nivel general %d." % [
+				new_level, DepartmentManager.get_general_level()
+			]
+			_level_up_result.theme_type_variation = &"RightAnswer"
+		Enums.LevelUpOutcome.FAILED:
+			_level_up_result.text = "La subida de nivel no salió: el departamento pierde %d de ELO y sigue en el nivel %d." % [
+				roundi(DepartmentManager.get_failed_level_up_penalty()), new_level
+			]
+			_level_up_result.theme_type_variation = &"WrongAnswer"
+		Enums.LevelUpOutcome.CANCELLED:
+			_level_up_result.text = "No se pudo guardar la subida de nivel; el departamento queda como estaba."
+			_level_up_result.theme_type_variation = &"WrongAnswer"
+		_:
+			_level_up_result.text = detail if not detail.is_empty() \
+				else "La subida de nivel no está disponible ahora mismo."
+			_level_up_result.theme_type_variation = &"Muted"
+	_level_up_result.show()
 
 
 # ------------------------------------------------------------- UC-11.4 / 11.5
@@ -184,17 +255,50 @@ func _on_stat_selected(type: Enums.StatType) -> void:
 		days[0].label if days else "", days[-1].label if days else "")
 
 
-## UC-11.3.a1.1: inicia UC-12 (Upgrade Department), que todavía no existe.
+## UC-11.3.a1.1 / UC-12.3: inicia una subida de nivel en el departamento.
+## SessionView arranca la sesión scripted (UC-12.4) y vuelve aquí con
+## resume_after_level_up() (UC-12.10); si no se puede jugar, también vuelve aquí,
+## con UNAVAILABLE.
 func _on_upgrade_pressed() -> void:
-	push_warning("UC-12 (Upgrade Department) todavía no está implementado.")
+	var session_view: Node = load("res://scenes/session_view.tscn").instantiate()
+	session_view.ready.connect(session_view.open_level_up.bind(department))
+	get_tree().change_scene_to_node(session_view)
 
 
 ## UC-02.1: abre SessionView con el departamento elegido. Su orquestador (B4)
 ## arranca la sesión y, al terminar, vuelve aquí con select_department() (UC-02.9).
+## UC-01.8: si el tutorial está en el paso PLAY, la sesión es la guiada.
 func _on_play_pressed() -> void:
+	var tutorial_session := _tutorial != null and _tutorial.on_play_pressed()
 	var session_view: Node = load("res://scenes/session_view.tscn").instantiate()
-	session_view.ready.connect(session_view.open.bind(department))
+	if tutorial_session:
+		session_view.ready.connect(session_view.open_tutorial.bind(department))
+	else:
+		session_view.ready.connect(session_view.open.bind(department))
 	get_tree().change_scene_to_node(session_view)
+
+
+## UC-01.10: SessionView returns here after the guided session, with the total
+## ELO change. The department detail is restored first, then the final message
+## is shown over it.
+func resume_after_session(selected: Enums.Department, elo_delta: float) -> void:
+	select_department(selected)
+	if _tutorial != null:
+		_tutorial.resume_after_session(elo_delta)
+
+
+## UC-12.10: SessionView returns here when the level-up session ends (or could
+## not start). The department detail is restored first — which also refreshes
+## the office of the new general level (UC-12.6/UC-12.7) — and then the result
+## message is shown (UC-12.5.a1, UC-12.9.e1).
+func resume_after_level_up(
+	selected: Enums.Department,
+	outcome: Enums.LevelUpOutcome,
+	new_level: int,
+	detail: String = ""
+) -> void:
+	select_department(selected)
+	show_level_up_result(outcome, new_level, detail)
 
 
 func _show_select() -> void:
@@ -204,16 +308,90 @@ func _show_select() -> void:
 	_refresh_floors()
 
 
+# -------------------------------------------------------------------- UC-01
+
+## Creates the B4 flow and wires the overlay. The controller is a child of the
+## view (as the class diagram says); `TutorialRun` carries its state across the
+## session scene change.
+func _setup_tutorial() -> void:
+	_tutorial = TutorialController.new()
+	_tutorial.name = "TutorialController"
+	add_child(_tutorial)
+	_tutorial.step_changed.connect(_on_tutorial_step)
+	_tutorial.save_failed.connect(_on_tutorial_save_failed)
+	_tutorial.tutorial_finished.connect(_on_tutorial_finished)
+
+	var buttons := {}
+	for floor_name in FLOOR_DEPARTMENTS:
+		buttons[FLOOR_DEPARTMENTS[floor_name]] = _floors.get_node(floor_name)
+	_overlay.configure(_floors, buttons, _chart_card, _start_button)
+	_overlay.department_chosen.connect(_on_tutorial_department_chosen)
+	_overlay.screen_clicked.connect(_on_tutorial_screen_clicked)
+	_overlay.play_requested.connect(_on_tutorial_play_requested)
+	_overlay.final_confirmed.connect(_on_tutorial_final_confirmed)
+
+	_tutorial.start_if_pending()
+
+
+func _on_tutorial_step(step: Enums.TutorialStep) -> void:
+	match step:
+		Enums.TutorialStep.DEPARTMENTS:
+			if _detail_screen.visible:
+				_show_select()
+			_overlay.show_step(step)
+		Enums.TutorialStep.ELO:
+			# UC-01.5: the highlighted graph lives in the "Tu histórico" tab.
+			_on_stat_selected(Enums.StatType.OVER_TIME)
+			_overlay.show_step(step)
+		Enums.TutorialStep.PLAY:
+			_overlay.show_step(step)
+		Enums.TutorialStep.SESSION:
+			_overlay.hide_overlay()
+		Enums.TutorialStep.FINAL:
+			# A restored final step (save failure) needs the detail screen back.
+			if not _detail_screen.visible:
+				select_department(TutorialRun.department)
+			_overlay.show_final_message(TutorialRun.elo_delta)
+		Enums.TutorialStep.DONE:
+			_overlay.hide_overlay()
+
+
+func _on_tutorial_department_chosen(selected: Enums.Department) -> void:
+	select_department(selected)
+
+
+func _on_tutorial_screen_clicked() -> void:
+	_tutorial.on_elo_step_confirmed()
+
+
+func _on_tutorial_play_requested() -> void:
+	_on_play_pressed()
+
+
+func _on_tutorial_final_confirmed() -> void:
+	_tutorial.complete()
+
+
+func _on_tutorial_finished() -> void:
+	_overlay.hide_overlay()
+
+
+func _on_tutorial_save_failed(reason: String) -> void:
+	_overlay.show_save_error(reason)
+
+
 # ---------------------------------------------------------------- internals
 
 ## La barra de cada piso muestra el progreso del departamento hacia su umbral de
-## subida de nivel (B1).
+## subida de nivel (B1). Also updates the building image to the general level.
 func _refresh_floors() -> void:
 	for floor_name in FLOOR_DEPARTMENTS:
 		var department_id: Enums.Department = FLOOR_DEPARTMENTS[floor_name]
 		var floor: Button = _floors.get_node(floor_name)
 		var progress := floor.get_node("Progress") as ProgressBar
 		progress.value = DepartmentManager.get_level_up_progress(department_id) * 100.0
+	# Update the building image on SelectScreen to reflect the general level
+	show_office(DepartmentManager.get_general_level())
 
 
 ## Las cuatro dificultades siempre, de fácil a muy difícil, como en el mockup:

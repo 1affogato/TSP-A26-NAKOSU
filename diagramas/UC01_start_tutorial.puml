@@ -1,0 +1,149 @@
+@startuml UC01_start_tutorial
+title UC-01: Start with Tutorial - Diagrama de clases
+
+skinparam classAttributeIconSize 0
+skinparam packageStyle rectangle
+skinparam shadowing false
+skinparam nodesep 50
+skinparam ranksep 60
+
+package "Presentación" {
+
+  class DepartmentView {
+    -tutorial: TutorialController
+    --
+    +select_department(department): void
+    +on_tutorial_step(step: TutorialStep): void
+    +resume_after_session(elo_delta: float): void
+    -on_play_pressed(): void
+  }
+
+  note right of DepartmentView
+    Al arrancar crea TutorialController.
+    Mientras el tutorial está activo,
+    TutorialOverlay bloquea el resto.
+  end note
+
+  class TutorialOverlay {
+    --
+    +show_step(step: TutorialStep): void
+    +show_final_message(elo_delta: float): void
+    +show_save_error(): void
+    +hide_overlay(): void
+    .. señales ..
+    +department_chosen(department)
+    +screen_clicked()
+    +final_confirmed()
+  }
+
+  note left of TutorialOverlay
+    Solo el elemento resaltado recibe el clic;
+    cualquier otro se ignora (UC-01.4.a1).
+  end note
+}
+
+package "Lógica" {
+
+  class TutorialController <<Flujo B4>> {
+    -step: TutorialStep
+    --
+    +start_if_pending(): bool
+    +on_department_selected(department): void
+    +on_elo_step_confirmed(): void
+    +on_play_pressed(): void
+    +resume_after_session(elo_delta: float): void
+    +complete(): bool
+  }
+
+  note bottom of TutorialController
+    Pasos: DEPARTMENTS -> ELO -> PLAY ->
+    SESSION -> FINAL.
+    complete() marca el tutorial y lo guarda por B7;
+    si falla, queda incompleto (UC-01.11.e1).
+  end note
+
+  enum TutorialStep {
+    DEPARTMENTS
+    ELO
+    PLAY
+    SESSION
+    FINAL
+    DONE
+  }
+
+  class SessionOrchestrator <<B4>> {
+    -mode: SessionMode
+    --
+    +start_tutorial_session(department): void
+    -placement_weight(index: int): float
+    -on_minigame_finished(result): void
+    .. señales ..
+    +session_ended(elo_delta: float)
+  }
+
+  note left of SessionOrchestrator
+    mode = TUTORIAL.
+    placement_weight() devuelve 10, 9, ... 1
+    y se pasa a B1.update_elo() (UC-01.9).
+    Al cerrar, emite session_ended con el delta total.
+  end note
+
+  enum SessionMode {
+    NORMAL
+    TUTORIAL
+    LEVEL_UP
+  }
+}
+
+package "Datos (Resources)" {
+
+  class DepartmentManager <<B1>> {
+    -progress: PlayerProgress
+    --
+    +get_elo(department): float
+    +update_elo(result, multiplier: float = 1.0): void
+    +is_tutorial_completed(): bool
+    +complete_tutorial(): void
+    +set_tutorial_completed(completed: bool): void
+  }
+
+  note bottom of DepartmentManager
+    update_elo() multiplica el delta por multiplier
+    (UC-01.9). El avance del tutorial vive en
+    PlayerProgress.
+  end note
+
+  class PlayerProgress {
+    -tutorial_completed: bool
+  }
+
+  note bottom of PlayerProgress
+    Se persiste en player_progress.tres.
+    El paso intermedio del tutorial no se guarda:
+    si se cierra la app, empieza de nuevo
+    (UC-01.2.a1).
+  end note
+
+  class PersistenceService <<B7>> {
+    +load_progress(): PlayerProgress
+    +save_progress(data): bool
+    .. señales ..
+    +save_failed(reason: String)
+  }
+}
+
+' ============================================================
+' Relaciones
+DepartmentView "1" *-- "1" TutorialController
+DepartmentView "1" --> "1" TutorialOverlay
+DepartmentView ..> SessionOrchestrator : inicia sesión guiada\n(a través de SessionView)
+TutorialController --> TutorialStep
+TutorialController ..> DepartmentManager : tutorial / ELO
+TutorialController ..> PersistenceService : guarda finalización
+SessionOrchestrator --> SessionMode
+SessionOrchestrator ..> DepartmentManager : ELO con multiplicador
+SessionOrchestrator ..> PersistenceService : guarda progreso
+DepartmentManager "1" --> "1" PlayerProgress
+PersistenceService ..> PlayerProgress : carga / guarda
+
+@enduml

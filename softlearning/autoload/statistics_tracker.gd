@@ -20,8 +20,11 @@ func _ready() -> void:
 
 ## UC-02.6: records a finished minigame, stamped with the current time. B6 is
 ## what builds the [ResultRecord], which is why this takes a [MinigameResult].
-func register_result(result: MinigameResult) -> void:
-	history.append(ResultRecord.create(result.type, result.department, result.level, result.success))
+## `multiplier` is the UC-01 placement weight; 1.0 for a normal game.
+func register_result(result: MinigameResult, multiplier: float = 1.0) -> void:
+	history.append(ResultRecord.create(
+		result.type, result.department, result.level, result.success, -1, multiplier
+	))
 
 
 # -------------------------------------------------------------------- read

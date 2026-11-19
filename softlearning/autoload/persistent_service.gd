@@ -1,13 +1,15 @@
 extends Node
 ## PersistenceService (B7) — autoload singleton.
 ##
-## Only two models are stored, and nothing else:
+## Only three models are stored, and nothing else:
 ##   [DepartmentState] -> one `.tres` per department under `user://save/`
 ##   [ResultRecord]    -> one JSON object per line of `result_history.jsonl`
+##   [PlayerProgress]  -> `player_progress.tres` (UC-01 flags)
 ##
-## UC-02.8: writing happens only when a session ends, through
-## `save_progress(data)`. Reading happens when the game starts, so that
-## `DepartmentManager` (B1) and `StatisticsTracker` (B6) can begin from the
+## UC-02.8: the session bundle is written only when a session ends, through
+## `save_progress(data)`. UC-01.11 writes the tutorial flag separately through
+## `save_player_progress(progress)`. Reading happens when the game starts, so
+## that `DepartmentManager` (B1) and `StatisticsTracker` (B6) can begin from the
 ## stored progress:
 ## [codeblock]
 ## var states := PersistenceService.load_department_states()   # -> B1
@@ -31,6 +33,7 @@ const SAVE_DIR := "user://save"
 const DEPARTMENT_STATE_PREFIX := "department_state_"
 const DEPARTMENT_STATE_EXTENSION := ".tres"
 const RESULT_HISTORY_FILE := "result_history.jsonl"
+const PLAYER_PROGRESS_FILE := "player_progress.tres"
 
 ## How many history records are already in the log. `save_progress()` appends
 ## only what comes after this index, so calling it twice in one session never
@@ -104,9 +107,27 @@ func load_history() -> Array[ResultRecord]:
 	return history
 
 
+## UC-01: the flags stored outside the departments (tutorial completed, and
+## later UC-12's daily level-up mark). A missing or unreadable file means a
+## fresh progress, so the tutorial runs.
+func load_player_progress() -> PlayerProgress:
+	var path := _save_path(PLAYER_PROGRESS_FILE)
+	if not FileAccess.file_exists(path):
+		return PlayerProgress.create()
+
+	var loaded: Resource = ResourceLoader.load(path, "", ResourceLoader.CACHE_MODE_IGNORE)
+	if loaded == null or not (loaded is PlayerProgress):
+		_last_error = "%s no se pudo cargar; se usará un progreso nuevo." % path
+		push_warning(_last_error)
+		return PlayerProgress.create()
+	return loaded as PlayerProgress
+
+
 ## True when a previous run left something behind.
 func has_save_data() -> bool:
 	if FileAccess.file_exists(_save_path(RESULT_HISTORY_FILE)):
+		return true
+	if FileAccess.file_exists(_save_path(PLAYER_PROGRESS_FILE)):
 		return true
 	for department in Enums.all_departments():
 		if FileAccess.file_exists(_state_path(department)):
@@ -136,10 +157,28 @@ func save_progress(data: SaveData) -> bool:
 		if state != null:
 			all_ok = _save_department_state(state) and all_ok
 	all_ok = _append_new_history(data.history) and all_ok
+	# UC-12.8: the daily level-up mark travels with the session that spent it.
+	if data.player_progress != null:
+		all_ok = _write_player_progress(data.player_progress) and all_ok
 
 	if not all_ok:
 		save_failed.emit(_last_error)
 	return all_ok
+
+
+## UC-01.11: stores the tutorial flag. It is separate from `save_progress()`
+## because the tutorial ends outside the session save, and failing to write it
+## must not discard the department states the session already saved.
+func save_player_progress(progress: PlayerProgress) -> bool:
+	_last_error = ""
+	if progress == null:
+		return _fail("save_player_progress() recibió un PlayerProgress nulo.")
+	if not _ensure_save_dir():
+		return _fail(_last_error)
+	if not _write_player_progress(progress):
+		save_failed.emit(_last_error)
+		return false
+	return true
 
 
 ## Deletes every stored file. The game keeps running with whatever is already
@@ -153,6 +192,9 @@ func reset_all() -> void:
 	var history_path := _save_path(RESULT_HISTORY_FILE)
 	if FileAccess.file_exists(history_path):
 		DirAccess.remove_absolute(history_path)
+	var progress_path := _save_path(PLAYER_PROGRESS_FILE)
+	if FileAccess.file_exists(progress_path):
+		DirAccess.remove_absolute(progress_path)
 	_persisted_history_count = 0
 	_last_error = ""
 
@@ -168,6 +210,19 @@ func _save_department_state(state: DepartmentState) -> bool:
 	state.sanitize()
 	var path := _state_path(state.department)
 	var error := ResourceSaver.save(state, path)
+	if error != OK:
+		_last_error = "No se pudo guardar %s (%s)." % [path, error_string(error)]
+		push_error(_last_error)
+		return false
+	return true
+
+
+## Writes `player_progress.tres` without emitting: the caller decides whether the
+## failure is the only error of the save (`save_progress()`) or it is reported
+## right away (`save_player_progress()`), so the signal is never emitted twice.
+func _write_player_progress(progress: PlayerProgress) -> bool:
+	var path := _save_path(PLAYER_PROGRESS_FILE)
+	var error := ResourceSaver.save(progress, path)
 	if error != OK:
 		_last_error = "No se pudo guardar %s (%s)." % [path, error_string(error)]
 		push_error(_last_error)

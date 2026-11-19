@@ -34,6 +34,28 @@ enum StatType {
 	OVER_TIME,
 }
 
+## Pasos del tutorial de primera vez (UC-01). El orden es el del flujo: cada
+## paso se completa al pulsar el elemento resaltado, salvo SESSION y DONE, que
+## no muestran capa.
+enum TutorialStep {
+	DEPARTMENTS,
+	ELO,
+	PLAY,
+	SESSION,
+	FINAL,
+	DONE,
+}
+
+## How a level-up session ended (UC-12). `SUCCESS` raised the department's level,
+## `FAILED` played the session (or interrupted it) without passing, and
+## `UNAVAILABLE`/`CANCELLED` left the department exactly as it was before.
+enum LevelUpOutcome {
+	SUCCESS,
+	FAILED,
+	UNAVAILABLE,
+	CANCELLED,
+}
+
 static func difficulty_to_elo(difficulty: Enums.Difficulty) -> float:
 	match difficulty:
 		Difficulty.FACIL:
@@ -44,6 +66,12 @@ static func difficulty_to_elo(difficulty: Enums.Difficulty) -> float:
 			return 2000
 		_:
 			return 2500
+
+## UC-12.4: the difficulty a scripted level-up session plays at. The target
+## level of the department (1..4) maps to easy, medium, hard and very hard, the
+## same anchors `difficulty_to_elo()` uses; out-of-range levels are clamped.
+static func difficulty_for_level(level: int) -> Enums.Difficulty:
+	return clampi(level - 1, 0, 3) as Enums.Difficulty
 
 ## Every department, in enum order. Used to guarantee that a save file always
 ## holds exactly one entry per department.
