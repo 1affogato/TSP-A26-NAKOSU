@@ -1,0 +1,149 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scenes/cable_view.gd" id="1_cable"]
+[ext_resource type="PackedScene" path="res://scenes/minigame_feedback.tscn" id="2_feedback"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBox_board"]
+content_margin_left = 16.0
+content_margin_top = 16.0
+content_margin_right = 16.0
+content_margin_bottom = 16.0
+bg_color = Color(0.965, 0.976, 0.996, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.886, 0.91, 0.941, 1)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+
+[node name="CableView" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_cable")
+
+[node name="PlayScreen" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 96
+theme_override_constants/margin_top = 64
+theme_override_constants/margin_right = 96
+theme_override_constants/margin_bottom = 24
+
+[node name="Card" type="PanelContainer" parent="PlayScreen"]
+layout_mode = 2
+theme_type_variation = &"Frame"
+
+[node name="Content" type="VBoxContainer" parent="PlayScreen/Card"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Header" type="HBoxContainer" parent="PlayScreen/Card/Content"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="DepartmentTag" type="Label" parent="PlayScreen/Card/Content/Header"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"Tag"
+text = "Requerimientos"
+vertical_alignment = 1
+
+[node name="GameTag" type="Label" parent="PlayScreen/Card/Content/Header"]
+layout_mode = 2
+theme_type_variation = &"Tag"
+text = "Conecta los cables"
+vertical_alignment = 1
+
+[node name="Progress" type="Label" parent="PlayScreen/Card/Content/Header"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"Muted"
+theme_override_font_sizes/font_size = 13
+text = "Minijuego 1 de 10"
+vertical_alignment = 1
+
+[node name="Spacer" type="Control" parent="PlayScreen/Card/Content/Header"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="PairsLeft" type="Label" parent="PlayScreen/Card/Content/Header"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"Tag"
+text = "0 de 4 cables"
+vertical_alignment = 1
+
+[node name="Rules" type="Label" parent="PlayScreen/Card/Content"]
+layout_mode = 2
+theme_type_variation = &"Muted"
+theme_override_font_sizes/font_size = 14
+text = "Cada concepto tiene un único ejemplo. Tiende un cable entre los dos y confirma cuando todos estén conectados."
+autowrap_mode = 3
+
+[node name="BoardPanel" type="PanelContainer" parent="PlayScreen/Card/Content"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBox_board")
+
+[node name="Board" type="HBoxContainer" parent="PlayScreen/Card/Content/BoardPanel"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="Concepts" type="VBoxContainer" parent="PlayScreen/Card/Content/BoardPanel/Board"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 10
+alignment = 1
+
+[node name="Wires" type="Control" parent="PlayScreen/Card/Content/BoardPanel/Board"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Examples" type="VBoxContainer" parent="PlayScreen/Card/Content/BoardPanel/Board"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 1.3
+theme_override_constants/separation = 10
+alignment = 1
+
+[node name="Footer" type="HBoxContainer" parent="PlayScreen/Card/Content"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Hint" type="Label" parent="PlayScreen/Card/Content/Footer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"Muted"
+theme_override_font_sizes/font_size = 13
+text = "Haz clic en un concepto y luego en su ejemplo, o arrastra uno sobre el otro."
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="ConfirmButton" type="Button" parent="PlayScreen/Card/Content/Footer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"PrimaryButton"
+theme_override_font_sizes/font_size = 18
+disabled = true
+text = "Confirmar conexiones"
+
+[node name="Feedback" parent="." instance=ExtResource("2_feedback")]
+visible = false
+layout_mode = 1

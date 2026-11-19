@@ -15,6 +15,7 @@ const VIEWS := {
 	"QUIZ": preload("res://scenes/quiz_view.tscn"),
 	"SWIPE": preload("res://scenes/swipe_view.tscn"),
 	"NARRATIVE": preload("res://scenes/narrative_view.tscn"),
+	"CABLE": preload("res://scenes/cable_view.tscn"),
 	"TRAIN": preload("res://scenes/train_view.tscn"),
 	"BOMB": preload("res://scenes/bomb_view.tscn"),
 	"PUZZLE": preload("res://scenes/puzzle_view.tscn"),

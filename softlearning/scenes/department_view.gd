@@ -29,6 +29,7 @@ const MINIGAME_LABELS := {
 	"QUIZ": "Quiz",
 	"SWIPE": "Swipe",
 	"NARRATIVE": "Narrativa",
+	"CABLE": "Conecta los cables",
 	"TRAIN": "Ordena el tren",
 	"BOMB": "Desactivar bomba",
 	"PUZZLE": "Rompecabezas",

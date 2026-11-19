@@ -25,10 +25,10 @@ var department_names: Dictionary[Enums.Department, String] = {
 
 ## DATOS DE AUTORÍA — ajústalos aquí; no se guardan en la partida.
 ## Minijuegos ESPECÍFICOS de cada departamento. Los genéricos no van aquí: los
-## añade el orquestador (B4) al armar la secuencia (UC-02.2). Quiz, Swipe! y
-## Narrativa son genéricos (sus pools cubren los cuatro departamentos). Cada
-## valor es la clave TYPE del motor: "BOMB" = BombMinigame (UC-04),
-## "TRAIN" = TrainMinigame (UC-03), "PUZZLE" = PuzzleMinigame (UC-05),
+## añade el orquestador (B4) al armar la secuencia (UC-02.2). Quiz, Swipe!,
+## Narrativa y Conecta los cables son genéricos (sus pools cubren los cuatro
+## departamentos). Cada valor es la clave TYPE del motor: "BOMB" = BombMinigame
+## (UC-04), "TRAIN" = TrainMinigame (UC-03), "PUZZLE" = PuzzleMinigame (UC-05),
 ## "STACK_PUZZLE" = StackPuzzleMinigame (UC-06).
 var enabled_minigames: Dictionary[Enums.Department, Array] = {
 	Enums.Department.DATA_STRUCTURES: ["STACK_PUZZLE"],

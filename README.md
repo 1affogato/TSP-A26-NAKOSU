@@ -14,6 +14,7 @@ Juego educativo de ingeniería de software hecho en **Godot 4.7**. El jugador en
 | Quiz | los 4 departamentos | 160 preguntas |
 | Swipe! | los 4 departamentos | 64 tarjetas |
 | Narrativa | los 4 departamentos | 32 escenarios |
+| Conecta los cables | los 4 departamentos | 32 tableros |
 | Ordena el tren | Desarrollo de Software | 16 secuencias |
 | Desactivar bomba | Requerimientos | 16 bombas (3 candados cada una) |
 
@@ -150,6 +151,7 @@ Todo el contenido está en `softlearning/resources/` y se edita desde el editor 
 | `quiz_pool.tres` + `quiz_questions/` | Preguntas del Quiz (una `.tres` por pregunta) |
 | `swipe_pool.tres` | Tarjetas de Swipe! |
 | `narrative_pool.tres` | Escenarios de Narrativa (historia con huecos, banco de opciones, finales) |
+| `cable_pool.tres` | Tableros de Conecta los cables (conceptos y su ejemplo) |
 | `train_pool.tres` | Secuencias de Ordena el tren |
 | `bomb_pool.tres` | Bombas de Desactivar bomba |
 | `puzzle_pool.tres` | Rompecabezas de conceptos de Programación (categorías con 3 piezas cada una y piezas trampa) |
@@ -159,8 +161,9 @@ Reglas para agregar contenido:
 
 - Cada elemento tiene `id` (**único dentro de su pool**), `department` y `difficulty`. El `id` se usa para no repetir elementos en una misma sesión.
 - Cada pregunta/tarjeta/escenario debe tener una dificultad y un departamento: el juego elige la dificultad según el ELO del jugador y, si no hay elementos de esa dificultad, usa la más cercana.
-- Cada departamento debe tener elementos en los pools de Quiz, Swipe! y Narrativa (se usan en los 4), y en el de Ordena el tren / Desactivar bomba / Rompecabezas de conceptos si es su departamento. Un pool vacío para un departamento rompe sus partidas.
+- Cada departamento debe tener elementos en los pools de Quiz, Swipe!, Narrativa y Conecta los cables (se usan en los 4), y en el de Ordena el tren / Desactivar bomba / Rompecabezas de conceptos si es su departamento. Un pool vacío para un departamento rompe sus partidas.
 - Un rompecabezas lleva 2 categorías en Fácil y Medio y 3 en Difícil y Muy difícil, 3 piezas por categoría, 0/1/2/3 piezas trampa según la dificultad y textos de 40 caracteres o menos que no se repiten. `godot --headless --path . -s res://tests/uc05_check.gd` revisa que todos cumplan.
+- En Conecta los cables cada tablero lleva 3 a 5 conceptos y un ejemplo por concepto, en el mismo orden (el ejemplo de `concepts[i]` es `examples[i]`): esa es la pareja correcta. El juego baraja los ejemplos al mostrarlos.
 - Después de editar, prueba el juego en local (sección 4) y vuelve a exportar (sección 5).
 
 Valores que se ajustan en el código (se recomienda dejarlos como están salvo decisión del equipo):
@@ -170,6 +173,7 @@ Valores que se ajustan en el código (se recomienda dejarlos como están salvo d
 | Minijuegos por partida | 10 | `SEQUENCE_LENGTH` en `core/session_orchestrator.gd` |
 | Tiempo máximo en pausa | 300 s (la partida termina sola y se guarda) | `pause_time_limit` en `core/session_orchestrator.gd` |
 | Tiempo del Quiz / Ordena el tren / Bomba | 30 s / 60 s / 60 s | `time_limit` en cada `core/*_minigame.gd` |
+| Tiempo de Conecta los cables | sin límite, como Swipe! y Narrativa | ese motor no tiene `time_limit` |
 | Intentos de Narrativa | 2 | `max_attempts` en `core/narrative_minigame.gd` |
 | ELO inicial y factor K | 1000 y 32 | `core/db/models/department_state.gd`, `autoload/department_manager.gd` |
 | Peso del ELO en el tutorial | 10, 9, … 1 por resultado | `TUTORIAL_PLACEMENT_WEIGHT` en `core/session_orchestrator.gd` |
@@ -186,8 +190,12 @@ Autoverificación del repo (tutorial, ELO y reglas de la partida, rompecabezas y
 godot --headless --path . -s res://tests/uc01_check.gd
 godot --headless --path . -s res://tests/uc02_check.gd
 godot --headless --path . -s res://tests/uc05_check.gd
+godot --headless --path . -s res://tests/uc10_check.gd
 godot --headless --path . -s res://tests/uc12_check.gd
 ```
+
+- `uc02_check`: reglas de ELO y pausa del Quiz.
+- `uc10_check`: tableros del pool de Conecta los cables, ejemplos barajados, confirmación solo con todos los cables, reemplazo de una conexión y validación concepto-ejemplo.
 
 Prueba manual tras publicar: abrir el link, entrar a un departamento, jugar un minijuego y pulsar «Salir» desde la pausa; al volver, el contador de «Total de jugados» debe haber aumentado.
 

@@ -60,7 +60,9 @@ var mode := SessionMode.NORMAL
 ## ELO when the session started, so `session_ended` can report the net change.
 var elo_at_session_start := 0.0
 ## Minigames playable in every department (their pools cover all four).
-var generic_minigames: Array[String] = [QuizMinigame.TYPE, SwipeMinigame.TYPE, NarrativeMinigame.TYPE]
+var generic_minigames: Array[String] = [
+	QuizMinigame.TYPE, SwipeMinigame.TYPE, NarrativeMinigame.TYPE, CableMinigame.TYPE
+]
 var sequence: Array[String] = []
 var current_index := 0
 var current_minigame: Minigame
@@ -229,6 +231,8 @@ func _create_minigame(type: String) -> Minigame:
 			minigame = SwipeMinigame.new()
 		"NARRATIVE":
 			minigame = NarrativeMinigame.new()
+		"CABLE":
+			minigame = CableMinigame.new()
 		"TRAIN":
 			minigame = TrainMinigame.new()
 		"BOMB":
