@@ -63,15 +63,15 @@ const OFFICE_IMAGES := {
 }
 
 ## UC-12.6: sprite de la oficina por nivel general de la empresa. Sólo cambia
-## con una subida de nivel general, no con la de un departamento. El nivel 0 usa
-## stage0.jpeg como oficina base; los niveles 1-4 esperan sus propios archivos
-## (office_level_1..4.png) y caen al nivel anterior si no existen.
+## con una subida de nivel general, no con la de un departamento.
+## 5 visual levels mapped 1:1 to general levels 0..4.
+## Missing files fall back to the department image.
 const OFFICES_BY_LEVEL := {
 	0: "res://assets/office_level_0.jpeg",
-	1: "res://assets/office_level_1.png",
-	2: "res://assets/office_level_2.png",
-	3: "res://assets/office_level_3.png",
-	4: "res://assets/office_level_4.png",
+	1: "res://assets/office_level_1.jpeg",
+	2: "res://assets/office_level_2.jpeg",
+	3: "res://assets/office_level_3.jpeg",
+	4: "res://assets/office_level_4.jpeg",
 }
 
 ## Department shown in DetailScreen, set by the floor that was pressed.
@@ -80,6 +80,7 @@ var department: Enums.Department = Enums.Department.DATA_STRUCTURES
 @onready var _select_screen: MarginContainer = $SelectScreen
 @onready var _detail_screen: MarginContainer = $DetailScreen
 @onready var _floors: VBoxContainer = $SelectScreen/Layout/Body/Floors
+@onready var _building_image: TextureRect = $SelectScreen/Layout/Body/BuildingImage
 
 @onready var _dept_name: Label = $DetailScreen/Layout/TopRow/InfoPanel/Content/Header/Texts/DeptName
 @onready var _dept_description: Label = $DetailScreen/Layout/TopRow/InfoPanel/Content/Header/Texts/DeptDescription
@@ -167,12 +168,16 @@ func show_upgrade_option() -> void:
 
 ## UC-12.6: pinta la oficina del nivel general de la empresa. Mientras no haya
 ## arte por nivel (see OFFICES_BY_LEVEL) se queda la imagen del departamento.
+## 5 visual levels mapped 1:1 to general levels 0..4.
+## Missing files fall back to the department image.
 func show_office(level: int) -> void:
-	var path := String(OFFICES_BY_LEVEL.get(clampi(level, 0, DepartmentState.MAX_LEVEL), ""))
+	var clamped_level := clampi(level, 0, DepartmentState.MAX_LEVEL)
+	var path := String(OFFICES_BY_LEVEL.get(clamped_level, ""))
+	var texture := load(OFFICE_IMAGES[department])
 	if not path.is_empty() and ResourceLoader.exists(path):
-		_office_image.texture = load(path)
-		return
-	_office_image.texture = load(OFFICE_IMAGES[department])
+		texture = load(path)
+	_office_image.texture = texture
+	_building_image.texture = texture
 
 
 ## UC-12.10: mensaje del resultado de la subida de nivel, sobre la vista del
@@ -377,13 +382,15 @@ func _on_tutorial_save_failed(reason: String) -> void:
 # ---------------------------------------------------------------- internals
 
 ## La barra de cada piso muestra el progreso del departamento hacia su umbral de
-## subida de nivel (B1).
+## subida de nivel (B1). Also updates the building image to the general level.
 func _refresh_floors() -> void:
 	for floor_name in FLOOR_DEPARTMENTS:
 		var department_id: Enums.Department = FLOOR_DEPARTMENTS[floor_name]
 		var floor: Button = _floors.get_node(floor_name)
 		var progress := floor.get_node("Progress") as ProgressBar
 		progress.value = DepartmentManager.get_level_up_progress(department_id) * 100.0
+	# Update the building image on SelectScreen to reflect the general level
+	show_office(DepartmentManager.get_general_level())
 
 
 ## Las cuatro dificultades siempre, de fácil a muy difícil, como en el mockup:
